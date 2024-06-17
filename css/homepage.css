@@ -4,6 +4,7 @@ html{
 }
 body{
 	margin: 0;
+	color: darkslategray;
 }
 header{
 	font-size: 30px;
@@ -11,4 +12,31 @@ header{
 	background-color: darksalmon;
 	padding: 1px 25px;
 	border-radius: 0 0 25px 10px;
+	margin-bottom: 100px;
+}
+.intro{
+	background-color: turquoise;
+	text-align: center;
+	width: 500px;
+	margin: 50px auto;
+	padding: 15px;
+	border-radius: 25px 10px;
+}
+.about-me{
+	display: flex;
+	margin: 100px 30px;
+	border: red solid 2px;
+	align-content: stretch;
+	justify-content: center;
+	column-gap: 15px;
+	
+
+}
+.about-me-img{
+	padding: 15px;
+	background-color: springgreen;
+	border-radius: 10px 25px;
+	align-items: center;
+	justify-content: center;
+	
 }
