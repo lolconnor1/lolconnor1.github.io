@@ -1,0 +1,30 @@
+html{
+	font-family: Tahoma, sans-serif;
+	background-color: darkslategray;
+    color: seashell;
+    text-align: center;
+}
+
+button{
+    color: seashell;
+    font-family: Tahoma, sans-serif;
+    font-weight: bold;
+    margin: 5px;
+    border-radius:10px;
+    padding: 10px 0;
+}
+.add-btn{
+    background-color: forestgreen;
+    width: 200px;
+    
+
+}
+.sub-btn{
+    width: 200px;
+    
+    background-color: darkred;
+}
+#reset-btn{
+    width: 100px;
+    background-color: goldenrod;
+}

@@ -7,13 +7,21 @@ body{
 	color: darkslategray;
 }
 header{
+	display: flex;
 	font-size: 30px;
 	color: darkslategray;
 	background-color: darksalmon;
 	padding: 1px 25px;
 	border-radius: 0 0 25px 10px;
 	margin-bottom: 100px;
+	justify-content: space-between;
+	align-items: center;
+	
 }
+a{
+	color: darksalmon;
+}
+
 .intro{
 	background-color: turquoise;
 	text-align: center;
