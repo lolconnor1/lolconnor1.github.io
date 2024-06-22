@@ -2,10 +2,11 @@
 <html>
     <head>
         <title>blackjack</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel = "stylesheet" href = "css/blackjack.css">
     </head>
     <body>
-        
+        <a href = "index.html"><i class = "glyphicon glyphicon-home"></i></a>
         <h1>Blackjack</h1>
         <h2>Dealer Hand:</h2>
         <h2 id = "deal-hand"></h2>
@@ -13,14 +14,19 @@
         <h2>Your Hand:</h2>
         <h2 id = "play-hand"></h2>
         <p id = "play-total">Total: </p>
+        <h2 id = "play-hand2"></h2>
+        <p id = "play-total2">Total: </p>
         <div>
-            <button onclick = "playerHit()">HIT</button>
-            <button onclick = "stand()">STAND</button>
+            <button onclick = "playerHit();setHasHit()" id = "hit-btn">HIT</button>
+            <button onclick = "stand()" id = "stand-btn">STAND</button>
+            <button onclick = "doubleDown()" id = "dd-btn">DOUBLE DOWN</button>
+            <button onclick = "split()">SPLIT</button>
         </div>
         <div>
             <button onclick="startGame()">START GAME</button>
         </div>
         <h2 id = "win-status"></h2>
+        <h2 id = "win-status2"></h2>
         <script src = "javaScript/blackjack.js"></script>
     </body>
 </html>

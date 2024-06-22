@@ -5,18 +5,29 @@ function card(value, suit){
 
 
 let deck = []
-const suits  = ["S", "C", "D", "H"]
+const suits  = ["\u2660", "\u2663", "\u2662", "\u2661"]
 const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 
 let dealHand = document.getElementById("deal-hand")
 let dealTotal = document.getElementById("deal-total")
 let playHand = document.getElementById("play-hand")
 let playTotal = document.getElementById("play-total")
+let playHand2 = document.getElementById("play-hand2")
+let playTotal2 = document.getElementById("play-total2")
 let winStatus = document.getElementById("win-status")
+let winStatus2 = document.getElementById("win-status2")
+
+playHand2.style.display = "none"
+playTotal2.style.display = "none"
 
 let dealTotalNum = 0
 let playTotalNum = 0
+let playTotalNum2 = 0
 let gameOver = true
+let canSplit = false
+let isSplit = false
+let hasHit = false
+let hasHit2 = false
 
 //stole this from stack overflow, shout out coolaj86
 function shuffle(array) {
@@ -48,18 +59,67 @@ function startGame(){
     dealTotal.textContent = "Total: 0"
     playTotal.textContent = "Total: 0"
     winStatus.textContent = ""
+    winStatus.textContent = ""
+    playHand2.textContent = ""
+    playHand2.style.display = "none"
+    playTotal2.style.display = "none"
+    playHand.style.backgroundColor = ""
+    playHand2.style.backgroundColor = ""
+
     gameOver = false
+    canSplit = false
+    isSplit = false
+    hasHit = false
+    hasHit2 = false
     dealTotalNum = 0
     playTotalNum = 0
+    playTotalNum2 = 0
+
+    document.getElementById("hit-btn").setAttribute("onclick", "playerHit();setHasHit()")
+    document.getElementById("stand-btn").setAttribute("onclick", "stand()")
+    document.getElementById("dd-btn").setAttribute("onclick", "doubleDown()")
 
     dealerHit()
 
     playerHit()
     playerHit()
 
+    checkCanSplit(playHand.textContent)
+
     if(playTotalNum == 21){
         dealerHit()
         checkWinner()
+    }
+}
+
+//split - if i can split
+
+function checkCanSplit(hand){
+    const myArray = hand.split(" ");
+    let one = findValueofHand(myArray[0])
+    let two = findValueofHand(myArray[1])
+    if(one == two){
+        canSplit = true
+    }
+}
+
+function split(){
+    if(canSplit){
+        canSplit = false
+        isSplit = true
+        playHand2.style.display = ""
+        playTotal2.style.display = ""
+        const myArray = playHand.textContent.split(" ");
+        playHand.textContent = myArray[0] + " "
+        playHand2.textContent = myArray[1] + " "
+
+        playTotalNum = findValueofHand(playHand.textContent)
+        playTotal.textContent = "Total: " + playTotalNum
+        playTotalNum2 = findValueofHand(playHand.textContent)
+        playTotal2.textContent = "Total: " + playTotalNum2
+
+        playHand.style.backgroundColor = "springgreen"
+
     }
 }
 
@@ -85,45 +145,120 @@ function playerHit(){
     }
 }
 
+function playerHit2(){
+    if(gameOver == false){
+        let temp = deck.pop()
+        playHand2.textContent += temp.value + temp.suit + " "
+        playTotalNum2 = findValueofHand(playHand2.textContent)
+        playTotal2.textContent = "Total: " + playTotalNum2
+
+        if (playTotalNum2 > 21){
+            gameOver = true
+            winStatus.textContent = "LOSE: PLAYER BUST"
+        }
+    }
+}
+
+function doubleDown(){
+    if(gameOver == false && !hasHit){
+        playerHit()
+        if(gameOver == false){
+            stand()
+        }   
+    }
+}
+
+function doubleDown2(){
+    if(!gameOver && !hasHit2){
+        playerHit2()
+        if(!gameOver){
+            stand2()
+        }   
+    }
+}
+
 function checkWinner(){
+    gameOver = true
     if(playTotalNum == 21 && dealTotalNum != 21){
-        gameOver = true
         winStatus.textContent = "WIN: PLAYER BLACKJACK"
     }
     else if (playTotalNum == 21 && dealTotalNum == 21) {
-        gameOver = true
         winStatus.textContent = "PUSH: DOUBLE BLACKJACK"
     }
     else if (playTotalNum < 21 && dealTotalNum > 21){
-        gameOver = true
         winStatus.textContent = "WIN: DEALER BUST"
     }
     else if (playTotalNum < 21 && dealTotalNum == 21){
-        gameOver = true
         winStatus.textContent = "LOSE: DEALER BLACKJACK"
     }
     else{
         if(playTotalNum > dealTotalNum){
-            gameOver = true
             winStatus.textContent = "WIN: BETTER HAND"
         }
         else if (playTotalNum < dealTotalNum){
-            gameOver = true
             winStatus.textContent = "LOSE: WORSE HAND"
         }
         else{
-            gameOver = true
             winStatus.textContent = "PUSH: SAME HAND"
         }
         
     }
 }
 
+function checkWinner2(){
+    if(playTotalNum2 == 21 && dealTotalNum != 21){
+        winStatus2.textContent = "WIN: PLAYER BLACKJACK"
+    }
+    else if (playTotalNum2 == 21 && dealTotalNum == 21) {
+        winStatus2.textContent = "PUSH: DOUBLE BLACKJACK"
+    }
+    else if (playTotalNum2 < 21 && dealTotalNum > 21){
+        winStatus2.textContent = "WIN: DEALER BUST"
+    }
+    else if (playTotalNum2 < 21 && dealTotalNum == 21){
+        winStatus2.textContent = "LOSE: DEALER BLACKJACK"
+    }
+    else{
+        if(playTotalNum2 > dealTotalNum){
+            winStatus2.textContent = "WIN: BETTER HAND"
+        }
+        else if (playTotalNum2 < dealTotalNum){
+            winStatus2.textContent = "LOSE: WORSE HAND"
+        }
+        else{
+            winStatus2.textContent = "PUSH: SAME HAND"
+        }
+        
+    }
+}
+
+function checkWinnerSplit(){
+    checkWinner()
+    checkWinner2()
+}
+
 function stand(){
+    if (!isSplit){
+        while (dealTotalNum < 17){
+            dealerHit()
+        }
+        checkWinner()
+    }
+    else{
+        playHand.style.backgroundColor = ""
+        playHand2.style.backgroundColor = "springgreen"
+
+        document.getElementById("hit-btn").setAttribute("onclick", "playerHit2();setHasHit2()")
+        document.getElementById("stand-btn").setAttribute("onclick", "stand2()")
+        document.getElementById("dd-btn").setAttribute("onclick", "doubleDown2()")
+    }
+}
+
+function stand2(){
     while (dealTotalNum < 17){
         dealerHit()
     }
-    checkWinner()
+    checkWinnerSplit()
 }
 
 
@@ -176,4 +311,11 @@ function findValueofHand(hand){
     }
 
     return handTotal
+}
+
+function setHasHit(){
+    hasHit = true
+}
+function setHasHit2(){
+    hasHit2 = true
 }
