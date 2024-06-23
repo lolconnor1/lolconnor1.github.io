@@ -6,8 +6,16 @@
         <link rel = "stylesheet" href = "css/blackjack.css">
     </head>
     <body>
-        <a href = "index.html"><i class = "glyphicon glyphicon-home"></i></a>
-        <h1>Blackjack</h1>
+        <header>
+            <a href = "index.html"><i class = "glyphicon glyphicon-home" style = "font-size: 50px;"></i></a>
+            <h1 style = "flex:1; margin-left: -50px;">Blackjack</h1>
+        </header>
+        
+        <div>
+
+
+        </div>
+        
         <h2>Dealer Hand:</h2>
         <h2 id = "deal-hand"></h2>
         <p id = "deal-total">Total: </p>
@@ -20,13 +28,28 @@
             <button onclick = "playerHit();setHasHit()" id = "hit-btn">HIT</button>
             <button onclick = "stand()" id = "stand-btn">STAND</button>
             <button onclick = "doubleDown()" id = "dd-btn">DOUBLE DOWN</button>
-            <button onclick = "split()">SPLIT</button>
+            <button onclick = "split()" id = "split-btn">SPLIT</button>
         </div>
         <div>
             <button onclick="startGame()">START GAME</button>
         </div>
+        <h3><em id = "win-count" style = "color: springgreen;">0</em> - <em id = "loss-count" style = "color: red;">0</em> - <em id = "tie-count" style = "color: gold;">0</em></h3>
         <h2 id = "win-status"></h2>
         <h2 id = "win-status2"></h2>
+
+        <h1 style = "margin-top: 300px;">Deck Counter</h1>
+        <h1 id="deck-count-view">1</h1>
+        
+        <div>
+            <button class = "add-btn" onclick="addOne()">+1</button>
+        </div>
+        <div>
+            <button class = "sub-btn" onclick="subOne()">-1</button>
+        </div>
+        <div>
+            <button id = "reset-btn" onclick="reset()">RESET</button>
+        </div>
+
         <script src = "javaScript/blackjack.js"></script>
     </body>
 </html>

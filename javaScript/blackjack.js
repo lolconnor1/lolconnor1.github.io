@@ -5,7 +5,7 @@ function card(value, suit){
 
 
 let deck = []
-const suits  = ["\u2660", "\u2663", "\u2662", "\u2661"]
+const suits  = ["\u2660", "\u2663", "\u2662", "\u2665"]
 const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
 
 let dealHand = document.getElementById("deal-hand")
@@ -16,9 +16,14 @@ let playHand2 = document.getElementById("play-hand2")
 let playTotal2 = document.getElementById("play-total2")
 let winStatus = document.getElementById("win-status")
 let winStatus2 = document.getElementById("win-status2")
+let splitBtn = document.getElementById("split-btn")
+let winCountView = document.getElementById("win-count")
+let lossCountView = document.getElementById("loss-count")
+let tieCountView = document.getElementById("tie-count")
 
 playHand2.style.display = "none"
 playTotal2.style.display = "none"
+splitBtn.style.display = "none"
 
 let dealTotalNum = 0
 let playTotalNum = 0
@@ -28,6 +33,10 @@ let canSplit = false
 let isSplit = false
 let hasHit = false
 let hasHit2 = false
+let deckCount = 1
+let winCount = 0
+let lossCount = 0
+let tieCount = 0
 
 //stole this from stack overflow, shout out coolaj86
 function shuffle(array) {
@@ -48,23 +57,27 @@ function shuffle(array) {
 
 function startGame(){
     deck = []
-    for(let i = 0; i < 4; i++){
-        for(let j = 0; j < 13; j++){
-            deck.push(new card(ranks[j], suits[i]))
+    for(let k = 0; k < deckCount; k++){
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 13; j++){
+                deck.push(new card(ranks[j], suits[i]))
+            }
         }
     }
+    
     shuffle(deck)
     dealHand.textContent = ""
     playHand.textContent = ""
     dealTotal.textContent = "Total: 0"
     playTotal.textContent = "Total: 0"
     winStatus.textContent = ""
-    winStatus.textContent = ""
+    winStatus2.textContent = ""
     playHand2.textContent = ""
     playHand2.style.display = "none"
     playTotal2.style.display = "none"
     playHand.style.backgroundColor = ""
     playHand2.style.backgroundColor = ""
+
 
     gameOver = false
     canSplit = false
@@ -100,11 +113,13 @@ function checkCanSplit(hand){
     let two = findValueofHand(myArray[1])
     if(one == two){
         canSplit = true
+        splitBtn.style.display = ""
     }
 }
 
 function split(){
     if(canSplit){
+        splitBtn.style.display = "none"
         canSplit = false
         isSplit = true
         playHand2.style.display = ""
@@ -118,7 +133,7 @@ function split(){
         playTotalNum2 = findValueofHand(playHand.textContent)
         playTotal2.textContent = "Total: " + playTotalNum2
 
-        playHand.style.backgroundColor = "springgreen"
+        playHand.style.backgroundColor = "#2eab56"
 
     }
 }
@@ -139,8 +154,27 @@ function playerHit(){
         playTotal.textContent = "Total: " + playTotalNum
 
         if (playTotalNum > 21){
-            gameOver = true
+            if (isSplit){
+                playHand.style.backgroundColor = ""
+                playHand2.style.backgroundColor = "#2eab56"
+
+                document.getElementById("hit-btn").setAttribute("onclick", "playerHit2();setHasHit2()")
+                document.getElementById("stand-btn").setAttribute("onclick", "stand2()")
+                document.getElementById("dd-btn").setAttribute("onclick", "doubleDown2()")
+            }
+            else{
+                gameOver = true
+            }
+            
             winStatus.textContent = "LOSE: PLAYER BUST"
+            lossCount ++
+            updateWinCount()
+        }
+        if (playTotalNum == 21){
+            gameOver = true
+            winStatus.textContent = "WIN: PLAYER BLACKJACK"
+            winCount ++
+            updateWinCount()
         }
     }
 }
@@ -154,7 +188,15 @@ function playerHit2(){
 
         if (playTotalNum2 > 21){
             gameOver = true
-            winStatus.textContent = "LOSE: PLAYER BUST"
+            winStatus2.textContent = "LOSE: PLAYER BUST"
+            lossCount++
+            updateWinCount()
+        }
+        if (playTotalNum2 == 21){
+            gameOver = true
+            winStatus2.textContent = "WIN: PLAYER BLACKJACK"
+            winCount ++
+            updateWinCount()
         }
     }
 }
@@ -181,55 +223,71 @@ function checkWinner(){
     gameOver = true
     if(playTotalNum == 21 && dealTotalNum != 21){
         winStatus.textContent = "WIN: PLAYER BLACKJACK"
+        winCount ++
     }
     else if (playTotalNum == 21 && dealTotalNum == 21) {
         winStatus.textContent = "PUSH: DOUBLE BLACKJACK"
+        tieCount ++
     }
     else if (playTotalNum < 21 && dealTotalNum > 21){
         winStatus.textContent = "WIN: DEALER BUST"
+        winCount ++
     }
     else if (playTotalNum < 21 && dealTotalNum == 21){
         winStatus.textContent = "LOSE: DEALER BLACKJACK"
+        lossCount ++
     }
     else{
         if(playTotalNum > dealTotalNum){
             winStatus.textContent = "WIN: BETTER HAND"
+            winCount ++
         }
         else if (playTotalNum < dealTotalNum){
             winStatus.textContent = "LOSE: WORSE HAND"
+            lossCount ++
         }
         else{
             winStatus.textContent = "PUSH: SAME HAND"
+            tieCount ++
         }
         
     }
+    updateWinCount()
 }
 
 function checkWinner2(){
     if(playTotalNum2 == 21 && dealTotalNum != 21){
         winStatus2.textContent = "WIN: PLAYER BLACKJACK"
+        winCount ++
     }
     else if (playTotalNum2 == 21 && dealTotalNum == 21) {
         winStatus2.textContent = "PUSH: DOUBLE BLACKJACK"
+        tieCount ++
     }
     else if (playTotalNum2 < 21 && dealTotalNum > 21){
         winStatus2.textContent = "WIN: DEALER BUST"
+        winCount ++
     }
     else if (playTotalNum2 < 21 && dealTotalNum == 21){
         winStatus2.textContent = "LOSE: DEALER BLACKJACK"
+        lossCount ++
     }
     else{
         if(playTotalNum2 > dealTotalNum){
             winStatus2.textContent = "WIN: BETTER HAND"
+            winCount ++
         }
         else if (playTotalNum2 < dealTotalNum){
             winStatus2.textContent = "LOSE: WORSE HAND"
+            lossCount ++
         }
         else{
             winStatus2.textContent = "PUSH: SAME HAND"
+            tieCount ++
         }
         
     }
+    updateWinCount()
 }
 
 function checkWinnerSplit(){
@@ -238,30 +296,38 @@ function checkWinnerSplit(){
 }
 
 function stand(){
-    if (!isSplit){
-        while (dealTotalNum < 17){
-            dealerHit()
+    if(!gameOver){
+        if (!isSplit){
+            while (dealTotalNum < 17){
+                dealerHit()
+            }
+            checkWinner()
         }
-        checkWinner()
-    }
-    else{
-        playHand.style.backgroundColor = ""
-        playHand2.style.backgroundColor = "springgreen"
-
-        document.getElementById("hit-btn").setAttribute("onclick", "playerHit2();setHasHit2()")
-        document.getElementById("stand-btn").setAttribute("onclick", "stand2()")
-        document.getElementById("dd-btn").setAttribute("onclick", "doubleDown2()")
+        else{
+            playHand.style.backgroundColor = ""
+            playHand2.style.backgroundColor = "#2eab56"
+    
+            document.getElementById("hit-btn").setAttribute("onclick", "playerHit2();setHasHit2()")
+            document.getElementById("stand-btn").setAttribute("onclick", "stand2()")
+            document.getElementById("dd-btn").setAttribute("onclick", "doubleDown2()")
+        }
     }
 }
 
 function stand2(){
-    while (dealTotalNum < 17){
-        dealerHit()
+    if(!gameOver){
+        while (dealTotalNum < 17){
+            dealerHit()
+        }
+        checkWinnerSplit()
     }
-    checkWinnerSplit()
 }
 
-
+function updateWinCount(){
+    winCountView.textContent = winCount
+    lossCountView.textContent = lossCount
+    tieCountView.textContent = tieCount
+}
 
 function findValueofHand(hand){
     let handTotal = 0
@@ -318,4 +384,20 @@ function setHasHit(){
 }
 function setHasHit2(){
     hasHit2 = true
+}
+
+function addOne(){
+    deckCount += 1
+    update()
+}
+function subOne(){
+    deckCount -= 1
+    update()
+}
+function reset(){
+    deckCount = 1
+    update()
+}
+function update(){
+    document.getElementById("deck-count-view").innerText = deckCount
 }

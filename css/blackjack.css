@@ -2,6 +2,12 @@ body{
     background-color: darkslategray;
     font-family: Tahoma, sans-serif;
     color: seashell;
+    text-align: center;
+    margin: 20px;
+}
+header{
+    display: flex;
+    
 }
 button{
     background-color: blueviolet;
