@@ -99,10 +99,6 @@ function startGame(){
 
     checkCanSplit(playHand.textContent)
 
-    if(playTotalNum == 21){
-        dealerHit()
-        checkWinner()
-    }
 }
 
 //split - if i can split
@@ -171,10 +167,25 @@ function playerHit(){
             updateWinCount()
         }
         if (playTotalNum == 21){
-            gameOver = true
-            winStatus.textContent = "WIN: PLAYER BLACKJACK"
-            winCount ++
-            updateWinCount()
+
+            if (isSplit){
+                playHand.style.backgroundColor = ""
+                playHand2.style.backgroundColor = "#2eab56"
+
+                document.getElementById("hit-btn").setAttribute("onclick", "playerHit2();setHasHit2()")
+                document.getElementById("stand-btn").setAttribute("onclick", "stand2()")
+                document.getElementById("dd-btn").setAttribute("onclick", "doubleDown2()")
+            }
+            else{
+                if(hasHit){
+                    stand()
+                }
+                else{
+                    dealerHit()
+                    checkWinner()
+                }
+                
+            }
         }
     }
 }
@@ -190,13 +201,10 @@ function playerHit2(){
             gameOver = true
             winStatus2.textContent = "LOSE: PLAYER BUST"
             lossCount++
-            updateWinCount()
+            checkWinner()
         }
         if (playTotalNum2 == 21){
-            gameOver = true
-            winStatus2.textContent = "WIN: PLAYER BLACKJACK"
-            winCount ++
-            updateWinCount()
+            stand()
         }
     }
 }
