@@ -75,6 +75,7 @@ function startGame(){
     playHand2.textContent = ""
     playHand2.style.display = "none"
     playTotal2.style.display = "none"
+    splitBtn.style.display = "none"
     playHand.style.backgroundColor = ""
     playHand2.style.backgroundColor = ""
 
@@ -198,13 +199,31 @@ function playerHit2(){
         playTotal2.textContent = "Total: " + playTotalNum2
 
         if (playTotalNum2 > 21){
-            gameOver = true
+            
             winStatus2.textContent = "LOSE: PLAYER BUST"
             lossCount++
-            checkWinner()
+            updateWinCount()
+
+            if(playTotalNum <= 21){
+                while (dealTotalNum < 17){
+                    dealerHit()
+                }
+                checkWinner()
+                
+            }
+            gameOver = true
         }
         if (playTotalNum2 == 21){
-            stand()
+            if(playTotalNum > 21){
+                while (dealTotalNum < 17){
+                    dealerHit()
+                }
+                checkWinner2()
+            }
+            else{
+                stand2()
+            }
+            
         }
     }
 }
@@ -299,7 +318,11 @@ function checkWinner2(){
 }
 
 function checkWinnerSplit(){
-    checkWinner()
+    //wtf is happening
+    if(playTotalNum <= 21){
+        checkWinner()
+    }
+    
     checkWinner2()
 }
 
