@@ -422,8 +422,10 @@ function addOne(){
     update()
 }
 function subOne(){
-    deckCount -= 1
-    update()
+    if(deckCount > 1){
+        deckCount -= 1
+        update()
+    }
 }
 function reset(){
     deckCount = 1
