@@ -7,12 +7,13 @@
     </head>
     <body>
         <header>
-            <a href = "index.html"><i class = "glyphicon glyphicon-home" style = "font-size: 50px;"></i></a>
+            <a href = "index.html"><i class = "glyphicon glyphicon-home" style = "font-size: 50px; color: slategrey;"></i></a>
             <h1 style = "flex:1; text-align: center; margin-left: -50px;">Minesweeper</h1>
         </header>
         <div style = "display:flex; justify-content: center;margin-right: -160px;">
             <div id = "game-board"></div>
             <div style = "margin-left: 20px; width:140px;">
+                <h2 id = "timer-view">00:00</h2>
                 <h2 id = "num-flag-view"></h2>
                 <button onClick = "startGame()" id = "start-btn">START GAME</button>
             </div>

@@ -8,8 +8,12 @@ let numCorrectFlags = 0
 let winLose = document.getElementById("win-lose")
 let numFlagView = document.getElementById("num-flag-view")
 let gameBoard = document.getElementById("game-board")
+let timerView = document.getElementById("timer-view")
 numFlagView.textContent = "FLAGS:" + numFlags
 let gameOver = false
+let firstClick = false
+let timer = 1
+let timeID = null
 
 
 class cell{
@@ -282,11 +286,19 @@ function startGame(){
     numCorrectFlags = 0
     numCells = col * row
     numFlagView.textContent = "FLAGS:" + numFlags
+    firstClick = false
+    timerView.textContent = "00:00"
+    clearInterval(timeID)
 }
 
 
 function buttonClick(x,y){
     
+    if(!firstClick){
+        firstClick = true
+        startTimer()
+    }
+
     if(x < 0 || x >= row || y < 0 || y >= col){
         return;
     }
@@ -344,8 +356,27 @@ function flag(x,y){
 function loseGame(){
     winLose.innerText = "BOOM: YOU LOSE"
     gameOver = true
+    clearInterval(timeID)
 }
 function winGame(){
     winLose.innerText = "CLEAR: ALL MINES FOUND"
     gameOver = true
+    clearInterval(timeID)
+}
+
+function startTimer(){
+    timer = 1
+    timeID = setInterval(timeFunc, 1000)
+}
+
+var timeFunc = function(){
+
+    let minutes = parseInt(timer / 60, 10)
+    let seconds = parseInt(timer % 60, 10)
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    timerView.textContent = minutes + ":" + seconds;
+    timer++
 }
