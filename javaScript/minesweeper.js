@@ -4,7 +4,11 @@ let row = 10;
 let numCells = col * row
 let numBombs = 15;
 let numFlags = numBombs
+let numCorrectFlags = 0
 let winLose = document.getElementById("win-lose")
+let numFlagView = document.getElementById("num-flag-view")
+let gameBoard = document.getElementById("game-board")
+numFlagView.textContent = "FLAGS:" + numFlags
 let gameOver = false
 
 
@@ -14,6 +18,7 @@ class cell{
     hasClicked = false
     flagged = false
     btn = document.createElement("button")
+    numFlagsAround = 0
     
     constructor(row, col){
         this.row = row
@@ -36,6 +41,15 @@ class cell{
     }
     set hasClicked(newClicked){
         this.hasClicked = newClicked
+    }
+    get flagged(){
+        return flagged
+    }
+    get numFlagsAround(){
+        return numFlagsAround
+    }
+    set numFlagsAround(newNumFlags){
+        this.numFlagsAround = newNumFlags
     }
 
     changeButtonVal(){
@@ -73,6 +87,10 @@ class cell{
             }
             this.btn.style.backgroundColor = "seashell"
             this.hasClicked = true
+            numCells--
+            if(numCells == numBombs && !gameOver){
+                winGame()
+            }
         }
         
     }
@@ -80,12 +98,49 @@ class cell{
     flagButton(){
         if(!this.hasClicked && !gameOver){
             if(!this.flagged){
-            this.btn.innerText = "\u0394"
-            this.flagged = true
+                this.btn.innerText = "\u0394"
+                this.flagged = true
+                numFlags--
+                numFlagView.textContent = "FLAGS:" + numFlags
+                if(this.val == "B"){
+                    numCorrectFlags++
+                    if(numCorrectFlags == numBombs){
+                        winGame()
+                    }
+                }
+                for (let k = this.row-1; k <= this.row+1; k++){
+                    for (let t = this.col-1; t <= this.col+1; t++){
+            
+                        if((k < 0 || k >= row || t < 0 || t >= col || (k == this.row && t == this.col))){
+                            continue
+                        }
+                        else{
+                            board[k][t].numFlagsAround += 1
+                        }
+                        
+                    }
+                }
             }
             else{
                 this.btn.innerText = ""
                 this.flagged = false
+                numFlags++
+                numFlagView.textContent = "FLAGS:" + numFlags
+                if(this.val == "B"){
+                    numCorrectFlags--
+                }
+                for (let k = this.row-1; k <= this.row+1; k++){
+                    for (let t = this.col-1; t <= this.col+1; t++){
+            
+                        if((k < 0 || k >= row || t < 0 || t >= col || (k == this.row && t == this.col))){
+                            continue
+                        }
+                        else{
+                            board[k][t].numFlagsAround -= 1
+                        }
+                        
+                    }
+                }
             }
         }
     }
@@ -97,6 +152,7 @@ class cell{
         this.btn.innerText = ""
         this.btn.style.backgroundColor = "slategrey"
         this.btn.style.color = ""
+        this.numFlagsAround = 0
     }
 }
 
@@ -110,7 +166,7 @@ for (let i = 0; i < row; i++) {
         board[i][j].btn.addEventListener("click", () => buttonClick(i,j))
         board[i][j].btn.addEventListener("contextmenu", (event) => flag(i,j))
         rows.appendChild(board[i][j].btn);
-        document.body.appendChild(rows)
+        gameBoard.appendChild(rows)
         
     }
 }
@@ -222,6 +278,10 @@ function startGame(){
     }
     winLose.innerText = ""
     gameOver = false
+    numFlags = numBombs
+    numCorrectFlags = 0
+    numCells = col * row
+    numFlagView.textContent = "FLAGS:" + numFlags
 }
 
 
@@ -230,9 +290,27 @@ function buttonClick(x,y){
     if(x < 0 || x >= row || y < 0 || y >= col){
         return;
     }
-
-    if(board[x][y].hasClicked){
-        console.log("this works")
+    else if(board[x][y].flagged){
+        return
+    }
+    else if(board[x][y].hasClicked){
+        if(board[x][y].numFlagsAround >= board[x][y].val){
+            for (let k = x-1; k <= x+1; k++){
+                for (let t = y-1; t <= y+1; t++){
+                    if((k < 0 || k >= row || t < 0 || t >= col || (k == x && t == y))){
+                        continue
+                    }
+                    else{
+                        if(!board[k][t].hasClicked && !board[k][t].flagged){
+                            buttonClick(k,t)
+                        }
+                    }
+                    
+                        
+                }
+                    
+            }
+        }
         return;
     }
     
@@ -265,5 +343,9 @@ function flag(x,y){
 
 function loseGame(){
     winLose.innerText = "BOOM: YOU LOSE"
+    gameOver = true
+}
+function winGame(){
+    winLose.innerText = "CLEAR: ALL MINES FOUND"
     gameOver = true
 }
