@@ -74,7 +74,7 @@ class cell{
                     this.btn.style.color = "red"
                 }
                 else if(this.val == 4){
-                    this.btn.style.color = ""
+                    this.btn.style.color = "black"
                 }
                 else if(this.val == 5){
                     this.btn.style.color = "orange"
@@ -86,6 +86,7 @@ class cell{
                     this.btn.style.color = "goldenrod"
                 }
                 else if(this.val == "B"){
+                    this.btn.style.color = "purple"
                     loseGame()
                 }
             }
