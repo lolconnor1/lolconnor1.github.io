@@ -282,6 +282,7 @@ function startGame(){
         }
     }
     winLose.innerText = ""
+    winLose.style.backgroundColor = ""
     gameOver = false
     numFlags = numBombs
     numCorrectFlags = 0
@@ -356,11 +357,13 @@ function flag(x,y){
 
 function loseGame(){
     winLose.innerText = "BOOM: YOU LOSE"
+    winLose.style.backgroundColor = "orangered"
     gameOver = true
     clearInterval(timeID)
 }
 function winGame(){
     winLose.innerText = "CLEAR: ALL MINES FOUND"
+    winLose.style.backgroundColor = "springgreen"
     gameOver = true
     clearInterval(timeID)
 }
