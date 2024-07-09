@@ -1,0 +1,77 @@
+.guess-box-empty{
+    margin: 10px;
+    border: 5px solid grey;
+    width: 50px;
+    height: 50px
+}
+.guess-row{
+    display: flex;
+}
+
+.color-box{
+    margin: 10px;
+    border: 5px solid grey;
+    width: 50px;
+    height: 50px
+}
+header{
+    font-family: Tahoma, sans-serif;
+    display: flex;
+    margin-bottom: 20px;
+    background-color: darksalmon;
+    padding: 25px;
+    color: darkslategrey;
+    border-radius: 0 0 25px 25px;
+}
+h1 {
+    display: block;
+    font-size: 40px;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+#enter{
+    margin: 10px;
+    background-color: greenyellow;
+    width: 50px;
+    height: 50px
+}
+#start-game{
+    margin: 10px;
+    background-color: darkmagenta;
+    width: 50px;
+    height: 50px
+}
+#back{
+    margin: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: orangered
+}
+
+#game-board{
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+#game-win{
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    font-size: 20px;
+}
+#buttons{
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: darkslategrey;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+
+}

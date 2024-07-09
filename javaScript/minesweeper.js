@@ -175,6 +175,9 @@ for (let i = 0; i < row; i++) {
         
     }
 }
+
+gameBoard.addEventListener("contextmenu", (event) => event.preventDefault())
+
 //next: add bombs to array of cells
 
 for (let i = 0; i < numBombs;i++){
