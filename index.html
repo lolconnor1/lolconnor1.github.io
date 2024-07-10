@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>homepage</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 		<link rel = "stylesheet" href ="css/homepage.css">
 		<meta name="google-site-verification" content="2n8cx0ROxn7QZCDUqtqK3t7xswhcdVTZX5zV5JufiVU" />
 	</head>
@@ -46,6 +47,41 @@
 				<h3>That's about it! C-Money out!</h3>
 			</div>
 		</div>
+		<h2 style = "color: seashell;text-align: center;">My Favorite Projects</h2>
+		<div id="project-slider">
+			<div class="slide">
+				<div class = "about-me-img" style = "flex: 1;background-color: lightpink;">
+					<h2>Minesweeper</h2>
+					<p>Minesweeper is one of my favorite games to play when I'm bored, so I created a basic Minesweeper game from scratch using JavaScript, HTML, and CSS.</p>
+					<p>Click the image If you want to try it for yourself!</p>
+					<h3>Enjoy!</h3>
+				</div>
+				<div class = "about-me-img" style = "background-color: lightpink;">
+					<a href = "minesweeper.html"><img src = "images/minesweeperimg.png" alt = "minesweeper game board" style = "width: 300px; border-radius: 10px;"></a>
+				</div>
+
+			</div>
+			<div class="slide">
+				<div class = "about-me-img" style = "flex: 1;background-color: lightpink;">
+					<h2>CodeBreaker</h2>
+					<p>I remember playing a game like this in summer camp. Originally I wanted to do something like the NYT Wordle but then I felt bad for my friends who may or may not have a 3rd grade reading level. JUST KIDDING, its because I was way too lazy to find a way to get all the words.</p>
+					<p>This was also made with JavaScript, HTML, and CSS.</p>
+					<p>Anyways, click the image If you want to try it for yourself!</p>
+					<h3>Enjoy!</h3>
+				</div>
+				<div class = "about-me-img" style = "background-color: lightpink;">
+					<a href = "wordle.html"><img src = "images/codebreakerimg.PNG" alt = "CodeBreaker game board" style = "width: 300px; border-radius: 10px;"></a>
+				</div>
+
+			</div>
+		</div>
+		<div style="text-align: center;font-weight: bold;font-size: 30px;">
+			<a class="prev" onclick="changeSlides(-1)">❮</a>
+			<a class="next" onclick="changeSlides(1)">❯</a>
+			
+		</div>
+		
+		
 		<div class = "blog-post">
 			<h2>Dev Blog</h2>
 			<h3>6/17/2024</h3>
@@ -55,13 +91,16 @@
 			<h3>6/22/2024</h3>
 			<p>Yesterday, I created a simple <a href = "blackjack.html">Blackjack</a> game website(edit: using JavaScript). As of right now, the game works but I want to style it and add some features such as a deck counter, a win-loss tracker, C-Money, doubling down, and splitting.</p>
 			<h3>6/23/2024</h3>
-			<p>Today, I added some cool new features and fixed some of the bugs on my Blackjack page. Some stuff I added includes splitting, doubling down (though there is no C-Money yet), a deck counter (which I recycled from my previous counter page), a win-loss column so you can track your wins and losses. On the smaller side, I added a home icon which goes back to here, and did a little bit of styling. I think in the future I want to implement like an "educational mode" where you can see the probabilites and also learn the optimal Blackjack strategy but maybe I'll take a little break from this project first.</p>
+			<p>Today, I added some cool new features and fixed some of the bugs on my <a href = "blackjack.html">Blackjack</a> page. Some stuff I added includes splitting, doubling down (though there is no C-Money yet), a deck counter (which I recycled from my previous <a href = "counter.html">counter</a> page), a win-loss column so you can track your wins and losses. On the smaller side, I added a home icon which goes back to here, and did a little bit of styling. I think in the future I want to implement like an "educational mode" where you can see the probabilites and also learn the optimal Blackjack strategy but maybe I'll take a little break from this project first.</p>
 			<h3>7/2/2024</h3>
 			<p>I know, I've been pretty quiet recently. I got stuck with some school work while also trying to develop this awesome <a href = "minesweeper.html">Minesweeper</a> page in JavaScript. It is missing a few features (like winning) but I hope to get that sorted out soon. I also want to get back on some CSS and make these pages look sick. Anyways, C-MonDawg out.</p>
 			<h3>7/6/2024</h3>
-			<p>Minesweeper is now looking fucking awesome, no cap frfr. I still want to add the ability to customize the size of the board and number of bombs, but in the meantime I want to make my kick-ass website available on Google. Right now it says something about "pages cant be indexed" or some bullshit. I might have to go over to Google HQ and take matters into my own hands... But fr tho, search engine optimization begins!</p>
+			<p><a href = "minesweeper.html">Minesweeper</a> is now looking fucking awesome, no cap frfr. I still want to add the ability to customize the size of the board and number of bombs, but in the meantime I want to make my kick-ass website available on Google. Right now it says something about "pages cant be indexed" or some bullshit. I might have to go over to Google HQ and take matters into my own hands... But fr tho, search engine optimization begins!</p>
 			<h3>7/9/2024</h3>
 			<p>created a <a href = "wordle.html">CodeBreaker</a> game, similar to the popular wordle, which is what I originally wanted to do but for that I would need to figure out how to get a list of 5 letter words which I can't be bother to do rn tbh. However I did learn a bunch, including adding click functions to divs and deleting elements from pages in JS. Right now, I want to go back and apply some of this stuff to make my <a href = "minesweeper.html">Minesweeper</a> but after I want to start adding stuff to this homepage.</p>
+			<h3>7/10/2024</h3>
+			<p>Today, I made the <a href = "minesweeper.html">Minesweeper</a> buttons into divs and it looks SO much better. Next I want to make changeable size/difficulty level. I also went ahead and started messing with this homepage and added the awesome featured projects gallery (which you probably saw on the way here) with crazy sliding animations and handy navigational arrows!</p>
 		</div>
+		<script src = "javaScript/index.js"></script>
 	</body>
 </html>

@@ -53,3 +53,15 @@ a{
 	width: 650px;
 	margin: 0 auto;
 }
+#project-slider {
+	overflow: hidden;
+}
+.slide{
+	margin: 10px 30px;
+	align-content: stretch;
+	justify-content: center;
+	column-gap: 15px;
+}
+:root {
+	--animate-duration: 0.25s;
+  }
