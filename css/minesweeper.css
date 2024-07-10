@@ -1,11 +1,6 @@
 html{
     font-family: Tahoma, sans-serif;
 }
-button{
-    height: 25px;
-    width: 25px;
-
-}
 h1 {
     display: block;
     font-size: 40px;
@@ -50,4 +45,9 @@ body{
     color: darkslategrey;
     width: max-content;
     margin: 20px auto;
+}
+.cell{
+    height: 25px;
+    width: 25px;
+    border: 1px solid black;
 }

@@ -21,12 +21,14 @@ class cell{
     val = 0
     hasClicked = false
     flagged = false
-    btn = document.createElement("button")
+    btn = document.createElement("div")
+    
     numFlagsAround = 0
     
     constructor(row, col){
         this.row = row
         this.col = col
+        this.btn.setAttribute("class", "cell")
     }
     
 
@@ -149,106 +151,37 @@ class cell{
             }
         }
     }
-    
-    reset(){
-        this.val = 0
-        this.hasClicked = false
-        this.flagged = false
-        this.btn.innerText = ""
-        this.btn.style.backgroundColor = "slategrey"
-        this.btn.style.color = ""
-        this.numFlagsAround = 0
-    }
 }
 
 //create an array of cells
-for (let i = 0; i < row; i++) {
-    board[i] = [];
-    var rows = document.createElement("div")
-    for (let j = 0; j < col; j++) {
-        board[i][j] = new cell(i,j);
-        board[i][j].btn.style.backgroundColor = "slategrey"
-        board[i][j].btn.addEventListener("click", () => buttonClick(i,j))
-        board[i][j].btn.addEventListener("contextmenu", (event) => flag(i,j))
-        rows.appendChild(board[i][j].btn);
-        gameBoard.appendChild(rows)
-        
-    }
-}
-
-gameBoard.addEventListener("contextmenu", (event) => event.preventDefault())
-
-//next: add bombs to array of cells
-
-for (let i = 0; i < numBombs;i++){
-    while(true){
-        let x = Math.floor(Math.random() * (row - 1))
-        let y = Math.floor(Math.random() * (col - 1))
-
-        if(board[x][y].val === 0){
-            board[x][y].val = "B"
-            break
-        }
-
-    }
-    
-}
-
-
-
-for (let i = 0; i < row; i++) {
-    for (let j = 0; j < col; j++){
-        if(board[i][j].val != "B"){
-            let bCount = 0
-            //search around the square
-            for (let k = i-1; k < i+2; k++){
-                for (let t = j-1; t < j+2; t++){
-                    if(k == row || k < 0 || t == col || t < 0){
-
-                    }
-                    else{
-                        if(board[k][t].val == "B"){
-                            bCount ++
-                        }
-                    }
-                }
-            }
-            if(bCount > 0){
-                board[i][j].val = bCount
-            }
-            
-            
-        }
-    }
-}
-
-while(true){
-    let x = Math.floor(Math.random() * (row - 1))
-    let y = Math.floor(Math.random() * (col - 1))
-
-    if(board[x][y].val === 0){
-        board[x][y].btn.innerText = "X"
-        break
-    }
-}
-
-function startGame(){
-    
+function createBoard(){
     for (let i = 0; i < row; i++) {
+        board[i] = [];
+        var rows = document.createElement("div")
+        rows.style.display = "flex"
         for (let j = 0; j < col; j++) {
-            board[i][j].reset()
+            board[i][j] = new cell(i,j);
+            board[i][j].btn.style.backgroundColor = "slategrey"
+            board[i][j].btn.addEventListener("click", () => buttonClick(i,j))
+            board[i][j].btn.addEventListener("contextmenu", (event) => flag(i,j))
+            rows.appendChild(board[i][j].btn);
+            gameBoard.appendChild(rows)
+            
         }
     }
+
     for (let i = 0; i < numBombs;i++){
         while(true){
             let x = Math.floor(Math.random() * (row - 1))
             let y = Math.floor(Math.random() * (col - 1))
-    
+
             if(board[x][y].val === 0){
                 board[x][y].val = "B"
                 break
             }
+
         }
+        
     }
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++){
@@ -275,15 +208,29 @@ function startGame(){
             }
         }
     }
+
     while(true){
         let x = Math.floor(Math.random() * (row - 1))
         let y = Math.floor(Math.random() * (col - 1))
-
+    
         if(board[x][y].val === 0){
             board[x][y].btn.innerText = "X"
             break
         }
     }
+}
+
+
+gameBoard.addEventListener("contextmenu", (event) => event.preventDefault())
+createBoard()
+
+
+function startGame(){
+    
+    gameBoard.innerHTML = ""
+    board = []
+    createBoard()
+    
     winLose.innerText = ""
     winLose.style.backgroundColor = ""
     gameOver = false
