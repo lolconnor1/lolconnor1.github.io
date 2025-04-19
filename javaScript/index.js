@@ -32,19 +32,14 @@ function changeSlides(n) {
   }
   else{
     animateCSS(slides[index], "slideOutLeft").then((message) => {
-    index += n;
-    if (index >= slides.length) index = 0;
-    if (index < 0) index = slides.length - 1;
-    showSlide2(index, false);
+      index += n;
+      if (index >= slides.length) index = 0;
+      if (index < 0) index = slides.length - 1;
+      showSlide2(index, false);
 
     })
   }
-  
-  
 }
-
-// Initial display
-showSlide(index);
 
 const animateCSS = (element, animation, prefix = 'animate__') =>
   // We create a Promise and return it
@@ -63,3 +58,56 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
 
     node.addEventListener('animationend', handleAnimationEnd, {once: true});
   });
+
+
+// Initial display
+showSlide(index);
+
+
+const faders = document.querySelectorAll('.fade-in-left, .fade-in-right');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+faders.forEach(el => observer.observe(el));
+
+
+
+const slideShow = document.getElementById('project-slider');
+let slideInterval = setInterval(() => changeSlides(1), 2500);
+
+// Pause on hover
+slideShow.addEventListener('mouseenter', () => {
+  clearInterval(slideInterval);
+});
+
+// Resume when mouse leaves
+slideShow.addEventListener('mouseleave', () => {
+  slideInterval = setInterval(() => changeSlides(1), 2500);
+});
+
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImg");
+const modalCaption = document.getElementById("modalCaption");
+const closeBtn = document.querySelector(".close");
+
+document.querySelectorAll(".carousel-item img").forEach(img => {
+  img.addEventListener("click", () => {
+    modal.style.display = "flex";
+    modalImg.src = img.src;
+    modalCaption.textContent = img.alt;
+  });
+});
+
+closeBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", (e) => {
+  if (e.target === modal) modal.style.display = "none";
+});

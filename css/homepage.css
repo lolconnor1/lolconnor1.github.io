@@ -1,14 +1,16 @@
-html{
+html {
 	font-family: Tahoma, sans-serif;
 	background-color: darkslategray;
 }
-body{
+
+body {
 	margin: 0;
 	color: darkslategray;
 }
-header{
+
+header {
 	display: flex;
-	font-size: 30px;
+	font-size: 25px;
 	color: darkslategray;
 	background-color: darksalmon;
 	padding: 1px 25px;
@@ -16,13 +18,23 @@ header{
 	margin-bottom: 100px;
 	justify-content: space-between;
 	align-items: center;
-	
-}
-a{
-	color: darksalmon;
+
 }
 
-.intro{
+a {
+	color: darksalmon;
+}
+.tabs-item:hover {
+	
+	transform: scale(1.1);
+	transition: all 0.3s ease;
+}
+.tabs-item {
+	color: darkslategray;
+	cursor: pointer;
+  }
+
+.intro {
 	background-color: turquoise;
 	text-align: center;
 	width: 500px;
@@ -30,38 +42,182 @@ a{
 	padding: 15px;
 	border-radius: 25px 10px;
 }
-.about-me{
+
+.about-me {
 	display: flex;
 	margin: 100px 30px;
+	margin-bottom: 50px;
 	align-content: stretch;
 	justify-content: center;
 	column-gap: 15px;
-	
+
 
 }
-.about-me-img{
+
+.about-me-img {
 	padding: 15px;
 	background-color: springgreen;
 	border-radius: 10px 25px;
 	align-items: center;
 	justify-content: center;
-	
+
 }
-.blog-post{
+
+.blog-post {
 	color: seashell;
 	text-align: center;
 	width: 650px;
 	margin: 0 auto;
 }
+
 #project-slider {
 	overflow: hidden;
 }
-.slide{
+
+.slide {
 	margin: 10px 30px;
 	align-content: stretch;
 	justify-content: center;
 	column-gap: 15px;
 }
+
 :root {
 	--animate-duration: 0.25s;
-  }
+}
+
+/* fade in animation*/
+.fade-in-left {
+	opacity: 0;
+	transform: translateX(100px);
+	transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-left.visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.fade-in-right {
+	opacity: 0;
+	transform: translateX(-100px);
+	transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-right.visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* skills section*/
+.skills-section {
+	margin-top: 2rem;
+}
+
+.skills-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.skill {
+	background-color: darkslategray;
+	color: springgreen;
+	padding: 0.5rem 1rem;
+	border-radius: 10px;
+	/* pill shape */
+	font-weight: 500;
+	font-size: 0.9rem;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* .skill:hover {
+	background-color: #333;
+	color: #fff;
+	transform: scale(1.05);
+} */
+
+.carousel {
+	overflow: hidden;
+	width: 100%;
+}
+
+.carousel-track {
+	display: flex;
+	width: max-content;
+	animation: scrollLeft 20s linear infinite;
+}
+
+.carousel-track img {
+	height: 200px;
+	/* set consistent height */
+	width: auto;
+	/* let width scale naturally */
+	margin-right: 10px;
+	object-fit: contain;
+	/* optional: keeps full image visible */
+	flex-shrink: 0;
+	border-radius: 8px;
+}
+
+.carousel-item img:hover {
+	opacity: 0.9;
+	transform: scale(1.02);
+	transition: all 0.3s ease;
+}
+
+.carousel-item img {
+	cursor: pointer;
+}
+
+@keyframes scrollLeft {
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(-50%);
+	}
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 999;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+}
+
+.modal-content {
+	position: relative;
+	max-width: 90%;
+	text-align: center;
+}
+
+.modal-content img {
+	max-height: 700px;
+	width: 500px;
+	border-radius: 8px;
+}
+
+.modal-content p {
+	color: #fff;
+	margin-top: 10px;
+	font-size: 1rem;
+}
+
+.close {
+	position: absolute;
+	top: -40px;
+	right: -30px;
+	color: #fff;
+	font-size: 2rem;
+	cursor: pointer;
+}

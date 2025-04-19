@@ -1,106 +1,231 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>homepage</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-		<link rel = "stylesheet" href ="css/homepage.css">
-		<meta name="google-site-verification" content="2n8cx0ROxn7QZCDUqtqK3t7xswhcdVTZX5zV5JufiVU" />
-	</head>
-	<body>
-		<header>			
-			<h1>theConnorChannel</h1>
-			<div>
-				<a href = "https://www.linkedin.com/in/connor-chan-the-man/" target = "_blank">
-					<img src = "images/linkedin.png" alt = "my LinkedIn" style = "width: 50px; border-radius: 10px;">
-				</a>
-				<a href = "https://github.com/lolconnor1" target = "_blank">
-					<img src = "images/githubIcon.png" alt = "my GitHub" style = "width: 50px;">
-				</a>
-			</div>
-			
-		</header>
-		
-		<div class = "intro">
-			<h2>Welcome to theConnorChannel!</h2>
-			<p>This site will mostly be used as an opportunity to practice (and flex) the skills that I learn on my path to becoming a software developer! One day, this site will be filled with many interesting pages and you will be able to see my growth as a developer. Animations, magic, explosions, clickable buttons; the possibilities are endless!</p>
-			<h2>I hope you enjoy your stay!</h2>
-		</div>
-		<div class = "about-me">
-			<div class = "about-me-img" style = "display: flex;">
-				<img src="images/selfie.jpg" alt = "I have a big smile!" style = "width: 300px; border-radius: 10px;">
-			</div>
-			<!-- flex: 1; stretches the item to fill the empty space in the flex box horizontally-->
-			<div class = "about-me-img" style = "flex: 1;">
-				<h2>The Man, The Myth, The Legend:</h2>
-				<p>Wassup! My name is Connor A.K.A. C-Money.</p>
-				<p>I'm a computer science student from Toronto who loves to create everything from music to websites.</p>
-				<p>Some of my hobbies include skateboarding, basketball, and pretending to read books that I don't understand to look cool and interesting.</p>
-				<p>If I could turn into an animal, I would probably want to be a bear because I love to sleep. And if I were being chased by the CIA, I think I could probably survive at least 3 days.</p>
 
-				<h3>Skills:</h3>
-				<ul>
-					<li><p>looking smug</p></li>
-					<li><p>coding</p></li>
-					<li><p>witty humor</p></li>
-					<li><p>massive ego</p></li>
-				</ul>
-				<h3>That's about it! C-Money out!</h3>
-			</div>
-		</div>
-		<h2 style = "color: seashell;text-align: center;">My Favorite Projects</h2>
-		<div id="project-slider">
-			<div class="slide">
-				<div class = "about-me-img" style = "flex: 1;background-color: lightpink;">
-					<h2>Minesweeper</h2>
-					<p>Minesweeper is one of my favorite games to play when I'm bored, so I created a basic Minesweeper game from scratch using JavaScript, HTML, and CSS.</p>
-					<p>Click the image If you want to try it for yourself!</p>
-					<h3>Enjoy!</h3>
-				</div>
-				<div class = "about-me-img" style = "background-color: lightpink; align-content: center;">
-					<a href = "minesweeper.html" style = "display: block;font-size: 0px;"><img src = "images/minesweeperimg.png" alt = "minesweeper game board" style = "width: 300px; height: 300px; border-radius: 10px;"></a>
-				</div>
+<head>
+	<title>homepage</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+	<link rel="stylesheet" href="css/homepage.css">
+	<meta name="google-site-verification" content="2n8cx0ROxn7QZCDUqtqK3t7xswhcdVTZX5zV5JufiVU" />
+</head>
 
+<body>
+	<header>
+		<h1>theConnorChannel</h1>
+		<a>
+			<div class="tabs-item">
+				<p>Home</p>
 			</div>
-			<div class="slide">
-				<div class = "about-me-img" style = "flex: 1;background-color: lightpink;">
-					<h2>CodeBreaker</h2>
-					<p>I remember playing a game like this in summer camp. Originally I wanted to do something like the NYT Wordle but then I felt bad for my friends who may or may not have a 3rd grade reading level. JUST KIDDING, its because I was way too lazy to find a way to get all the words.</p>
-					<p>This was also made with JavaScript, HTML, and CSS.</p>
-					<p>Anyways, click the image If you want to try it for yourself!</p>
-					<h3>Enjoy!</h3>
-				</div>
-				<div class = "about-me-img" style = "background-color: lightpink;">
-					<a href = "wordle.html" style = "display: block;font-size: 0px;"><img src = "images/codebreakerimg.PNG" alt = "CodeBreaker game board" style = "width: 300px; height: 300px;border-radius: 10px;"></a>
-				</div>
+		</a>
+		<a>
+			<div class="tabs-item">
+				<p>Projects</p>
+			</div>
+		</a>
+		<a>
+			<div class="tabs-item">
+				<p>Games</p>
+			</div>
+		</a>
+		<div>
+			<a href="https://www.linkedin.com/in/connor-chan-the-man/" target="_blank">
+				<img src="images/linkedin.png" alt="my LinkedIn" style="width: 50px; border-radius: 10px;">
+			</a>
+			<a href="https://github.com/lolconnor1" target="_blank">
+				<img src="images/githubIcon.png" alt="my GitHub" style="width: 50px;">
+			</a>
+		</div>
 
+	</header>
+
+	<div class="intro fade-in-right">
+		<h2>Welcome to theConnorChannel!</h2>
+		<p>This site is mostly used as my portfolio website but is also an opportunity to practice (and flex) the skills
+			that I learn on my path to
+			becoming a software developer! One day, this site will be filled with many interesting pages and you will be
+			able to see my growth as a developer. Animations, magic, explosions, clickable buttons; the possibilities
+			are endless!</p>
+		<h2>I hope you enjoy your stay!</h2>
+	</div>
+	<div class="about-me fade-in-left">
+		<div class="about-me-img" style="display: flex;">
+			<img src="images/selfie.jpg" alt="I have a big smile!" style="width: 300px; border-radius: 10px;">
+		</div>
+		<!-- flex: 1; stretches the item to fill the empty space in the flex box horizontally-->
+		<div class="about-me-img" style="flex: 1;">
+			<h2>About Me:</h2>
+			<p>Hello! My name is Connor Chan, I'm an aspiring front-end developer.</p>
+			<p>I'm currently in my 4th year of earning a BSc in computer science from York University in Toronto, but I
+				also recently completed an exchange year at Waseda University in Tokyo!</p>
+			<p>Right now, I'm focusing on building my front-end development and UI design skills by challenging myself
+				to make the best portfolio website anyone has ever seen (from scratch).</p>
+			<p>Outside of tech, I love to create music, go on hikes, and skateboard.</p>
+			<section class="skills-section">
+				<h2>Skills</h2>
+				<div class="skills-list">
+					<span class="skill">HTML</span>
+					<span class="skill">CSS</span>
+					<span class="skill">JavaScript</span>
+					<span class="skill">React</span>
+					<span class="skill">Node.js</span>
+					<span class="skill">Git</span>
+					<span class="skill">GitHub</span>
+					<span class="skill">UI Design</span>
+					<span class="skill">Front-End Development</span>
+					<span class="skill">Data Structures</span>
+					<span class="skill">Algorithms</span>
+				</div>
+			</section>
+			<h3>That's about it!</h3>
+		</div>
+	</div>
+
+	<div class="carousel" style="margin-bottom: 100px;">
+		<div class="carousel-track">
+			<div class="carousel-item">
+				<img src="images/img1.jpg" alt="Japan, 2023 - Okutama hiking (with Villads)" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img2.jpg" alt="Japan, 2023 - Odaiba nights (with Enoch)" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img3.jpg" alt="Japan, 2024 - Sunrise at the peak of Mt.Fuji" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img4.jpg" alt="Japan, 2024 - Emperor's birthday (with Nico)" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img5.jpg" alt="Taiwan, 2024 - Elephant Mountain" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img6.jpg" alt="Japan, 2024 - Climbing Mt. Fuji, kinda wet" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img7.jpg" alt="Japan, 2024 - Mwah" />
+			</div>
+
+			<!-- duplicate for seamless loop -->
+			<div class="carousel-item">
+				<img src="images/img1.jpg" alt="Japan, 2023 - Okutama hiking (with Villads)" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img2.jpg" alt="Japan, 2023 - Odaiba nights (with Enoch)" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img3.jpg" alt="Japan, 2024 - Sunrise at the peak of Mt.Fuji" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img4.jpg" alt="Japan, 2024 - Emperor's birthday (with Nico)" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img5.jpg" alt="Taiwan, 2024 - Elephant Mountain" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img6.jpg" alt="Japan, 2024 - Climbing Mt. Fuji, kinda wet" />
+			</div>
+			<div class="carousel-item">
+				<img src="images/img7.jpg" alt="Japan, 2024 - Mwah" />
 			</div>
 		</div>
-		<div style="text-align: center;font-weight: bold;font-size: 30px;">
-			<a class="prev" onclick="changeSlides(-1)">❮</a>
-			<a class="next" onclick="changeSlides(1)">❯</a>
-			
+	</div>
+
+	<!-- Modal -->
+	<div id="imageModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<img id="modalImg" />
+			<p id="modalCaption"></p>
 		</div>
-		
-		
-		<div class = "blog-post">
-			<h2>Dev Blog</h2>
-			<h3>6/17/2024</h3>
-			<p>I created this site that you are looking at using basic HTML and CSS. Although it is pretty empty for now, upgrades await in the near future!</p>
-			<h3>6/19/2024</h3>
-			<p>Today, I started learning some basic JavaScript and made a <a href = "counter.html">simple counter app</a>. I also learned how to make links as icons and added a link to my LinkedIn on the header.</p>
-			<h3>6/22/2024</h3>
-			<p>Yesterday, I created a simple <a href = "blackjack.html">Blackjack</a> game website(edit: using JavaScript). As of right now, the game works but I want to style it and add some features such as a deck counter, a win-loss tracker, C-Money, doubling down, and splitting.</p>
-			<h3>6/23/2024</h3>
-			<p>Today, I added some cool new features and fixed some of the bugs on my <a href = "blackjack.html">Blackjack</a> page. Some stuff I added includes splitting, doubling down (though there is no C-Money yet), a deck counter (which I recycled from my previous <a href = "counter.html">counter</a> page), a win-loss column so you can track your wins and losses. On the smaller side, I added a home icon which goes back to here, and did a little bit of styling. I think in the future I want to implement like an "educational mode" where you can see the probabilites and also learn the optimal Blackjack strategy but maybe I'll take a little break from this project first.</p>
-			<h3>7/2/2024</h3>
-			<p>I know, I've been pretty quiet recently. I got stuck with some school work while also trying to develop this awesome <a href = "minesweeper.html">Minesweeper</a> page in JavaScript. It is missing a few features (like winning) but I hope to get that sorted out soon. I also want to get back on some CSS and make these pages look sick. Anyways, C-MonDawg out.</p>
-			<h3>7/6/2024</h3>
-			<p><a href = "minesweeper.html">Minesweeper</a> is now looking fucking awesome, no cap frfr. I still want to add the ability to customize the size of the board and number of bombs, but in the meantime I want to make my kick-ass website available on Google. Right now it says something about "pages cant be indexed" or some bullshit. I might have to go over to Google HQ and take matters into my own hands... But fr tho, search engine optimization begins!</p>
-			<h3>7/9/2024</h3>
-			<p>created a <a href = "wordle.html">CodeBreaker</a> game, similar to the popular wordle, which is what I originally wanted to do but for that I would need to figure out how to get a list of 5 letter words which I can't be bother to do rn tbh. However I did learn a bunch, including adding click functions to divs and deleting elements from pages in JS. Right now, I want to go back and apply some of this stuff to make my <a href = "minesweeper.html">Minesweeper</a> but after I want to start adding stuff to this homepage.</p>
-			<h3>7/10/2024</h3>
-			<p>Today, I made the <a href = "minesweeper.html">Minesweeper</a> buttons into divs and it looks SO much better. Next I want to make changeable size/difficulty level. I also went ahead and started messing with this homepage and added the awesome featured projects gallery (which you probably saw on the way here) with crazy sliding animations and handy navigational arrows!</p>
+	</div>
+
+
+	<h2 style="color: seashell;text-align: center;">My Favorite Projects</h2>
+	<div id="project-slider">
+		<div class="slide">
+			<div class="about-me-img" style="flex: 1;background-color: lightpink;">
+				<h2>Minesweeper</h2>
+				<p>Minesweeper is one of my favorite games to play when I'm bored, so I created a basic Minesweeper game
+					from scratch using JavaScript, HTML, and CSS.</p>
+				<p>Click the image If you want to try it for yourself!</p>
+				<h3>Enjoy!</h3>
+			</div>
+			<div class="about-me-img" style="background-color: lightpink; align-content: center;">
+				<a href="minesweeper.html" style="display: block;font-size: 0px;"><img src="images/minesweeperimg.png"
+						alt="minesweeper game board" style="width: 300px; height: 300px; border-radius: 10px;"></a>
+			</div>
+
 		</div>
-		<script src = "javaScript/index.js"></script>
-	</body>
+		<div class="slide">
+			<div class="about-me-img" style="flex: 1;background-color: lightpink;">
+				<h2>CodeBreaker</h2>
+				<p>I remember playing a game like this in summer camp. Originally I wanted to do something like the NYT
+					Wordle but then I felt bad for my friends who may or may not have a 3rd grade reading level. JUST
+					KIDDING, its because I was way too lazy to find a way to get all the words.</p>
+				<p>This was also made with JavaScript, HTML, and CSS.</p>
+				<p>Anyways, click the image If you want to try it for yourself!</p>
+				<h3>Enjoy!</h3>
+			</div>
+			<div class="about-me-img" style="background-color: lightpink;">
+				<a href="wordle.html" style="display: block;font-size: 0px;"><img src="images/codebreakerimg.PNG"
+						alt="CodeBreaker game board" style="width: 300px; height: 300px;border-radius: 10px;"></a>
+			</div>
+
+		</div>
+	</div>
+	<div style="text-align: center;font-weight: bold;font-size: 40px;">
+		<a class="prev" onclick="changeSlides(-1)" style = "margin-right: 20px; cursor: pointer;">❮</a>
+		<a class="next" onclick="changeSlides(1)" style = "cursor: pointer;">❯</a>
+
+	</div>
+
+
+	<div class="blog-post">
+		<h2>Dev Blog</h2>
+		<h3>6/17/2024</h3>
+		<p>I created this site that you are looking at using basic HTML and CSS. Although it is pretty empty for now,
+			upgrades await in the near future!</p>
+		<h3>6/19/2024</h3>
+		<p>Today, I started learning some basic JavaScript and made a <a href="counter.html">simple counter app</a>. I
+			also learned how to make links as icons and added a link to my LinkedIn on the header.</p>
+		<h3>6/22/2024</h3>
+		<p>Yesterday, I created a simple <a href="blackjack.html">Blackjack</a> game website(edit: using JavaScript). As
+			of right now, the game works but I want to style it and add some features such as a deck counter, a win-loss
+			tracker, C-Money, doubling down, and splitting.</p>
+		<h3>6/23/2024</h3>
+		<p>Today, I added some cool new features and fixed some of the bugs on my <a href="blackjack.html">Blackjack</a>
+			page. Some stuff I added includes splitting, doubling down (though there is no C-Money yet), a deck counter
+			(which I recycled from my previous <a href="counter.html">counter</a> page), a win-loss column so you can
+			track your wins and losses. On the smaller side, I added a home icon which goes back to here, and did a
+			little bit of styling. I think in the future I want to implement like an "educational mode" where you can
+			see the probabilites and also learn the optimal Blackjack strategy but maybe I'll take a little break from
+			this project first.</p>
+		<h3>7/2/2024</h3>
+		<p>I know, I've been pretty quiet recently. I got stuck with some school work while also trying to develop this
+			awesome <a href="minesweeper.html">Minesweeper</a> page in JavaScript. It is missing a few features (like
+			winning) but I hope to get that sorted out soon. I also want to get back on some CSS and make these pages
+			look sick. Anyways, C-MonDawg out.</p>
+		<h3>7/6/2024</h3>
+		<p><a href="minesweeper.html">Minesweeper</a> is now looking f*cking awesome, no cap frfr. I still want to add
+			the ability to customize the size of the board and number of bombs, but in the meantime I want to make my
+			kick-ass website available on Google. Right now it says something about "pages cant be indexed" or
+			something. I might have to go over to Google HQ and take matters into my own hands... But fr tho, search
+			engine optimization begins!</p>
+		<h3>7/9/2024</h3>
+		<p>Created a <a href="wordle.html">CodeBreaker</a> game, inspired by the popular Wordle, which is what I
+			originally wanted to do but for that I would need to figure out how to get a list of 5 letter words which I
+			can't be bothered to do rn tbh. However, I did learn a bunch, including adding click functions to divs and
+			deleting elements from pages in JS. Right now, I want to go back and apply some of this stuff to make my <a
+				href="minesweeper.html">Minesweeper</a> but after I want to start adding stuff to this homepage.</p>
+		<h3>7/10/2024</h3>
+		<p>Today, I made the <a href="minesweeper.html">Minesweeper</a> buttons into divs and it looks SO much better.
+			Next I want to make changeable size/difficulty level. I also went ahead and started messing with this
+			homepage and added the awesome featured projects gallery (which you probably saw on the way here) with crazy
+			sliding animations and handy navigational arrows!</p>
+		<h3>4/19/2025</h3>
+		<p>Finally back on the website grind! Thinking of making this portfolio site actually look good so that I can
+			impress recruiters and land an actual job this summer. ¯\_(ツ)_/¯ Added a whole bunch of animations and the
+			rotating image carousel.</p>
+	</div>
+	<script src="javaScript/index.js"></script>
+</body>
+
 </html>
