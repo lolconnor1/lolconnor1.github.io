@@ -1,46 +1,48 @@
 html {
 	font-family: Tahoma, sans-serif;
-	background-color: darkslategray;
+	background-color: #f4f1de;
 }
 
 body {
 	margin: 0;
-	color: darkslategray;
+	color: #3d405b;
 }
 
 header {
 	display: flex;
 	font-size: 25px;
-	color: darkslategray;
-	background-color: darksalmon;
+	color: #3d405b;
+	background-color: #e07a5f;
 	padding: 1px 25px;
 	border-radius: 0 0 25px 10px;
-	margin-bottom: 100px;
 	justify-content: space-between;
 	align-items: center;
-
 }
 
 a {
-	color: darksalmon;
+	color: #e07a5f;
 }
+
 .tabs-item:hover {
-	
+
 	transform: scale(1.1);
 	transition: all 0.3s ease;
 }
+
 .tabs-item {
-	color: darkslategray;
+	color: #3d405b;
 	cursor: pointer;
-  }
+}
 
 .intro {
-	background-color: turquoise;
+	background-color: #81b29a;
 	text-align: center;
 	width: 500px;
 	margin: 50px auto;
+	margin-top: 225px;
 	padding: 15px;
 	border-radius: 25px 10px;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .about-me {
@@ -56,15 +58,15 @@ a {
 
 .about-me-img {
 	padding: 15px;
-	background-color: springgreen;
+	background-color: #e07a5f;
 	border-radius: 10px 25px;
 	align-items: center;
 	justify-content: center;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
 
 }
 
 .blog-post {
-	color: seashell;
 	text-align: center;
 	width: 650px;
 	margin: 0 auto;
@@ -121,13 +123,12 @@ a {
 }
 
 .skill {
-	background-color: darkslategray;
-	color: springgreen;
+	background-color: #3d405b;
+	color: #e07a5f;
 	padding: 0.5rem 1rem;
 	border-radius: 10px;
 	/* pill shape */
 	font-weight: 500;
-	font-size: 0.9rem;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -220,4 +221,32 @@ a {
 	color: #fff;
 	font-size: 2rem;
 	cursor: pointer;
+}
+
+#main-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	box-sizing: border-box;
+	transition: transform 0.3s ease;
+	z-index: 1000;
+}
+
+#main-header.hidden {
+	transform: translateY(-100%);
+}
+
+/* Optional: show header when hovering near the top */
+body:hover #main-header:hover {
+	transform: translateY(0%);
+}
+
+#hover-zone {
+	position: fixed;
+	top: 0;
+	height: 40px;
+	width: 100%;
+	z-index: 999;
 }
