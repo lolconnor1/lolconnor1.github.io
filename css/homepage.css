@@ -8,31 +8,13 @@ body {
 	color: #3d405b;
 }
 
-header {
-	display: flex;
-	font-size: 25px;
-	color: #3d405b;
-	background-color: #e07a5f;
-	padding: 1px 25px;
-	border-radius: 0 0 25px 10px;
-	justify-content: space-between;
-	align-items: center;
-}
+
 
 a {
 	color: #e07a5f;
 }
 
-.tabs-item:hover {
 
-	transform: scale(1.1);
-	transition: all 0.3s ease;
-}
-
-.tabs-item {
-	color: #3d405b;
-	cursor: pointer;
-}
 
 .intro {
 	background-color: #81b29a;
@@ -221,32 +203,4 @@ a {
 	color: #fff;
 	font-size: 2rem;
 	cursor: pointer;
-}
-
-#main-header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	width: 100%;
-	box-sizing: border-box;
-	transition: transform 0.3s ease;
-	z-index: 1000;
-}
-
-#main-header.hidden {
-	transform: translateY(-100%);
-}
-
-/* Optional: show header when hovering near the top */
-body:hover #main-header:hover {
-	transform: translateY(0%);
-}
-
-#hover-zone {
-	position: fixed;
-	top: 0;
-	height: 40px;
-	width: 100%;
-	z-index: 999;
 }
