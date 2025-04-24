@@ -38,7 +38,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../images/blankback.png');
+    background-image: url('../images/blankback.PNG');
     /* update with your path */
     background-size: cover;
     /* THIS makes it fill the screen */
