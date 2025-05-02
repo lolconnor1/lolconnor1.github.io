@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://lolconnor1.github.io</loc>
-        <lastmod>2024-07-06</lastmod>
+        <loc>https://lolconnor1.github.io/</loc>
+        <lastmod>2025-04-27</lastmod>
         <priority>1.0</priority>
         <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://lolconnor1.github.io/Projects/</loc>
+        <lastmod>2025-04-27</lastmod>
+    </url>
+    <url>
+        <loc>https://lolconnor1.github.io/Projects/GenGO/</loc>
+        <lastmod>2025-04-27</lastmod>
     </url>
     <url>
         <loc>https://lolconnor1.github.io/counter.html</loc>
         <lastmod>2024-06-19</lastmod>
     </url>
     <url>
-        <loc>https://lolconnor1.github.io/blackjack.html</loc>
-        <lastmod>2024-06-25</lastmod>
+        <loc>https://lolconnor1.github.io/Games/</loc>
+        <lastmod>2025-04-27</lastmod>
     </url>
     <url>
-        <loc>https://lolconnor1.github.io/minesweeper.html</loc>
-        <lastmod>2024-07-06</lastmod>
+        <loc>https://lolconnor1.github.io/Games/Blackjack/</loc>
+        <lastmod>2025-04-27</lastmod>
     </url>
+    <url>
+        <loc>https://lolconnor1.github.io/Games/Minesweeper/</loc>
+        <lastmod>2025-04-27</lastmod>
+    </url>
+    <url>
+        <loc>https://lolconnor1.github.io/Games/CodeBreaker/</loc>
+        <lastmod>2025-04-27</lastmod>
+    </url>
+    
 </urlset>

@@ -1,5 +1,4 @@
-//fade in on scroll
-const faders = document.querySelectorAll('.fade-in-left, .fade-in-right');
+const faders = document.querySelectorAll('.fade-in-left, .fade-in-right, .fade-in-top');
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
@@ -10,4 +9,3 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 
 faders.forEach(el => observer.observe(el));
-

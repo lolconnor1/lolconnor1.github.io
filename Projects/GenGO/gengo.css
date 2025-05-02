@@ -15,7 +15,7 @@ body {
     width: 100%;
     height: 100%;
 
-    background-image: url('../images/gengoback.jpg');
+    background-image: url('images/gengoback.jpg');
     /* update with your path */
     background-size: contain;
     /* THIS makes it fill the screen */
@@ -38,7 +38,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../images/blankback.PNG');
+    background-image: url('images/blankback.PNG');
     /* update with your path */
     background-size: cover;
     /* THIS makes it fill the screen */
@@ -64,4 +64,14 @@ body {
 	padding: 15px;
 	border-radius: 25px 10px;
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tabs-item:hover {
+	transform: scale(1.1);
+	transition: all 0.3s ease;
+}
+
+.tabs-item {
+	color: #3d405b;
+	cursor: pointer;
 }
