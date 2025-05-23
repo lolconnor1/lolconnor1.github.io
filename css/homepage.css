@@ -88,7 +88,7 @@ a {
 
 .skill {
 	background-color: #3d405b;
-	color: #e07a5f;
+	color: #fcbf49;
 	padding: 0.5rem 1rem;
 	border-radius: 10px;
 	/* pill shape */
@@ -185,4 +185,17 @@ a {
 	color: #fff;
 	font-size: 2rem;
 	cursor: pointer;
+}
+
+.learn-more {
+	background-color: #e07a5f;
+	padding: 15px;
+	border-radius: 10px;
+	/* pill shape */
+	transition: background-color 0.3s ease, transform 0.3s ease;
+	cursor:pointer;
+}
+
+.learn-more:hover {
+	background-color: #b5624b;
 }

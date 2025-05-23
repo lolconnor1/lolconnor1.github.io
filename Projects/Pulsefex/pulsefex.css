@@ -1,0 +1,81 @@
+html {
+	font-family: Tahoma, sans-serif;
+	background-color: #f4f1de;
+}
+
+body {
+	margin: 0;
+
+}
+
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('images/Pulsefex1.jpg');
+    /* update with your path */
+    background-size: auto, 100%;
+    /* THIS makes it fill the screen */
+    background-position: center;
+    /* keeps it centered */
+    background-repeat: no-repeat;
+    /* prevents tiling */
+    background-attachment: fixed;
+    /* makes it stay when scrolling */
+
+    filter: brightness(0.4);
+    /* optional darken for overlay effect */
+    z-index: -1;
+    /* keeps it behind everything */
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/blankback.PNG');
+    /* update with your path */
+    background-size: cover;
+    /* THIS makes it fill the screen */
+    background-position: center;
+    /* keeps it centered */
+    background-repeat: no-repeat;
+    /* prevents tiling */
+    background-attachment: fixed;
+    /* makes it stay when scrolling */
+    filter: brightness(0.4);
+    /* optional darken for overlay effect */
+    z-index: -2;
+    /* keeps it behind everything */
+}
+
+.container {
+    background-color: #81b29a;
+	margin: auto;
+    margin-top: 25px;
+    margin-bottom: 100px;
+	padding: 15px;
+	border-radius: 25px 10px;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.video-wrapper {
+    position: relative;
+    width: 50%;         /* your desired width */
+    padding-bottom: 56.25%; /* 16:9 ratio (9 / 16 = 0.5625) */
+    height: 0;
+    overflow: hidden;
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }

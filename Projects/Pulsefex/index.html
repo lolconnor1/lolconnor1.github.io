@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pulsefex - theConnorChannel</title>
+    <link rel="stylesheet" href="pulsefex.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="background-image"></div>
+    <div class="container fade-in-top" style="width:40%;">
+        <img src="images/pulsefexlogo.png" alt="Pulsefex Logo" style="width:100%; border-radius: 10px;">
+    </div>
+
+    <div class="container fade-in-left" style="width:50%;">
+        <div class="video-wrapper" style="width:100%; border-radius: 10px;">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/vq_vpGk1hSg"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+    <div class="container fade-in-right" style="width:50%;">
+        <h2>What is Pulsefex?</h2>
+        <p>Pulsefex is an embedded systems project that captures and displays real-time heart rate and SpO2 levels. The
+            system is built on the STM32WB55RG MCU and interfaces with the MAX30102 pulse oximeter and TMP102
+            temperature sensor, with real-time data output to an SSD1306 OLED screen. This was my first embedded systems
+            project and as such I was eager to contribute.</p>
+    </div>
+
+    <div class="container fade-in-left" style="width:50%;">
+        <h2>My Contributions:</h2>
+        <p>My primary responsibility was the low-level interfacing of the SSD1306 screen with the STM32WB MCU via I2C,
+            implemented entirely in C. I developed custom drivers to send bit data to the screen, allowing our team to
+            quickly display and update heart rate visuals.
+        </p>
+        <p>I was also responsible for the circuit design and fabrication; I even learned how to solder parts together!
+        </p>
+    </div>
+
+    <div class="container fade-in-right" style="width:50%;">
+        <h2>Lessons Learned:</h2>
+        <p>This project gave me hands-on experience with MCU architecture, low-level C programming, and real-time data
+            retrieval. I gained confidence debugging hardware-level issues, integrating I2C communication protocols, puttign together electronic circuits, and
+            overall enjoyed the 2 month development process as I stepped far outside of my comfort zone.</p>
+    </div>
+
+
+    <script src="../../javaScript/fadeanims.js"></script>
+</body>
+
+</html>
