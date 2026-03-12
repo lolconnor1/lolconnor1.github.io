@@ -1,278 +1,443 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-	<title>Home - theConnorChannel</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-	<link rel="stylesheet" href="css/homepage.css">
-	<link rel="stylesheet" href="css/header.css">
-	<link rel="stylesheet" href="css/animations.css">
-	<meta name="google-site-verification" content="2n8cx0ROxn7QZCDUqtqK3t7xswhcdVTZX5zV5JufiVU" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>theConnorChannel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --yellow: #fcbf49;
+    --green: #81b29a;
+    --blue: #3d405b;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Bebas Neue', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; cursor: none; }
+
+  /* CURSOR */
+  #cur { position: fixed; width: 10px; height: 10px; background: var(--yellow); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: difference; transition: width .15s, height .15s; }
+  #cur-ring { position: fixed; width: 34px; height: 34px; border: 1px solid var(--yellow); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .4; transition: width .2s, height .2s; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; background: rgba(13,13,13,.9); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: .05em; color: var(--yellow); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .nav-icons { display: flex; gap: .75rem; }
+  .nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); text-decoration: none; font-size: .75rem; font-weight: 700; transition: all .2s; }
+  .nav-icon:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 8rem 3rem 5rem; gap: 4rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 20% 50%, rgba(252,191,73,.06) 0%, transparent 60%), radial-gradient(ellipse 40% 50% at 80% 30%, rgba(129,178,154,.05) 0%, transparent 60%); pointer-events: none; }
+  .ticker { position: absolute; bottom: 0; left: 0; right: 0; overflow: hidden; border-top: 1px solid var(--border); padding: .7rem 0; background: var(--surface); }
+  .ticker-inner { display: flex; gap: 2.5rem; white-space: nowrap; animation: ticker 22s linear infinite; font-family: var(--font-display); font-size: 1rem; letter-spacing: .15em; color: var(--muted); }
+  .ticker-inner span { color: var(--yellow); }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .hero-text { position: relative; }
+  .hero-tag { font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 1rem; display: flex; align-items: center; gap: .6rem; }
+  .hero-tag::before { content: ''; width: 24px; height: 1px; background: var(--yellow); }
+  h1 { font-family: var(--font-display); font-size: clamp(4rem, 8vw, 7.5rem); line-height: .9; letter-spacing: .02em; margin-bottom: 1.5rem; }
+  h1 em { font-style: normal; color: var(--yellow); display: block; }
+  h1 .hollow { display: block; -webkit-text-stroke: 1.5px rgba(240,237,232,.25); color: transparent; }
+  .hero-desc { font-size: .9rem; line-height: 1.85; color: var(--muted); max-width: 480px; margin-bottom: 2rem; }
+  .hero-desc strong { color: var(--text); }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.6rem; font-family: var(--font-body); font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border: none; cursor: none; transition: all .2s; }
+  .btn-yellow { background: var(--yellow); color: #000; }
+  .btn-yellow:hover { background: #fdd076; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(252,191,73,.3); }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); transform: translateY(-2px); }
+
+  .hero-side { position: relative; display: flex; align-items: center; justify-content: center; }
+  .hero-photo-frame { position: relative; width: 340px; }
+  .photo-placeholder { width: 340px; background: var(--surface2); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
+  .hero-photo-frame::before { content: ''; position: absolute; inset: -10px; border: 1px solid rgba(252,191,73,.3); border-radius: 6px; z-index: -1; }
+  .hero-photo-frame::after { content: ''; position: absolute; bottom: -20px; right: -20px; width: 100%; height: 100%; border: 1px solid rgba(129,178,154,.2); border-radius: 4px; z-index: -2; }
+  .badge { position: absolute; font-family: var(--font-body); font-weight: 700; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; padding: .45rem .9rem; z-index: 2; }
+  .badge-top { top: -14px; left: 20px; background: var(--yellow); color: #000; }
+  .badge-bottom { bottom: -14px; right: 20px; background: var(--green); color: #000; }
+
+  /* ABOUT */
+  #about { padding: 6rem 3rem; background: var(--surface); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .eyebrow { font-size: .65rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--green); margin-bottom: .75rem; display: flex; align-items: center; gap: .6rem; }
+  .eyebrow::before { content: ''; width: 18px; height: 1px; background: currentColor; }
+  h2.section-title { font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.5rem); letter-spacing: .03em; line-height: 1; margin-bottom: 1.5rem; }
+  .about-body p { font-size: .88rem; line-height: 1.85; color: var(--muted); margin-bottom: 1rem; }
+  .about-body p strong { color: var(--text); }
+  .skills-grid { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .skill-tag { padding: .28rem .75rem; font-size: .65rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--border); color: var(--muted); transition: all .2s; }
+  .skill-tag:hover { border-color: var(--yellow); color: var(--yellow); }
+  .about-links { display: flex; gap: 1rem; margin-top: 2rem; }
+  .stat-card { background: var(--surface2); padding: 1.5rem; border-left: 3px solid var(--yellow); }
+  .stat-num { font-family: var(--font-display); font-size: 3rem; color: var(--yellow); line-height: 1; }
+  .stat-label { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .2rem; }
+  .about-hobbies { background: var(--surface2); padding: 1.5rem; border-left: 3px solid var(--green); }
+  .about-hobbies h4 { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--green); margin-bottom: .8rem; }
+  .hobbies-list { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hobby { font-size: .82rem; color: var(--muted); }
+
+  /* PROJECTS */
+  #projects { padding: 6rem 3rem; background: var(--bg); }
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 3rem; }
+  .project-card { background: var(--surface2); padding: 2.5rem; position: relative; overflow: hidden; cursor: none; transition: transform .3s; }
+  .project-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+  .project-card:hover::after { transform: scaleX(1); }
+  .project-card:hover { transform: translateY(-4px); }
+  .project-card.green::after { background: var(--green); }
+  .project-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .project-card h3 { font-family: var(--font-display); font-size: 2rem; letter-spacing: .03em; margin-bottom: .6rem; line-height: 1; }
+  .project-card p { font-size: .82rem; line-height: 1.75; color: var(--muted); margin-bottom: 1.2rem; }
+  .project-stack { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .stack-pill { padding: .2rem .6rem; font-size: .6rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(252,191,73,.1); color: var(--yellow); }
+  .project-card.green .stack-pill { background: rgba(129,178,154,.1); color: var(--green); }
+  .project-link { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; transition: gap .2s; }
+  .project-card.green .project-link { color: var(--green); }
+  .project-link:hover { gap: .7rem; }
+
+  /* GAMES */
+  #games { padding: 6rem 3rem; background: var(--surface); }
+  .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .game-card { background: var(--bg); border: 1px solid var(--border); padding: 2rem; cursor: none; transition: all .3s; }
+  .game-card:hover { border-color: var(--yellow); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(252,191,73,.1); }
+  .game-card h3 { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: .03em; margin-bottom: .5rem; }
+  .game-card p { font-size: .8rem; line-height: 1.75; color: var(--muted); margin-bottom: 1.2rem; }
+  .game-badge { font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); padding: .2rem .6rem; display: inline-block; margin-bottom: 1rem; }
+  .game-play { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; transition: gap .2s; }
+  .game-play:hover { gap: .7rem; }
+
+  /* BLOG */
+  #blog { padding: 6rem 3rem; background: var(--bg); }
+  .blog-timeline { margin-top: 3rem; position: relative; padding-left: 2rem; }
+  .blog-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .blog-entry { position: relative; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border); }
+  .blog-entry:last-child { border-bottom: none; margin-bottom: 0; }
+  .blog-entry::before { content: ''; position: absolute; left: -2.35rem; top: .35rem; width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); border: 2px solid var(--bg); }
+  .blog-date { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--yellow); margin-bottom: .5rem; }
+  .blog-entry p { font-size: .84rem; line-height: 1.85; color: var(--muted); }
+  .blog-entry p a { color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(129,178,154,.3); transition: border-color .2s; }
+  .blog-entry p a:hover { border-color: var(--green); }
+
+  /* FOOTER */
+  footer { background: var(--surface); border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-name { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; color: var(--yellow); }
+  .footer-links { display: flex; gap: 1rem; }
+  .footer-link { padding: .6rem 1.2rem; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--muted); border: 1px solid var(--border); transition: all .2s; }
+  .footer-link:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 5rem; }
+    .hero-side { display: none; }
+    #about, #projects, #games, #blog { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .games-grid { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    .nav-links { display: none; }
+  }
+</style>
 </head>
-
 <body>
-	<div id="hover-zone"></div>
-	<header id="main-header">
-		<h1>theConnorChannel</h1>
-		<a>
-			<div class="tabs-item">
-				<p><u>Home</u></p>
-			</div>
-		</a>
-		<a href="Projects/">
-			<div class="tabs-item">
-				<p>Projects</p>
-			</div>
-		</a>
-		<a href="Games/">
-			<div class="tabs-item">
-				<p>Games</p>
-			</div>
-		</a>
-		<div>
-			<a href="https://www.linkedin.com/in/the-connor-channel/" target="_blank">
-				<img src="images/linkedin.png" alt="my LinkedIn" style="width: 50px; border-radius: 10px;"
-					class="tabs-item">
-			</a>
-			<a href="https://github.com/lolconnor1" target="_blank">
-				<img src="images/githubIcon.png" alt="my GitHub" style="width: 50px;" class="tabs-item">
-			</a>
-		</div>
 
-	</header>
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
-	<div class="intro fade-in-right">
-		<h2>Welcome to theConnorChannel!</h2>
-		<p>This site is mostly used as my portfolio website but is also an opportunity to practice (and flex) the skills
-			that I learn on my path to
-			becoming a software developer! One day, this site will be filled with many interesting pages and you will be
-			able to see my growth as a developer. Animations, magic, explosions, clickable buttons; the possibilities
-			are endless!</p>
-		<h2>I hope you enjoy your stay!</h2>
-	</div>
-	<div class="about-me fade-in-left">
-		<div class="about-me-img" style="display: flex; background-color: #fcbf49;">
-			<img src="images/selfie.jpg" alt="I have a big smile!" style="width: 300px; border-radius: 10px;">
-		</div>
-		<!-- flex: 1; stretches the item to fill the empty space in the flex box horizontally-->
-		<div class="about-me-img" style="flex: 1; background-color: #fcbf49;">
-			<h2>About Me:</h2>
-			<p>Hello! My name is Connor Chan, I'm an aspiring full-stack developer.</p>
-			<p>I'm currently in my 4th year of earning a BSc in computer science from York University in Toronto, but I
-				also recently completed an exchange year at Waseda University in Tokyo!</p>
-			<p>Right now, I'm focusing on building my front-end development and UI design skills by challenging myself
-				to make the best portfolio website anyone has ever seen (from scratch).</p>
-			<p>Outside of tech, I love to create music, go on hikes, and skateboard.</p>
-			<section class="skills-section">
-				<h2>Skills</h2>
-				<div class="skills-list">
-					<span class="skill">HTML</span>
-					<span class="skill">CSS</span>
-					<span class="skill">JavaScript</span>
-					<span class="skill">React</span>
-					<span class="skill">Node.js</span>
-					<span class="skill">Java</span>
-					<span class="skill">Python</span>
-					<span class="skill">Git</span>
-					<span class="skill">GitHub</span>
-					<span class="skill">UI Design</span>
-					<span class="skill">Front-End Development</span>
-					<span class="skill">Data Structures</span>
-					<span class="skill">Algorithms</span>
-					<span class="skill">Embedded Systems</span>
-					<span class="skill">Android Studio</span>
-				</div>
-			</section>
-			<h3>That's about it!</h3>
-			<div style="display: flex; margin-top: 45px; margin-bottom: 30px; gap: 20px;">
-				<a href="Projects/">
-					<div>
-						<span class="learn-more">My Projects ></span>
-					</div>
-				</a>
-				<a href="images/Comp Sci resume.pdf" target="_blank">
-					<div>
-						<span class="learn-more">My Resume ></span>
-					</div>
-				</a>
-			</div>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">theConnorChannel</div>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#games">Games</a></li>
+    <li><a href="#blog">Blog</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a href="https://www.linkedin.com/in/the-connor-channel/" target="_blank" title="LinkedIn"><img src ="images/linkedin.png" class="nav-icon" ></a>
+    <a  href="https://github.com/lolconnor1" target="_blank" title="GitHub"><img src = "images/github-white-icon.png" class="nav-icon"></a>
+  </div>
+</nav>
 
-		</div>
-	</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">Aspiring Full-Stack Developer</div>
+    <h1>
+      <span>Welcome</span>
+      <em>to the</em>
+      <span class="hollow">Channel.</span>
+    </h1>
+    <p class="hero-desc">
+      This is my corner of the internet — a portfolio, a playground, and a running record of everything I'm learning on the road to becoming a software developer. <strong>Animations, magic, explosions, clickable buttons</strong> — the possibilities are endless.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-yellow">My Projects ↗</a>
+      <a href="images/Comp Sci resume.pdf" target="_blank" class="btn btn-outline">My Resume →</a>
+    </div>
+  </div>
+  <div class="hero-side">
+    <div class="hero-photo-frame">
+      <img class="photo-placeholder" src="images/selfie.jpg">
+      <div class="badge badge-top">Connor Chan</div>
+      <div class="badge badge-bottom">York U × Waseda U</div>
+    </div>
+  </div>
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>HTML</span> CSS <span>JavaScript</span> React <span>Node.js</span> Java <span>Python</span> Git <span>UI Design</span> Front-End Dev <span>Algorithms</span> Embedded Systems <span>Android Studio</span> &nbsp;✦&nbsp;
+      <span>HTML</span> CSS <span>JavaScript</span> React <span>Node.js</span> Java <span>Python</span> Git <span>UI Design</span> Front-End Dev <span>Algorithms</span> Embedded Systems <span>Android Studio</span> &nbsp;✦&nbsp;
+	  <span>HTML</span> CSS <span>JavaScript</span> React <span>Node.js</span> Java <span>Python</span> Git <span>UI Design</span> Front-End Dev <span>Algorithms</span> Embedded Systems <span>Android Studio</span> &nbsp;✦&nbsp;
+    </div>
+  </div>
+</section>
 
-	<div class="carousel" style="margin-bottom: 100px;">
-		<div class="carousel-track">
-			<div class="carousel-item">
-				<img src="images/img1.jpg" alt="Japan, 2023 - Okutama hiking (with Villads)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img2.jpg" alt="Japan, 2023 - Odaiba nights (with Enoch)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img3.jpg" alt="Japan, 2024 - Sunrise at the peak of Mt.Fuji" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img4.jpg" alt="Japan, 2024 - Emperor's birthday (with Nico)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img5.jpg" alt="Taiwan, 2024 - Elephant Mountain" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img6.jpg" alt="Japan, 2024 - Climbing Mt. Fuji, kinda wet" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img7.jpg" alt="Japan, 2024 - Mwah" />
-			</div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-body reveal">
+      <div class="eyebrow" style="color:var(--yellow);">About Me</div>
+      <h2 class="section-title">Hello,<br>I'm Connor.</h2>
+      <p>I'm an aspiring <strong>full-stack developer</strong> who just finished a BSc in Computer Science from York University in Toronto. I also recently completed an exchange year at <strong>Waseda University in Tokyo!</strong></p>
+      <p>Right now, I'm focusing on building my front-end development and UI design skills — challenging myself to make <strong>the best portfolio website anyone has ever seen</strong>, from scratch.</p>
+      <p>Outside of tech, I love to <strong>create music</strong>, go on hikes, and skateboard.</p>
+      <div class="skills-grid">
+        <span class="skill-tag">HTML</span><span class="skill-tag">CSS</span><span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">React</span><span class="skill-tag">Node.js</span><span class="skill-tag">Java</span>
+        <span class="skill-tag">Python</span><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span>
+        <span class="skill-tag">UI Design</span><span class="skill-tag">Front-End Dev</span><span class="skill-tag">Data Structures</span>
+        <span class="skill-tag">Algorithms</span><span class="skill-tag">Embedded Systems</span><span class="skill-tag">Android Studio</span>
+      </div>
+      <div class="about-links">
+        <a href="#projects" class="btn btn-yellow">My Projects ↗</a>
+        <a href="images/Comp Sci resume.pdf" target="_blank" class="btn btn-outline">Resume →</a>
+      </div>
+    </div>
 
-			<!-- duplicate for seamless loop -->
-			<div class="carousel-item">
-				<img src="images/img1.jpg" alt="Japan, 2023 - Okutama hiking (with Villads)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img2.jpg" alt="Japan, 2023 - Odaiba nights (with Enoch)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img3.jpg" alt="Japan, 2024 - Sunrise at the peak of Mt.Fuji" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img4.jpg" alt="Japan, 2024 - Emperor's birthday (with Nico)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img5.jpg" alt="Taiwan, 2024 - Elephant Mountain" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img6.jpg" alt="Japan, 2024 - Climbing Mt. Fuji, kinda wet" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img7.jpg" alt="Japan, 2024 - Mwah" />
-			</div>
-			<!-- duplicate for seamless loop -->
-			<div class="carousel-item">
-				<img src="images/img1.jpg" alt="Japan, 2023 - Okutama hiking (with Villads)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img2.jpg" alt="Japan, 2023 - Odaiba nights (with Enoch)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img3.jpg" alt="Japan, 2024 - Sunrise at the peak of Mt.Fuji" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img4.jpg" alt="Japan, 2024 - Emperor's birthday (with Nico)" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img5.jpg" alt="Taiwan, 2024 - Elephant Mountain" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img6.jpg" alt="Japan, 2024 - Climbing Mt. Fuji, kinda wet" />
-			</div>
-			<div class="carousel-item">
-				<img src="images/img7.jpg" alt="Japan, 2024 - Mwah" />
-			</div>
-		</div>
-	</div>
+    <div class="reveal" style="display:flex; flex-direction:column; gap:1.2rem;">
+      <div class="stat-card">
+        <div class="stat-num">8.0/9.0 GPA</div>
+        <div class="stat-label">B.Sc. Hons. Computer Science · York University, Toronto</div>
+      </div>
+      <div class="stat-card" style="border-color:var(--green);">
+        <div class="stat-num" style="color:var(--green); font-size:2rem;">🗾 Tokyo</div>
+        <div class="stat-label">Exchange Year · Waseda University</div>
+      </div>
+      <div class="about-hobbies">
+        <h4>Outside of code</h4>
+        <div class="hobbies-list">
+          <span class="hobby">🎵 Music creation</span>
+          <span class="hobby">🥾 Hiking</span>
+          <span class="hobby">🛹 Skateboarding</span>
+          <span class="hobby">✈️ Travel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-	<!-- Modal -->
-	<div id="imageModal" class="modal">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<img id="modalImg" />
-			<p id="modalCaption"></p>
-		</div>
-	</div>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="eyebrow" style="color:var(--yellow);">Selected Work</div>
+    <h2 class="section-title">Things I've built.</h2>
+  </div>
+  <div class="projects-list">
 
+    <div class="project-card reveal">
+      <div class="project-left">
+        <div class="project-num">01</div>
+        <div class="project-emoji">🌏</div>
+        <h3>GenGO!</h3>
+        <div class="project-type">Mobile App · Research</div>
+      </div>
+      <div class="project-right">
+        <p>An interactive mobile language learning app built for Android as part of a research study in the Mobile User Interfaces course at York University. GenGO! implements a spaced repetition system alongside a range of unique interaction methods — tapping, typing, voice control, and dragging — so users can study foreign languages in different ways.</p>
+        <p>The results were genuinely surprising: more interactive study styles actually yielded lower test scores, contradicting the initial hypothesis. The research findings made the project way more interesting than just shipping an app.</p>
+        <div class="project-stack">
+          <span class="stack-pill">Android</span><span class="stack-pill">Android Studio</span><span class="stack-pill">Java</span><span class="stack-pill">XML</span><span class="stack-pill">UX/UI Design</span><span class="stack-pill">UX Research</span><span class="stack-pill">GitHub</span>
+        </div>
+        <div class="project-footer">
+          <div class="project-collab"></div>
+          <a href="Projects/GenGO/" target="_blank" class="project-link">Learn More →</a>
+        </div>
+      </div>
+    </div>
 
-	<h2 style="color: #3d405b;text-align: center;">My Favorite Projects</h2>
-	<div id="project-slider">
-		<div class="slide">
-			<div class="about-me-img" style="flex: 1;background-color: #81b29a;">
-				<h2>Minesweeper</h2>
-				<p>Minesweeper is one of my favorite games to play when I'm bored, so I created a basic Minesweeper game
-					from scratch using JavaScript, HTML, and CSS.</p>
-				<p>Click the image If you want to try it for yourself!</p>
-				<h3>Enjoy!</h3>
-			</div>
-			<div class="about-me-img" style="background-color: #81b29a; align-content: center;">
-				<a href="Games/Minesweeper/" style="display: block;font-size: 0px;"><img src="images/minesweeperimg.png"
-						alt="minesweeper game board" style="width: 300px; height: 300px; border-radius: 10px;"></a>
-			</div>
+    <div class="project-card green reveal">
+      <div class="project-left">
+        <div class="project-num">02</div>
+        <div class="project-emoji">🛡️</div>
+        <h3>Post Guardian</h3>
+        <div class="project-type">Browser Extension · Hackathon</div>
+      </div>
+      <div class="project-right">
+        <p>Built for Hack the 6ix 2025, Post Guardian is a Chrome extension that helps users pause and reflect before posting on social media. It analyzes the tone of a draft in real time using the Gemini API and prompts users with thoughtful feedback — encouraging more intentional and responsible sharing online.</p>
+        <p>The goal was to blend thoughtful UX design with real-time AI analysis to promote digital mindfulness without interrupting the posting experience.</p>
+        <div class="project-stack">
+          <span class="stack-pill">JavaScript</span><span class="stack-pill">Chrome Extension APIs</span><span class="stack-pill">Gemini API</span><span class="stack-pill">Generative AI</span><span class="stack-pill">Prompt Engineering</span>
+        </div>
+        <div class="project-footer">
+          <div class="project-collab">
+            <strong>Built with</strong>
+            Leroy Musa · Mame Mor Mbacke
+          </div>
+          <a href="Projects/PostGuardian/" target="_blank" class="project-link">Learn More →</a>
+        </div>
+      </div>
+    </div>
 
-		</div>
-		<div class="slide">
-			<div class="about-me-img" style="flex: 1;background-color: #81b29a;">
-				<h2>CodeBreaker</h2>
-				<p>I remember playing a game like this in summer camp. Originally I wanted to do something like the NYT
-					Wordle but then I felt bad for my friends who may or may not have a 3rd grade reading level. JUST
-					KIDDING, its because I was way too lazy to find a way to get all the words.</p>
-				<p>This was also made with JavaScript, HTML, and CSS.</p>
-				<p>Anyways, click the image If you want to try it for yourself!</p>
-				<h3>Enjoy!</h3>
-			</div>
-			<div class="about-me-img" style="background-color: #81b29a;">
-				<a href="Games/CodeBreaker/" style="display: block;font-size: 0px;"><img src="images/codebreakerimg.PNG"
-						alt="CodeBreaker game board" style="width: 300px; height: 300px;border-radius: 10px;"></a>
-			</div>
+    <div class="project-card blue-accent reveal">
+      <div class="project-left">
+        <div class="project-num">03</div>
+        <div class="project-emoji">💓</div>
+        <h3>Pulsefex</h3>
+        <div class="project-type">Embedded Systems · Hardware</div>
+      </div>
+      <div class="project-right">
+        <p>An embedded heart rate monitor built as the final project for the Embedded Systems course at York University. Pulsefex captures and displays real-time heart rate and SpO2 levels using the MAX30102 pulse oximeter and TMP102 temperature sensor, running on an STM32WB55RG microcontroller with output to a SSD1306 OLED screen.</p>
+        <p>My first embedded systems project — I was eager to get deep into the hardware side and contribute as much as possible to the circuit design and firmware.</p>
+        <div class="project-stack">
+          <span class="stack-pill">C</span><span class="stack-pill">STM32</span><span class="stack-pill">STM32CubeIDE</span><span class="stack-pill">Embedded Systems</span><span class="stack-pill">Circuit Design</span><span class="stack-pill">Microcontrollers</span>
+        </div>
+        <div class="project-footer">
+          <div class="project-collab">
+            <strong>Group Members</strong>
+            Connor Chan · Justin Chiu · Leroy Musa · Mame Mor Mbacke · Nicole Xiong
+          </div>
+          <a href="Projects/Pulsefex/" target="_blank" class="project-link">Learn More →</a>
+        </div>
+      </div>
+    </div>
 
-		</div>
-	</div>
-	<div style="text-align: center;font-weight: bold;font-size: 40px;">
-		<a class="prev" onclick="changeSlides(-1)" style="margin-right: 20px; cursor: pointer;">❮</a>
-		<a class="next" onclick="changeSlides(1)" style="cursor: pointer;">❯</a>
+  </div>
+</section>
 
-	</div>
+<!-- GAMES -->
+<section id="games">
+  <div class="reveal">
+    <div class="eyebrow" style="color:var(--yellow);">Games</div>
+    <h2 class="section-title">Play something.</h2>
+  </div>
+  <div class="games-grid">
+    <div class="game-card reveal">
+      <div class="game-badge">Classic</div>
+      <h3>💣 Minesweeper</h3>
+      <p>Uncover all safe tiles without hitting a mine. Custom board built entirely with divs. Way better than the Windows version (probably).</p>
+      <a href="Games/Minesweeper/" class="game-play">Play ▶</a>
+    </div>
+    <div class="game-card reveal">
+      <div class="game-badge">Puzzle</div>
+      <h3>🔐 CodeBreaker</h3>
+      <p>Crack the secret color sequence in as few guesses as possible. Color-coded feedback, no words required.</p>
+      <a href="Games/CodeBreaker/" class="game-play">Play ▶</a>
+    </div>
+    <div class="game-card reveal">
+      <div class="game-badge">Card Game</div>
+      <h3>🃏 Blackjack</h3>
+      <p>Full-featured Blackjack with splitting, doubling down, and deck tracking. Can you beat the house?</p>
+      <a href="Games/Blackjack/" class="game-play">Play ▶</a>
+    </div>
+  </div>
+</section>
 
+<!-- BLOG -->
+<section id="blog">
+  <div class="reveal">
+    <div class="eyebrow" style="color:var(--yellow);">Dev Blog</div>
+    <h2 class="section-title">The journey,<br>logged.</h2>
+  </div>
+  <div class="blog-timeline">
+    <div class="blog-entry reveal">
+      <div class="blog-date">April 19, 2025</div>
+      <p>Finally back on the website grind! Thinking of making this portfolio site actually look good so that I can impress recruiters and land an actual job this summer. ¯\_(ツ)_/¯ Added a whole bunch of animations and the rotating image carousel.</p>
+    </div>
+    <div class="blog-entry reveal">
+      <div class="blog-date">July 10, 2024</div>
+      <p>Made the <a href="Games/Minesweeper/">Minesweeper</a> buttons into divs and it looks SO much better. Also went ahead and started messing with this homepage — added a featured projects gallery with sick sliding animations and navigational arrows!</p>
+    </div>
+    <div class="blog-entry reveal">
+      <div class="blog-date">July 9, 2024</div>
+      <p>Created a <a href="Games/CodeBreaker/">Code Breaker</a> game, inspired by Wordle (but I couldn't be bothered to get a word list). Learned how to add click functions to divs and delete elements in JS.</p>
+    </div>
+    <div class="blog-entry reveal">
+      <div class="blog-date">July 6, 2024</div>
+      <p><a href="Games/Minesweeper/">Minesweeper</a> is now looking awesome, no cap frfr. Still want to add customizable board sizes. Starting to look at getting this site indexed — might have to call Google HQ. Search engine optimization begins!</p>
+    </div>
+    <div class="blog-entry reveal">
+      <div class="blog-date">July 2, 2024</div>
+      <p>Been quiet — stuck on school work while building <a href="Games/Minesweeper/">Minesweeper</a>. It's missing "winning" for now but I hope to fix that soon. Also want to get back to CSS and make these pages look sick. C-MonDawg out.</p>
+    </div>
+    <div class="blog-entry reveal">
+      <div class="blog-date">June 23, 2024</div>
+      <p>Added splitting, doubling down, a deck counter (recycled from my <a href="counter.html">counter</a>), and win/loss tracking to <a href="Games/Blackjack/">Blackjack</a>. Future plan: educational mode with probability display and optimal strategy.</p>
+    </div>
+    <div class="blog-entry reveal">
+      <div class="blog-date">June 22, 2024</div>
+      <p>Created a <a href="Games/Blackjack/">Blackjack</a> game website using JavaScript. Works, but needs styling and more features like a deck counter and doubling down.</p>
+    </div>
+    <div class="blog-entry reveal">
+      <div class="blog-date">June 19, 2024</div>
+      <p>Started learning JavaScript and made a <a href="counter.html">simple counter app</a>. Also learned how to add icon links and put my LinkedIn in the header.</p>
+    </div>
+    <div class="blog-entry reveal">
+      <div class="blog-date">June 17, 2024</div>
+      <p>Created this site using basic HTML and CSS. Pretty empty for now, but upgrades await in the near future!</p>
+    </div>
+  </div>
+</section>
 
-	<div class="blog-post">
-		<h2>Dev Blog</h2>
-		<h3>6/17/2024</h3>
-		<p>I created this site that you are looking at using basic HTML and CSS. Although it is pretty empty for now,
-			upgrades await in the near future!</p>
-		<h3>6/19/2024</h3>
-		<p>Today, I started learning some basic JavaScript and made a <a href="counter.html">simple counter app</a>. I
-			also learned how to make links as icons and added a link to my LinkedIn on the header.</p>
-		<h3>6/22/2024</h3>
-		<p>Yesterday, I created a simple <a href="Games/Blackjack/">Blackjack</a> game website(edit: using JavaScript).
-			As
-			of right now, the game works but I want to style it and add some features such as a deck counter, a win-loss
-			tracker, C-Money, doubling down, and splitting.</p>
-		<h3>6/23/2024</h3>
-		<p>Today, I added some cool new features and fixed some of the bugs on my <a
-				href="Games/Blackjack/">Blackjack</a>
-			page. Some stuff I added includes splitting, doubling down (though there is no C-Money yet), a deck counter
-			(which I recycled from my previous <a href="counter.html">counter</a> page), a win-loss column so you can
-			track your wins and losses. On the smaller side, I added a home icon which goes back to here, and did a
-			little bit of styling. I think in the future I want to implement like an "educational mode" where you can
-			see the probabilites and also learn the optimal Blackjack strategy but maybe I'll take a little break from
-			this project first.</p>
-		<h3>7/2/2024</h3>
-		<p>I know, I've been pretty quiet recently. I got stuck with some school work while also trying to develop this
-			awesome <a href="Games/Minesweeper/">Minesweeper</a> page in JavaScript. It is missing a few features (like
-			winning) but I hope to get that sorted out soon. I also want to get back on some CSS and make these pages
-			look sick. Anyways, C-MonDawg out.</p>
-		<h3>7/6/2024</h3>
-		<p><a href="Games/Minesweeper/">Minesweeper</a> is now looking awesome, no cap frfr. I still want to add
-			the ability to customize the size of the board and number of bombs, but in the meantime I want to make my
-			amazing website available on Google. Right now it says something about "pages cant be indexed" or
-			something. I might have to call Google HQ about that one. But fr tho, search
-			engine optimization begins!</p>
-		<h3>7/9/2024</h3>
-		<p>Created a <a href="Games/CodeBreaker/">Code Breaker</a> game, inspired by the popular Wordle, which is what I
-			originally wanted to do but for that I would need to figure out how to get a list of 5 letter words which I
-			can't be bothered to do rn tbh. However, I did learn a bunch, including adding click functions to divs and
-			deleting elements from pages in JS. Right now, I want to go back and apply some of this stuff to make my <a
-				href="Games/Minesweeper/">Minesweeper</a> but after I want to start adding stuff to this homepage.</p>
-		<h3>7/10/2024</h3>
-		<p>Today, I made the <a href="Games/Minesweeper/">Minesweeper</a> buttons into divs and it looks SO much better.
-			Next I want to make changeable size/difficulty level. I also went ahead and started messing with this
-			homepage and added the awesome featured projects gallery (which you probably saw on the way here) with crazy
-			sliding animations and handy navigational arrows!</p>
-		<h3>4/19/2025</h3>
-		<p>Finally back on the website grind! Thinking of making this portfolio site actually look good so that I can
-			impress recruiters and land an actual job this summer. ¯\_(ツ)_/¯ Added a whole bunch of animations and the
-			rotating image carousel.</p>
-	</div>
-	<script src="javaScript/index.js"></script>
-	<script src="javaScript/header.js"></script>
-	<script src="javaScript/fadeanims.js"></script>
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-name">theConnorChannel</div>
+    <p style="font-size:.75rem; color:var(--muted); margin-top:.4rem;">York University · Toronto &nbsp;|&nbsp; Waseda University · Tokyo</p>
+  </div>
+  <div class="footer-links">
+    <a class="footer-link" href="https://github.com/lolconnor1" target="_blank">GitHub</a>
+    <a class="footer-link" href="https://www.linkedin.com/in/the-connor-channel/" target="_blank">LinkedIn</a>
+    <a class="footer-link" href="images/Comp Sci resume.pdf" target="_blank">Resume</a>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  (function tick() {
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+    rx += (mx-rx)*.1; ry += (my-ry)*.1;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll('a,button,.project-card,.game-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { cur.style.width='18px'; cur.style.height='18px'; ring.style.width='50px'; ring.style.height='50px'; });
+    el.addEventListener('mouseleave', () => { cur.style.width='10px'; cur.style.height='10px'; ring.style.width='34px'; ring.style.height='34px'; });
+  });
+
+  // Scroll reveal with stagger
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70); });
+  }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 </body>
-
 </html>
