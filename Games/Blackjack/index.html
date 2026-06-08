@@ -1,55 +1,111 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Blackjack - theConnorChannel</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel = "stylesheet" href = "blackjack.css">
-    </head>
-    <body>
-        <header>
-            <a href = "../../"><i class = "glyphicon glyphicon-home" style = "font-size: 50px;"></i></a>
-            <h1 style = "flex:1; margin-left: -50px;">Blackjack</h1>
-        </header>
-        
-        <div>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackjack — theConnorChannel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --yellow: #fcbf49;
+    --green: #81b29a;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Bebas Neue', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; cursor: default; text-align: center; }
 
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: rgba(13,13,13,.95); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .05em; color: var(--yellow); text-decoration: none; }
+  .nav-title { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .08em; color: var(--text); }
+  .nav-back { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: .45rem 1rem; transition: all .2s; }
+  .nav-back:hover { color: var(--yellow); border-color: var(--yellow); }
 
-        </div>
-        
-        <h2>Dealer Hand:</h2>
-        <h2 id = "deal-hand"></h2>
-        <p id = "deal-total">Total: </p>
-        <h2>Your Hand:</h2>
-        <h2 id = "play-hand"></h2>
-        <p id = "play-total">Total: </p>
-        <h2 id = "play-hand2"></h2>
-        <p id = "play-total2">Total: </p>
-        <div>
-            <button onclick = "playerHit();setHasHit()" id = "hit-btn">HIT</button>
-            <button onclick = "stand()" id = "stand-btn">STAND</button>
-            <button onclick = "doubleDown()" id = "dd-btn">DOUBLE DOWN</button>
-            <button onclick = "split()" id = "split-btn">SPLIT</button>
-        </div>
-        <div>
-            <button onclick="startGame()">START GAME</button>
-        </div>
-        <h3><em id = "win-count" style = "color: springgreen;">0</em> - <em id = "loss-count" style = "color: red;">0</em> - <em id = "tie-count" style = "color: gold;">0</em></h3>
-        <h2 id = "win-status"></h2>
-        <h2 id = "win-status2"></h2>
+  .game-wrapper { padding-top: 80px; max-width: 600px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; padding-bottom: 3rem; }
 
-        <h1 style = "margin-top: 300px;">Deck Counter</h1>
-        <h1 id="deck-count-view">1</h1>
-        
-        <div>
-            <button class = "add-btn" onclick="addOne()">+1</button>
-        </div>
-        <div>
-            <button class = "sub-btn" onclick="subOne()">-1</button>
-        </div>
-        <div>
-            <button id = "reset-btn" onclick="reset()">RESET</button>
-        </div>
+  h2 { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: .05em; color: var(--muted); margin-top: 2rem; margin-bottom: .4rem; }
+  #deal-hand, #play-hand, #play-hand2 { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .05em; min-height: 1.8rem; color: var(--text); }
+  #deal-total, #play-total, #play-total2 { font-size: .8rem; color: var(--muted); margin-bottom: .5rem; }
 
-        <script src = "blackjack.js"></script>
-    </body>
+  .btn-row { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin: 1.2rem 0; }
+  button { font-family: var(--font-body); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .65rem 1.3rem; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all .2s; }
+  button:hover { border-color: var(--yellow); color: var(--yellow); }
+  #hit-btn, #stand-btn, #dd-btn, #split-btn { /* action buttons */ }
+  button[onclick="startGame()"] { background: var(--yellow); color: #000; border-color: var(--yellow); font-size: .8rem; padding: .8rem 2rem; }
+  button[onclick="startGame()"]:hover { background: #fdd076; }
+
+  .score-row { font-family: var(--font-display); font-size: 2.5rem; margin: 1.2rem 0; }
+  #win-count { color: var(--green); }
+  #loss-count { color: #e07a5f; }
+  #tie-count { color: var(--yellow); }
+  #win-status, #win-status2 { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; min-height: 2.5rem; color: var(--yellow); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+  h1.counter-title { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; color: var(--muted); margin-bottom: .5rem; }
+  #deck-count-view { font-family: var(--font-display); font-size: 5rem; color: var(--yellow); line-height: 1; margin: .5rem 0 1rem; }
+
+  .counter-row { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; }
+  .add-btn { color: var(--green) !important; border-color: rgba(129,178,154,.3) !important; }
+  .add-btn:hover { border-color: var(--green) !important; background: rgba(129,178,154,.05) !important; }
+  .sub-btn { color: #e07a5f !important; border-color: rgba(224,122,95,.3) !important; }
+  .sub-btn:hover { border-color: #e07a5f !important; background: rgba(224,122,95,.05) !important; }
+  #reset-btn { border-color: var(--border) !important; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../../">theConnorChannel</a>
+  <div class="nav-title">🃏 Blackjack</div>
+  <a class="nav-back" href="../">← All Games</a>
+</nav>
+
+<div class="game-wrapper">
+  <div style="margin-top:1.5rem;">
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <h2>Dealer Hand:</h2>
+  <h2 id="deal-hand"></h2>
+  <p id="deal-total">Total: </p>
+
+  <h2>Your Hand:</h2>
+  <h2 id="play-hand"></h2>
+  <p id="play-total">Total: </p>
+  <h2 id="play-hand2"></h2>
+  <p id="play-total2">Total: </p>
+
+  <div class="btn-row">
+    <button onclick="playerHit();setHasHit()" id="hit-btn">Hit</button>
+    <button onclick="stand()" id="stand-btn">Stand</button>
+    <button onclick="doubleDown()" id="dd-btn">Double Down</button>
+    <button onclick="split()" id="split-btn">Split</button>
+  </div>
+
+  <div class="score-row">
+    <em id="win-count">0</em> — <em id="loss-count">0</em> — <em id="tie-count">0</em>
+  </div>
+  <h2 id="win-status"></h2>
+  <h2 id="win-status2"></h2>
+
+  <hr class="divider">
+
+  <h1 class="counter-title">Deck Counter</h1>
+  <div id="deck-count-view">1</div>
+  <div class="counter-row">
+    <button class="add-btn" onclick="addOne()">+1</button>
+    <button class="sub-btn" onclick="subOne()">-1</button>
+    <button id="reset-btn" onclick="reset()">Reset</button>
+  </div>
+</div>
+
+<script src="blackjack.js"></script>
+</body>
 </html>

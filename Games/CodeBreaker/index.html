@@ -1,28 +1,75 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Code Breaker - theConnorChannel</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel = "stylesheet" href = "wordle.css">
-    </head>
-    <body>
-        <header>
-            <a href = "../../"><i class = "glyphicon glyphicon-home" style = "font-size: 50px; color: darkslategrey;margin-top:50%"></i></a>
-            <h1 style = "flex:1; text-align: center; margin-left: -50px;">CodeBreaker</h1>
-        </header>
-        <div id = "game-board"></div>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeBreaker — theConnorChannel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --yellow: #fcbf49;
+    --green: #81b29a;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Bebas Neue', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; cursor: default; }
 
-        <div id = "buttons">
-            <div id = "selector" style = "display: flex;"></div>
-            <div style = "display: flex">
-                <div id = "enter"><p>ENTER</p></div>
-                <div id = "back"><p>BACK</p></div>
-            </div>
-            <div id = "start-game"><p>NEW GAME</p></div>
-        </div>
-        <div id = "game-win"></div>
-        
-        
-        <script src = "wordle.js"></script>
-    </body>
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: rgba(13,13,13,.95); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .05em; color: var(--yellow); text-decoration: none; }
+  .nav-title { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .08em; color: var(--text); }
+  .nav-back { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: .45rem 1rem; transition: all .2s; }
+  .nav-back:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  .game-wrapper { padding-top: 80px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 2rem; gap: 1.2rem; }
+
+  #game-board { max-width: fit-content; }
+  #game-win { max-width: fit-content; font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; min-height: 2.5rem; }
+
+  #buttons { background: var(--surface2); border: 1px solid var(--border); padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  #selector { display: flex; }
+  #buttons > div:nth-child(2) { display: flex; }
+
+  #enter { margin: 6px; background: var(--green); width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: .6rem; font-weight: 700; letter-spacing: .1em; cursor: pointer; user-select: none; }
+  #back { margin: 6px; background: var(--muted); width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: .6rem; font-weight: 700; letter-spacing: .1em; cursor: pointer; user-select: none; }
+  #start-game { margin: 6px; background: var(--yellow); color: #000; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; text-align: center; cursor: pointer; user-select: none; }
+
+  /* Keep existing game CSS */
+  .guess-box-empty { margin: 6px; border: 2px solid var(--border); width: 44px; height: 44px; }
+  .guess-row { display: flex; }
+  .color-box { margin: 6px; border: 2px solid rgba(255,255,255,.15); width: 44px; height: 44px; cursor: pointer; }
+</style>
+<link rel="stylesheet" href="wordle.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../../">theConnorChannel</a>
+  <div class="nav-title">🔐 CodeBreaker</div>
+  <a class="nav-back" href="../">← All Games</a>
+</nav>
+
+<div class="game-wrapper">
+  <div id="game-board"></div>
+
+  <div id="buttons">
+    <div id="selector" style="display:flex;"></div>
+    <div style="display:flex;">
+      <div id="enter"><p>ENTER</p></div>
+      <div id="back"><p>BACK</p></div>
+    </div>
+    <div id="start-game"><p>NEW GAME</p></div>
+  </div>
+
+  <div id="game-win"></div>
+</div>
+
+<script src="wordle.js"></script>
+</body>
 </html>

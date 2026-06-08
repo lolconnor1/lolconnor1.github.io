@@ -34,8 +34,10 @@
   .nav-links a { color: var(--muted); text-decoration: none; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; cursor: none;}
   .nav-links a:hover, .nav-links a.active { color: var(--text); }
   .nav-icons { display: flex; gap: .75rem; }
-  .nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); text-decoration: none; font-size: .75rem; font-weight: 700; transition: all .2s; cursor: none;}
-  .nav-icon:hover { border-color: var(--yellow); color: var(--yellow); }
+  .nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 6px; transition: all .2s; cursor: none; }
+  .nav-icon:hover { border-color: var(--yellow); }
+  .nav-icon img { width: 20px; height: 20px; object-fit: contain; opacity: .65; transition: opacity .2s; }
+  .nav-icon:hover img { opacity: 1; }
 
   /* HERO */
   .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; position: relative; overflow: hidden; }
@@ -132,11 +134,11 @@
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
-  footer { background: var(--surface); border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
-  .footer-logo { font-family: var(--font-display); font-size: 1.4rem; color: var(--yellow); text-decoration: none; }
-  .footer-nav { display: flex; gap: 2rem; }
-  .footer-nav a { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
-  .footer-nav a:hover { color: var(--yellow); }
+  footer { background: var(--surface); border-top: 1px solid var(--border); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: var(--font-display); font-size: 1.4rem; color: var(--yellow); text-decoration: none; cursor: none; }
+  .footer-links { display: flex; gap: 1rem; }
+  .footer-link { padding: .6rem 1.2rem; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--muted); border: 1px solid var(--border); transition: all .2s; cursor: none; }
+  .footer-link:hover { color: var(--yellow); border-color: var(--yellow); }
 
   @media (max-width: 860px) {
     nav { padding: 1rem 1.5rem; }
@@ -157,17 +159,16 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">theConnorChannel</div>
+  <a class="nav-logo" href="../../" style="text-decoration:none;cursor:none;">theConnorChannel</a>
   <ul class="nav-links">
-    <li><a href="#" class="active">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#games">Games</a></li>
-    <li><a href="#blog">Blog</a></li>
+    <li><a href="../../">Home</a></li>
+    <li><a href="../" class="active">Projects</a></li>
+    <li><a href="../../Games/">Games</a></li>
+    <li><a href="../../#contact">Contact</a></li>
   </ul>
   <div class="nav-icons">
-    <a href="https://www.linkedin.com/in/the-connor-channel/" target="_blank" title="LinkedIn"><img src ="images/linkedin.png" class="nav-icon" ></a>
-    <a  href="https://github.com/lolconnor1" target="_blank" title="GitHub"><img src = "images/github-white-icon.png" class="nav-icon"></a>
+    <a class="nav-icon" href="https://www.linkedin.com/in/the-connor-channel/" target="_blank" title="LinkedIn"><img src="images/linkedin.png"></a>
+    <a class="nav-icon" href="https://github.com/lolconnor1" target="_blank" title="GitHub"><img src="images/github-white-icon.png"></a>
   </div>
 </nav>
 
@@ -324,6 +325,16 @@
 </div>
 
 
+
+<footer>
+  <a class="footer-logo" href="../../">theConnorChannel</a>
+  <div class="footer-links">
+    <a class="footer-link" href="../">All Projects</a>
+    <a class="footer-link" href="https://github.com/lolconnor1/mem-study-app" target="_blank">GitHub</a>
+    <a class="footer-link" href="https://www.linkedin.com/in/the-connor-channel/" target="_blank">LinkedIn</a>
+    <a class="footer-link" href="../../#contact">Contact</a>
+  </div>
+</footer>
 
 <script>
   // Cursor

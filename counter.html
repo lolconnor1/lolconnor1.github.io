@@ -1,37 +1,64 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>counter</title>
-        <link rel="stylesheet" href = "css/counter.css">
-    </head>
-    <body>
-        <script src="javaScript/counter.js"></script>
-        <header >
-            <a href = "index.html" >
-                <img align = "left" src = "images/homeIcon.png" alt = "back to home" style = "width: 50px;">
-            </a>
-            <h1 style="margin-right: 50px;">Counter:</h1>
-            
-            
-        </header>
-        
-        <h1 id="count-view">0</h1>
-        <div>
-            <button class = "add-btn" onclick="addTen()">+10</button>
-        </div>
-        <div>
-            <button class = "add-btn" onclick="addOne()">+1</button>
-        </div>
-        <div>
-            <button class = "sub-btn" onclick="subOne()">-1</button>
-        </div>
-        <div>
-            <button class = "sub-btn" onclick="subTen()">-10</button>
-        </div>
-        <div>
-            <button id = "reset-btn" onclick="reset()">RESET</button>
-        </div>
-        
-    </body>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counter — theConnorChannel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --yellow: #fcbf49;
+    --green: #81b29a;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Bebas Neue', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; cursor: default; }
 
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: rgba(13,13,13,.95); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .05em; color: var(--yellow); text-decoration: none; }
+  .nav-back { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: .45rem 1rem; transition: all .2s; }
+  .nav-back:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  .counter-wrapper { padding-top: 80px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; }
+  h1 { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+  #count-view { font-family: var(--font-display); font-size: 8rem; color: var(--yellow); line-height: 1; }
+  .btn-group { display: flex; flex-direction: column; gap: .5rem; align-items: center; }
+  button { font-family: var(--font-body); font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .7rem 2rem; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all .2s; min-width: 140px; }
+  .add-btn { color: var(--green); border-color: rgba(129,178,154,.3); }
+  .add-btn:hover { border-color: var(--green); background: rgba(129,178,154,.05); }
+  .sub-btn { color: #e07a5f; border-color: rgba(224,122,95,.3); }
+  .sub-btn:hover { border-color: #e07a5f; background: rgba(224,122,95,.05); }
+  #reset-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+</style>
+<link rel="stylesheet" href="css/counter.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">theConnorChannel</a>
+  <a class="nav-back" href="index.html">← Home</a>
+</nav>
+
+<script src="javaScript/counter.js"></script>
+
+<div class="counter-wrapper">
+  <h1>Counter</h1>
+  <div id="count-view">0</div>
+  <div class="btn-group">
+    <button class="add-btn" onclick="addTen()">+10</button>
+    <button class="add-btn" onclick="addOne()">+1</button>
+    <button class="sub-btn" onclick="subOne()">−1</button>
+    <button class="sub-btn" onclick="subTen()">−10</button>
+    <button id="reset-btn" onclick="reset()">Reset</button>
+  </div>
+</div>
+
+</body>
 </html>

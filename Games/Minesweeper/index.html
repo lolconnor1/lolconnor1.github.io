@@ -1,24 +1,73 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Minesweeper - theConnorChannel</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel = "stylesheet" href = "minesweeper.css">
-    </head>
-    <body>
-        <header>
-            <a href = "../../"><i class = "glyphicon glyphicon-home" style = "font-size: 50px; color: darkslategrey;margin-top:50%"></i></a>
-            <h1 style = "flex:1; text-align: center; margin-left: -50px;">Minesweeper</h1>
-        </header>
-        <div style = "display:flex; justify-content: center;margin-left: 160px;">
-            <div id = "game-board"></div>
-            <div style = "margin-left: 20px; width:140px;">
-                <h2 id = "timer-view">00:00</h2>
-                <h2 id = "num-flag-view"></h2>
-                <button onClick = "startGame()" id = "start-btn">START GAME</button>
-            </div>
-        </div>
-        <h1 id = "win-lose"></h1>
-        <script src = "minesweeper.js"></script>
-    </body>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minesweeper — theConnorChannel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --yellow: #fcbf49;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Bebas Neue', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; cursor: default; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: rgba(13,13,13,.95); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .05em; color: var(--yellow); text-decoration: none; }
+  .nav-title { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .08em; color: var(--text); }
+  .nav-back { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: .45rem 1rem; transition: all .2s; }
+  .nav-back:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  .game-wrapper { padding-top: 70px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 2rem; }
+  .game-ui { display: flex; gap: 24px; align-items: flex-start; margin-top: 1.5rem; }
+
+  #game-board { display: inline-block; }
+  .side-info { width: 140px; display: flex; flex-direction: column; gap: 12px; }
+  .info-box { background: var(--surface2); border: 1px solid var(--border); padding: 12px 14px; }
+  .info-label { font-size: .58rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 4px; }
+  .info-value { font-family: var(--font-display); font-size: 1.6rem; color: var(--text); line-height: 1; }
+
+  #start-btn { display: block; width: 100%; padding: .6rem; font-family: var(--font-body); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--yellow); color: #000; border: none; cursor: pointer; transition: background .2s; margin-top: 4px; }
+  #start-btn:hover { background: #fdd076; }
+
+  #win-lose { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; margin-top: 1rem; text-align: center; min-height: 2.5rem; }
+</style>
+<link rel="stylesheet" href="minesweeper.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../../">theConnorChannel</a>
+  <div class="nav-title">💣 Minesweeper</div>
+  <a class="nav-back" href="../">← All Games</a>
+</nav>
+
+<div class="game-wrapper">
+  <div class="game-ui">
+    <div id="game-board"></div>
+    <div class="side-info">
+      <div class="info-box">
+        <div class="info-label">Time</div>
+        <div class="info-value" id="timer-view">00:00</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Flags</div>
+        <div class="info-value" id="num-flag-view">—</div>
+      </div>
+      <button onClick="startGame()" id="start-btn">Start Game</button>
+    </div>
+  </div>
+  <div id="win-lose"></div>
+</div>
+
+<script src="minesweeper.js"></script>
+</body>
 </html>

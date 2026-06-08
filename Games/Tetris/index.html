@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TETRIS</title>
+<title>Tetris — theConnorChannel</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -29,6 +29,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    padding-top: 44px;
   }
 
   body::before {
@@ -216,9 +217,19 @@
     0% { filter: brightness(3); }
     100% { filter: brightness(1); }
   }
+
+  /* NAV */
+  .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; display: flex; justify-content: space-between; align-items: center; padding: .75rem 1.5rem; background: rgba(10,10,15,.9); border-bottom: 1px solid rgba(0,245,212,.1); }
+  .site-nav-logo { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--accent); text-decoration: none; letter-spacing: 2px; }
+  .site-nav-back { font-family: 'Press Start 2P', monospace; font-size: 7px; color: var(--dim); text-decoration: none; letter-spacing: 1px; border: 1px solid rgba(0,245,212,.2); padding: .4rem .8rem; transition: all .2s; }
+  .site-nav-back:hover { color: var(--accent); border-color: var(--accent); }
 </style>
 </head>
 <body>
+<nav class="site-nav">
+  <a class="site-nav-logo" href="../../">theConnorChannel</a>
+  <a class="site-nav-back" href="../">← Games</a>
+</nav>
 <div class="grid-bg"></div>
 
 <div class="container">

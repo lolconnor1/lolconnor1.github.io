@@ -1,176 +1,227 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Projects - theConnorChannel</title>
-    <link rel="stylesheet" href="projects.css">
-    <link rel="stylesheet" href="../css/header.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — theConnorChannel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --yellow: #fcbf49;
+    --green: #81b29a;
+    --blue-light: #7b8cde;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Bebas Neue', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; cursor: none; }
+
+  #cur { position: fixed; width: 10px; height: 10px; background: var(--yellow); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: difference; transition: width .15s, height .15s; }
+  #cur-ring { position: fixed; width: 34px; height: 34px; border: 1px solid var(--yellow); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .4; transition: width .2s, height .2s; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; background: rgba(13,13,13,.9); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: .05em; color: var(--yellow); text-decoration: none; cursor: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; cursor: none; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .nav-icons { display: flex; gap: .75rem; }
+  .nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 6px; transition: all .2s; cursor: none; }
+  .nav-icon:hover { border-color: var(--yellow); }
+  .nav-icon img { width: 20px; height: 20px; object-fit: contain; opacity: .65; transition: opacity .2s; }
+  .nav-icon:hover img { opacity: 1; }
+
+  .page-header { padding: 10rem 3rem 4rem; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .eyebrow { font-size: .65rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--yellow); margin-bottom: .75rem; display: flex; align-items: center; gap: .6rem; }
+  .eyebrow::before { content: ''; width: 18px; height: 1px; background: currentColor; }
+  h1 { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5rem); letter-spacing: .03em; line-height: 1; }
+  .page-desc { font-size: .9rem; line-height: 1.85; color: var(--muted); max-width: 480px; margin-top: 1rem; }
+  .page-desc a { color: var(--yellow); text-decoration: none; }
+
+  .projects-list { display: flex; flex-direction: column; gap: 1px; margin: 4rem 3rem; }
+  .project-card { display: grid; grid-template-columns: 190px 1fr; align-items: stretch; position: relative; overflow: hidden; cursor: none; transition: transform .3s; }
+  .project-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+  .project-card:hover::after { transform: scaleX(1); }
+  .project-card:hover { transform: translateY(-3px); }
+  .project-card.green::after { background: var(--green); }
+  .project-card.blue-accent::after { background: var(--blue-light); }
+  .project-left { padding: 2.5rem 1.5rem 2.5rem 2.5rem; display: flex; flex-direction: column; gap: .6rem; background: var(--surface); border-right: 1px solid var(--border); }
+  .project-num { font-family: var(--font-display); font-size: 4.5rem; color: rgba(255,255,255,.06); line-height: .9; }
+  .project-emoji { font-size: 2rem; }
+  .project-card h3 { font-family: var(--font-display); font-size: 2rem; letter-spacing: .03em; line-height: 1; }
+  .project-type { font-size: .62rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-top: auto; }
+  .project-right { padding: 2.5rem; background: var(--surface2); display: flex; flex-direction: column; }
+  .project-right p { font-size: .84rem; line-height: 1.85; color: var(--muted); margin-bottom: .8rem; }
+  .project-stack { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .2rem; margin-bottom: 1rem; }
+  .stack-pill { padding: .2rem .6rem; font-size: .6rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(252,191,73,.1); color: var(--yellow); }
+  .project-card.green .stack-pill { background: rgba(129,178,154,.1); color: var(--green); }
+  .project-card.blue-accent .stack-pill { background: rgba(123,140,222,.1); color: var(--blue-light); }
+  .project-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .project-collab { font-size: .72rem; color: var(--muted); line-height: 1.7; }
+  .project-collab strong { color: var(--text); display: block; font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .1rem; }
+  .project-link { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; transition: gap .2s; cursor: none; white-space: nowrap; }
+  .project-card.green .project-link { color: var(--green); }
+  .project-card.blue-accent .project-link { color: var(--blue-light); }
+  .project-link:hover { gap: .7rem; }
+
+  footer { background: var(--surface); border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; margin-top: 4rem; }
+  .footer-name { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; color: var(--yellow); }
+  .footer-links { display: flex; gap: 1rem; }
+  .footer-link { padding: .6rem 1.2rem; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--muted); border: 1px solid var(--border); transition: all .2s; cursor: none; }
+  .footer-link:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-header { padding: 8rem 1.5rem 3rem; }
+    .projects-list { margin: 3rem 1.5rem; }
+    .project-card { grid-template-columns: 1fr; }
+    .project-left { border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; align-items: center; gap: 1rem; padding: 1.5rem; }
+    .project-num { font-size: 3rem; }
+    .project-type { margin-top: 0; }
+    .project-right { padding: 1.5rem; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; margin-top: 2rem; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
 </head>
-
 <body>
-    <div id="hover-zone"></div>
-    <header id="main-header">
-        <h1>theConnorChannel</h1>
-        <a href="../">
-            <div class="tabs-item">
-                <p>Home</p>
-            </div>
-        </a>
-        <a>
-            <div class="tabs-item">
-                <p><u>Projects</u></p>
-            </div>
-        </a>
-        <a href="../Games">
-            <div class="tabs-item">
-                <p>Games</p>
-            </div>
-        </a>
-        <div>
-            <a href="https://www.linkedin.com/in/connor-chan-the-man/" target="_blank">
-                <img src="images/linkedin.png" alt="my LinkedIn" style="width: 50px; border-radius: 10px;"
-                    class="tabs-item">
-            </a>
-            <a href="https://github.com/lolconnor1" target="_blank">
-                <img src="images/githubIcon.png" alt="my GitHub" style="width: 50px;" class="tabs-item">
-            </a>
-        </div>
-    </header>
 
-    <div class="project fade-in-left" style="margin-top: 150px;">
-        <a href="GenGO/" target="_blank">
-            <div class="project-img" style="display: flex; ">
-                <img src="images/GenGOimg.png" alt="GenGO!" style="width: 350px; border-radius: 10px 25px;">
-            </div>
-        </a>
-        <!-- flex: 1; stretches the item to fill the empty space in the flex box horizontally-->
-        <div class="project-desc" style="flex: 1; background-color: #ffca18;">
-            <h2>GenGO!: An Interactive Mobile Language Learning Application</h2>
-            <section class="skills-section">
-                <div class="skills-list">
-                    <span class="skill">Android</span>
-                    <span class="skill">Android Studio</span>
-                    <span class="skill">Mobile Development</span>
-                    <span class="skill">Java</span>
-                    <span class="skill">XML</span>
-                    <span class="skill">GitHub</span>
-                    <span class="skill">UX/UI Design</span>
-                    <span class="skill">User Study</span>
-                    <span class="skill">Interaction Research</span>
-                    <span class="skill">UX Research</span>
-                </div>
-            </section>
-            <p>GenGO! is a highly interactive mobile language learning app built for the Android platform as part of a
-                research study conducted for the Mobile User Interfaces course taught at York University.</p>
-            <p>The overall goal of the project was to learn and explore the ways that different interactions with
-                learning material can impact our memorisation of
-                said material.</p>
-            <p>In order to accomplish this, I designed and built GenGO!, a mobile language learning app that implements
-                a spaced repetition system along with
-                an array of unique interaction methods such as traditional tapping, typing, voice control, and dragging
-                for users to study foreign languages with.</p>
-            <p>The results of the research were actually quite interesting as it was found that the more interactive
-                styles of studying actually yielded lower test scores, contradicting the initial hypothesis.</p>
-            <p>If you would like to know more, click the picture or the button down below!</p>
-            <a href="GenGO/" target="_blank">
-                <div style="margin-top: 30px; margin-bottom: 30px;">
-                    <span class="learn-more">Learn More ></span>
-                </div>
-            </a>
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
-        </div>
+<nav>
+  <a class="nav-logo" href="../">theConnorChannel</a>
+  <ul class="nav-links">
+    <li><a href="../">Home</a></li>
+    <li><a href="../#about">About</a></li>
+    <li><a href="#" class="active">Projects</a></li>
+    <li><a href="../Games/">Games</a></li>
+    <li><a href="../#contact">Contact</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a class="nav-icon" href="https://www.linkedin.com/in/the-connor-channel/" target="_blank" title="LinkedIn"><img src="images/linkedin.png"></a>
+    <a class="nav-icon" href="https://github.com/lolconnor1" target="_blank" title="GitHub"><img src="images/githubIcon.png"></a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Selected Work</div>
+  <h1>Things I've built.</h1>
+  <p class="page-desc">A collection of projects spanning mobile apps, browser extensions, embedded systems, and games. <a href="../#contact">Open to work</a> — let's build something.</p>
+</div>
+
+<div class="projects-list">
+
+  <div class="project-card reveal">
+    <div class="project-left">
+      <div class="project-num">01</div>
+      <div class="project-emoji">🌏</div>
+      <h3>GenGO!</h3>
+      <div class="project-type">Mobile App · Research</div>
     </div>
-
-    <div class="project fade-in-right">
-        <!-- flex: 1; stretches the item to fill the empty space in the flex box horizontally-->
-        <div class="project-desc" style="flex: 1;">
-            <h2>Pulsefex: Embedded Heart Rate Monitor</h2>
-            <section class="skills-section">
-                <div class="skills-list">
-                    <span class="skill">Embedded Systems</span>
-                    <span class="skill">Circuit Design</span>
-                    <span class="skill">C</span>
-                    <span class="skill">STM</span>
-                    <span class="skill">STMCubeIDE</span>
-                    <span class="skill">GitHub</span>
-                    <span class="skill">Microcontrollers</span>
-
-                </div>
-            </section>
-            <p>Pulsefex is an embedded systems project built for the final project of the Embedded Systems course taught
-                at York University.</p>
-            <p>The system's functions include the capture and display of real-time heart rate and SpO2 levels.</p>
-            <p>The project was built on the STM32WB55RG MCU, interfaces with the MAX30102 pulse oximeter and TMP102
-                temperature sensor, and displays real-time data on a SSD1306 OLED screen. This was my first embedded
-                systems project and as such I was eager to contribute.</p>
-            <h3>Group Members:</h3>
-            <p>
-            <ul>
-                <li>Connor Chan</li>
-                <li>Justin Chiu</li>
-                <li>Leroy Musa</li>
-                <li>Mame Mor Mbacke</li>
-                <li>Nicole Xiong</li>
-            </ul>
-            </p>
-            <p>If you would like to know more, click the picture or the button down below!</p>
-            <a href="Pulsefex/" target="_blank">
-                <div style="margin-top: 30px; margin-bottom: 30px;">
-                    <span class="learn-more">Learn More ></span>
-                </div>
-            </a>
-        </div>
-        <a href="Pulsefex/" target="_blank">
-            <div class="project-img" style="display: flex;">
-                <img src="images/pulsefexproj.png" alt="pulsefex" style="width: 350px;  border-radius: 10px 25px;">
-            </div>
-        </a>
+    <div class="project-right">
+      <p>An interactive mobile language learning app built for Android as part of a research study in the Mobile User Interfaces course at York University. GenGO! implements a spaced repetition system alongside a range of unique interaction methods — tapping, typing, voice control, and dragging — so users can study foreign languages in different ways.</p>
+      <p>The results were genuinely surprising: more interactive study styles actually yielded lower test scores, contradicting the initial hypothesis. The research findings made the project far more interesting than just shipping an app.</p>
+      <div class="project-stack">
+        <span class="stack-pill">Android</span><span class="stack-pill">Android Studio</span><span class="stack-pill">Java</span><span class="stack-pill">XML</span><span class="stack-pill">UX/UI Design</span><span class="stack-pill">UX Research</span><span class="stack-pill">GitHub</span>
+      </div>
+      <div class="project-footer">
+        <div class="project-collab"></div>
+        <a href="GenGO/" target="_blank" class="project-link">Learn More →</a>
+      </div>
     </div>
+  </div>
 
-    <div class="project fade-in-left">
-        <!-- flex: 1; stretches the item to fill the empty space in the flex box horizontally-->
-        <a href="PostGuardian/" target="_blank">
-            <div class="project-img" style="display: flex;">
-                <img src="images/post.png" alt="post guardian" style="width: 450px; border-radius: 10px 25px;">
-            </div>
-        </a>
-        <div class="project-desc" style="flex: 1;">
-            <h2>Post Guardian: AI social media post analysis</h2>
-            <section class="skills-section">
-                <div class="skills-list">
-                    <span class="skill">Hack the 6ix</span>
-                    <span class="skill">Web Development</span>
-                    <span class="skill">Gemini API</span>
-                    <span class="skill">Generative AI</span>
-                    <span class="skill">Prompt Engineering</span>
-
-                </div>
-            </section>
-            <p>Built for the 2025 Hack the 6ix demo, Post Guardian is a browser extension designed to help users pause and reflect before posting on social
-                media. By analyzing the tone of a draft with the Gemini API and prompting users with
-                real time feedback, it encourages more intentional and responsible sharing online. Built with
-                JavaScript, Chrome Extension APIs, and lightweight NLP models, Post Guardian blends thoughtful UX design
-                with real-time analysis to promote digital mindfulness without interrupting the posting experience.</p>
-            <h3>Built in collaboration with my Hack the 6ix group members:</h3>
-            <p>
-            <ul>
-                <li>Leroy Musa</li>
-                <li>Mame Mor Mbacke</li>
-            </ul>
-            </p>
-            <p>If you would like to know more, click the picture or the button down below!</p>
-            <a href="PostGuardian/" target="_blank">
-                <div style="margin-top: 30px; margin-bottom: 30px;">
-                    <span class="learn-more">Learn More ></span>
-                </div>
-            </a>
-        </div>
+  <div class="project-card green reveal">
+    <div class="project-left">
+      <div class="project-num">02</div>
+      <div class="project-emoji">🛡️</div>
+      <h3>Post Guardian</h3>
+      <div class="project-type">Browser Extension · Hackathon</div>
     </div>
+    <div class="project-right">
+      <p>Built for Hack the 6ix 2025, Post Guardian is a Chrome extension that helps users pause and reflect before posting on social media. It analyzes the tone of a draft in real time using the Gemini API and prompts users with thoughtful feedback — encouraging more intentional and responsible sharing online.</p>
+      <p>The goal was to blend thoughtful UX design with real-time AI analysis to promote digital mindfulness without interrupting the posting experience.</p>
+      <div class="project-stack">
+        <span class="stack-pill">JavaScript</span><span class="stack-pill">Chrome Extension APIs</span><span class="stack-pill">Gemini API</span><span class="stack-pill">Generative AI</span><span class="stack-pill">Prompt Engineering</span>
+      </div>
+      <div class="project-footer">
+        <div class="project-collab">
+          <strong>Built with</strong>
+          Leroy Musa · Mame Mor Mbacke
+        </div>
+        <a href="PostGuardian/" target="_blank" class="project-link">Learn More →</a>
+      </div>
+    </div>
+  </div>
 
-    <script src="projects.js"></script>
-    <script src="../javaScript/header.js"></script>
-    <script src="../javaScript/fadeanims.js"></script>
+  <div class="project-card blue-accent reveal">
+    <div class="project-left">
+      <div class="project-num">03</div>
+      <div class="project-emoji">💓</div>
+      <h3>Pulsefex</h3>
+      <div class="project-type">Embedded Systems · Hardware</div>
+    </div>
+    <div class="project-right">
+      <p>An embedded heart rate monitor built as the final project for the Embedded Systems course at York University. Pulsefex captures and displays real-time heart rate and SpO2 levels using the MAX30102 pulse oximeter and TMP102 temperature sensor, running on an STM32WB55RG microcontroller with output to a SSD1306 OLED screen.</p>
+      <p>My first embedded systems project — I was eager to get deep into the hardware side and contribute as much as possible to the circuit design and firmware.</p>
+      <div class="project-stack">
+        <span class="stack-pill">C</span><span class="stack-pill">STM32</span><span class="stack-pill">STM32CubeIDE</span><span class="stack-pill">Embedded Systems</span><span class="stack-pill">Circuit Design</span><span class="stack-pill">Microcontrollers</span>
+      </div>
+      <div class="project-footer">
+        <div class="project-collab">
+          <strong>Group Members</strong>
+          Connor Chan · Justin Chiu · Leroy Musa · Mame Mor Mbacke · Nicole Xiong
+        </div>
+        <a href="Pulsefex/" target="_blank" class="project-link">Learn More →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>
+    <div class="footer-name">theConnorChannel</div>
+    <p style="font-size:.75rem; color:var(--muted); margin-top:.4rem;">York University · Toronto &nbsp;|&nbsp; Waseda University · Tokyo</p>
+  </div>
+  <div class="footer-links">
+    <a class="footer-link" href="https://github.com/lolconnor1" target="_blank">GitHub</a>
+    <a class="footer-link" href="https://www.linkedin.com/in/the-connor-channel/" target="_blank">LinkedIn</a>
+    <a class="footer-link" href="../images/Comp Sci resume.pdf" target="_blank">Resume</a>
+    <a class="footer-link" href="mailto:connorchan88@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  (function tick() {
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+    rx += (mx-rx)*.1; ry += (my-ry)*.1;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cur.style.width='18px'; cur.style.height='18px'; ring.style.width='50px'; ring.style.height='50px'; });
+    el.addEventListener('mouseleave', () => { cur.style.width='10px'; cur.style.height='10px'; ring.style.width='34px'; ring.style.height='34px'; });
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100); });
+  }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 </body>
-
-
 </html>

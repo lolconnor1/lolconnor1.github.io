@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rent vs. Buy Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F4F2EC;
+  --surface: #FFFFFF;
+  --text: #1C1C1E;
+  --text-muted: #6B6B70;
+  --navy: #1B3A5C;
+  --navy-light: #254f7d;
+  --gold: #C6893F;
+  --green: #1A7050;
+  --green-light: #1E8A61;
+  --border: #E0DDD6;
+  --radius: 14px;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--navy);
+  color: white;
+  padding: 3.5rem 2rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.site-back { position: absolute; top: 1rem; left: 1.5rem; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.45); text-decoration: none; border: 1px solid rgba(255,255,255,0.2); padding: .35rem .8rem; transition: all .2s; }
+.site-back:hover { color: #E8A94F; border-color: #E8A94F; }
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(198,137,63,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+
+header h1 em {
+  font-style: italic;
+  color: #E8A94F;
+}
+
+header p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.6);
+  font-weight: 300;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── MAIN LAYOUT ── */
+main {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+section-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+/* ── INPUT GRID ── */
+.inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem 1.75rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-icon {
+  width: 28px;
+  height: 28px;
+  background: rgba(27,58,92,0.08);
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* ── FIELD ── */
+.field { margin-bottom: 1.1rem; }
+.field:last-child { margin-bottom: 0; }
+
+.field-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+}
+
+.field-label label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.field-hint {
+  font-size: 0.72rem;
+  color: #A0A0A6;
+  font-style: italic;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sym {
+  position: absolute;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  user-select: none;
+}
+.sym-l { left: 11px; }
+.sym-r { right: 11px; }
+
+input[type="number"] {
+  width: 100%;
+  height: 42px;
+  padding: 0 2.2rem;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.98rem;
+  color: var(--text);
+  background: #FAFAF7;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type="number"]:focus {
+  outline: none;
+  border-color: var(--navy);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(27,58,92,0.1);
+}
+
+/* ── BUTTON ── */
+.btn-calculate {
+  display: block;
+  width: 100%;
+  padding: 1.1rem;
+  background: var(--navy);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.btn-calculate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.15s;
+}
+.btn-calculate:hover { background: var(--navy-light); }
+.btn-calculate:hover::after { background: rgba(255,255,255,0.04); }
+.btn-calculate:active { transform: scale(0.99); }
+
+/* ── RESULTS ── */
+.results { display: none; }
+.results.visible { display: block; }
+
+/* ── INSIGHT BOX ── */
+.insight-box {
+  background: var(--navy);
+  color: white;
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.insight-box::before {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(198,137,63,0.12);
+  pointer-events: none;
+}
+.insight-box h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.insight-box p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.65;
+  max-width: 720px;
+}
+.insight-box strong { color: #F0C473; font-weight: 600; }
+
+/* ── METRICS ── */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.metric {
+  background: var(--surface);
+  border-radius: 11px;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.metric-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+.metric-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.metric.is-buy   .metric-value { color: var(--navy); }
+.metric.is-rent  .metric-value { color: var(--green); }
+.metric.is-win   .metric-value { color: var(--gold); }
+.metric.is-plain .metric-value { color: var(--text); }
+
+/* ── CHART ── */
+.chart-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem 2rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
+}
+
+.chart-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.chart-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.chart-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.swatch {
+  width: 22px;
+  height: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.swatch.buy  { background: var(--navy); }
+.swatch.rent { background: var(--green); }
+.swatch.rent-dash {
+  background: repeating-linear-gradient(90deg, var(--green) 0, var(--green) 5px, transparent 5px, transparent 8px);
+}
+
+.chart-wrap {
+  position: relative;
+  height: 400px;
+}
+
+/* ── BREAKDOWN TABLE ── */
+.breakdown-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.breakdown-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+thead tr { background: #F8F7F3; }
+thead th {
+  padding: 0.75rem 1.75rem;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+thead th:not(:first-child) { text-align: right; }
+tbody tr { border-bottom: 1px solid #F0EEE8; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #FAFAF7; }
+tbody td {
+  padding: 0.75rem 1.75rem;
+  font-family: 'IBM Plex Mono', monospace;
+}
+tbody td:first-child {
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+tbody td:not(:first-child) { text-align: right; }
+tbody td.td-buy  { color: var(--navy); font-weight: 500; }
+tbody td.td-rent { color: var(--green); font-weight: 500; }
+tbody td.td-lead { font-weight: 600; font-size: 0.8rem; }
+.tag-lead {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+.tag-buy  { background: rgba(27,58,92,0.1); color: var(--navy); }
+.tag-rent { background: rgba(26,112,80,0.1); color: var(--green); }
+
+/* ── DISCLAIMER ── */
+.disclaimer {
+  font-size: 0.76rem;
+  color: #9A9A9F;
+  text-align: center;
+  padding: 1.25rem 1rem;
+  border-top: 1px solid var(--border);
+  line-height: 1.7;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  header { padding: 2.5rem 1.25rem 2rem; }
+  main { padding: 1.5rem 1rem 4rem; }
+  .inputs-grid { grid-template-columns: 1fr; }
+  .chart-wrap { height: 280px; }
+  .metrics-row { grid-template-columns: repeat(2, 1fr); }
+  .legend { gap: 1rem; }
+  thead th, tbody td { padding-left: 1rem; padding-right: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="site-back" href="../../">← theConnorChannel</a>
+  <h1>Should You <em>Rent</em> or Buy?</h1>
+  <p>Model the long-term financial impact with compound interest on both sides</p>
+</header>
+
+<main>
+  <div class="inputs-grid">
+
+    <!-- Property Details -->
+    <div class="card">
+      <div class="card-title">
+        <span class="card-icon">🏡</span> Property Details
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="homePrice">Home Purchase Price</label>
+        </div>
+        <div class="input-wrap">
+          <span class="sym sym-l">$</span>
+          <input type="number" id="homePrice" value="650000" min="0" step="5000">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="downPayment">Down Payment</label>
+          <span class="field-hint">% of price</span>
+        </div>
+        <div class="input-wrap">
+          <input type="number" id="downPayment" value="20" min="0" max="100" step="0.5" style="padding-right:2.2rem">
+          <span class="sym sym-r">%</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="interestRate">Annual Interest Rate</label>
+        </div>
+        <div class="input-wrap">
+          <input type="number" id="interestRate" value="5.5" min="0" max="30" step="0.1" style="padding-right:2.2rem">
+          <span class="sym sym-r">%</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="loanTerm">Amortization Period</label>
+        </div>
+        <div class="input-wrap">
+          <input type="number" id="loanTerm" value="25" min="1" max="40" style="padding-right:3rem">
+          <span class="sym sym-r">yrs</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ongoing Costs -->
+    <div class="card">
+      <div class="card-title">
+        <span class="card-icon">💸</span> Ongoing Costs
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="propertyTax">Annual Property Tax Rate</label>
+        </div>
+        <div class="input-wrap">
+          <input type="number" id="propertyTax" value="1.0" min="0" max="5" step="0.05" style="padding-right:2.2rem">
+          <span class="sym sym-r">%</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="upkeep">Monthly Maintenance & Utilities</label>
+        </div>
+        <div class="input-wrap">
+          <span class="sym sym-l">$</span>
+          <input type="number" id="upkeep" value="400" min="0" step="50">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="rent">Equivalent Monthly Rent</label>
+        </div>
+        <div class="input-wrap">
+          <span class="sym sym-l">$</span>
+          <input type="number" id="rent" value="2800" min="0" step="50">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="rentIncrease">Annual Rent Increase</label>
+        </div>
+        <div class="input-wrap">
+          <input type="number" id="rentIncrease" value="3" min="0" max="20" step="0.5" style="padding-right:2.2rem">
+          <span class="sym sym-r">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Growth & Analysis -->
+    <div class="card">
+      <div class="card-title">
+        <span class="card-icon">📈</span> Growth Assumptions
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="appreciation">Annual Home Appreciation</label>
+        </div>
+        <div class="input-wrap">
+          <input type="number" id="appreciation" value="3.5" min="0" max="20" step="0.5" style="padding-right:2.2rem">
+          <span class="sym sym-r">%</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="investReturn">Annual Investment Return</label>
+          <span class="field-hint">if renting</span>
+        </div>
+        <div class="input-wrap">
+          <input type="number" id="investReturn" value="7" min="0" max="30" step="0.5" style="padding-right:2.2rem">
+          <span class="sym sym-r">%</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="years">Analysis Period</label>
+        </div>
+        <div class="input-wrap">
+          <input type="number" id="years" value="30" min="1" max="50" style="padding-right:3rem">
+          <span class="sym sym-r">yrs</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- .inputs-grid -->
+
+  <button class="btn-calculate" onclick="calculate()">Calculate &rarr;</button>
+
+  <div class="results" id="results">
+
+    <div class="insight-box" id="insightBox"></div>
+
+    <div class="metrics-row" id="metricsRow"></div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Net Worth Comparison Over Time</div>
+          <div class="chart-subtitle">Home equity (buy) vs. investment portfolio (rent &amp; invest the difference)</div>
+        </div>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="swatch buy"></div> Buy
+          </div>
+          <div class="legend-item">
+            <div class="swatch rent-dash"></div> Rent &amp; Invest
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="mainChart" role="img"
+          aria-label="Line chart comparing net worth over time for the buy scenario versus the rent-and-invest scenario">
+          This chart compares cumulative net worth for buying a home versus renting and investing the difference.
+        </canvas>
+      </div>
+    </div>
+
+    <div class="breakdown-card">
+      <h3>Year-by-Year Breakdown</h3>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Buy — Home Value</th>
+              <th>Buy — Remaining Mortgage</th>
+              <th>Buy Net Worth</th>
+              <th>Rent — Portfolio</th>
+              <th>Leader</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+      This calculator assumes monthly compounding for both mortgage amortization and investment growth.
+      It does not account for closing costs, realtor fees, land transfer taxes, capital gains, mortgage insurance,
+      inflation, or tax implications. Results are illustrative only — consult a licensed financial advisor
+      before making real estate decisions.
+    </p>
+
+  </div><!-- .results -->
+</main>
+
+<script>
+let chartInstance = null;
+
+function fmtShort(n) {
+  const abs = Math.abs(n);
+  const sign = n < 0 ? '-' : '';
+  if (abs >= 1e6) return sign + '$' + (abs / 1e6).toFixed(2) + 'M';
+  if (abs >= 1e3) return sign + '$' + Math.round(abs / 1000) + 'K';
+  return sign + '$' + Math.round(abs);
+}
+
+function fmtLong(n) {
+  const abs = Math.round(Math.abs(n));
+  return (n < 0 ? '-$' : '$') + abs.toLocaleString();
+}
+
+function calculate() {
+  /* ── Read inputs ── */
+  const homePrice     = +document.getElementById('homePrice').value;
+  const downPct       = +document.getElementById('downPayment').value / 100;
+  const annualRate    = +document.getElementById('interestRate').value / 100;
+  const loanTermYrs   = +document.getElementById('loanTerm').value;
+  const taxRate       = +document.getElementById('propertyTax').value / 100;
+  const upkeep        = +document.getElementById('upkeep').value;
+  const initRent      = +document.getElementById('rent').value;
+  const rentIncRate   = +document.getElementById('rentIncrease').value / 100;
+  const appRate       = +document.getElementById('appreciation').value / 100;
+  const investRate    = +document.getElementById('investReturn').value / 100;
+  const years         = Math.min(+document.getElementById('years').value, 50);
+
+  /* ── Derived constants ── */
+  const downPayment       = homePrice * downPct;
+  const loanAmt           = homePrice - downPayment;
+  const monthlyMortgRate  = annualRate / 12;
+  const nPayments         = loanTermYrs * 12;
+  const monthlyInvestRate = investRate / 12;
+  const monthlyAppRate    = appRate / 12;
+  const monthlyTax        = homePrice * taxRate / 12;
+
+  /* Monthly P&I payment */
+  let monthlyPI;
+  if (monthlyMortgRate === 0) {
+    monthlyPI = loanAmt / nPayments;
+  } else {
+    const pow = Math.pow(1 + monthlyMortgRate, nPayments);
+    monthlyPI = loanAmt * monthlyMortgRate * pow / (pow - 1);
+  }
+
+  /* ── Simulate month-by-month ── */
+  let balance    = loanAmt;   // remaining mortgage
+  let portfolio  = downPayment; // renter's investment account (starts with down payment)
+  let homeVal    = homePrice;
+  let currentRent = initRent;
+
+  /* Year-0 snapshots (both parties start with same capital: down payment) */
+  const snapshots = [{
+    year: 0,
+    homeVal: homePrice,
+    balance: loanAmt,
+    buyNW:  downPayment,
+    rentNW: downPayment
+  }];
+
+  for (let y = 1; y <= years; y++) {
+    /* Rent escalates at start of each year (after year 1) */
+    if (y > 1) currentRent *= (1 + rentIncRate);
+
+    const monthlyBuyTotal = monthlyPI + monthlyTax + upkeep;
+    /* Monthly surplus renter can invest (+ve) or must draw from portfolio (-ve) */
+    const monthlySurplus  = monthlyBuyTotal - currentRent;
+
+    for (let m = 0; m < 12; m++) {
+      /* Amortize mortgage */
+      if (balance > 0) {
+        const interest  = balance * monthlyMortgRate;
+        const principal = Math.min(monthlyPI - interest, balance);
+        balance = Math.max(0, balance - principal);
+      }
+      /* Home appreciates */
+      homeVal *= (1 + monthlyAppRate);
+      /* Portfolio: compound then add/subtract monthly surplus */
+      portfolio = portfolio * (1 + monthlyInvestRate) + monthlySurplus;
+    }
+
+    snapshots.push({
+      year:    y,
+      homeVal: homeVal,
+      balance: balance,
+      buyNW:   homeVal - balance,
+      rentNW:  portfolio
+    });
+  }
+
+  /* ── Break-even ── */
+  let breakEven = null;
+  for (let i = 1; i < snapshots.length; i++) {
+    if (snapshots[i].buyNW >= snapshots[i].rentNW &&
+        snapshots[i-1].buyNW < snapshots[i-1].rentNW) {
+      breakEven = i;
+      break;
+    }
+  }
+
+  const finalBuy  = snapshots[years].buyNW;
+  const finalRent = snapshots[years].rentNW;
+  const winner    = finalBuy >= finalRent ? 'buy' : 'rent';
+  const diff      = Math.abs(finalBuy - finalRent);
+
+  /* ── Insight box ── */
+  const iBox = document.getElementById('insightBox');
+  if (winner === 'buy') {
+    iBox.innerHTML = `
+      <h3>📊 Buying comes out ahead over ${years} years</h3>
+      <p>By Year ${years}, buying leaves you with <strong>${fmtShort(finalBuy)}</strong> in home equity,
+      compared to <strong>${fmtShort(finalRent)}</strong> in the renter's investment portfolio —
+      a <strong>${fmtShort(diff)} advantage for buying</strong>.
+      ${breakEven ? `Buying surpasses renting at <strong>Year ${breakEven}</strong>.` : 'Buying stays ahead the entire period.'}
+      Note: the renter&rsquo;s portfolio includes the invested down payment plus any monthly savings versus owning costs.</p>`;
+  } else {
+    iBox.innerHTML = `
+      <h3>📊 Renting &amp; investing comes out ahead over ${years} years</h3>
+      <p>By Year ${years}, renting and investing the difference leaves you with <strong>${fmtShort(finalRent)}</strong>,
+      compared to <strong>${fmtShort(finalBuy)}</strong> in home equity —
+      a <strong>${fmtShort(diff)} advantage for renting</strong>.
+      ${breakEven ? `Buying briefly surpasses renting at Year ${breakEven} before falling behind.` : 'Buying never surpasses renting in this scenario.'}
+      Note: try increasing home appreciation or decreasing the investment return rate to shift the outcome.</p>`;
+  }
+
+  /* ── Metric cards ── */
+  const metrics = [
+    { label: 'Monthly P&I',          value: fmtLong(monthlyPI),                      cls: 'is-buy' },
+    { label: 'Monthly Buy Total',    value: fmtLong(monthlyPI + monthlyTax + upkeep), cls: 'is-buy' },
+    { label: 'Starting Rent / mo',   value: fmtLong(initRent),                       cls: 'is-rent' },
+    { label: 'Down Payment',         value: fmtLong(downPayment),                    cls: 'is-plain' },
+    { label: `Buy Net Worth · Yr ${years}`,  value: fmtShort(finalBuy),             cls: 'is-buy' },
+    { label: `Rent Net Worth · Yr ${years}`, value: fmtShort(finalRent),            cls: 'is-rent' },
+    { label: 'Difference',           value: fmtShort(diff),                          cls: 'is-win' },
+    { label: 'Buy Break-Even',       value: breakEven ? `Year ${breakEven}` : 'Never', cls: 'is-plain' },
+  ];
+
+  document.getElementById('metricsRow').innerHTML = metrics.map(m =>
+    `<div class="metric ${m.cls}">
+       <div class="metric-label">${m.label}</div>
+       <div class="metric-value">${m.value}</div>
+     </div>`
+  ).join('');
+
+  /* ── Chart ── */
+  if (chartInstance) chartInstance.destroy();
+  const ctx = document.getElementById('mainChart').getContext('2d');
+
+  const labels  = snapshots.map(s => `Yr ${s.year}`);
+  const buyData  = snapshots.map(s => Math.round(s.buyNW));
+  const rentData = snapshots.map(s => Math.round(s.rentNW));
+
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Buy — Net Worth',
+          data: buyData,
+          borderColor: '#1B3A5C',
+          backgroundColor: 'rgba(27,58,92,0.07)',
+          fill: true,
+          tension: 0.35,
+          borderWidth: 2.5,
+          pointRadius: years <= 20 ? 4 : 2,
+          pointHoverRadius: 7,
+          pointBackgroundColor: '#1B3A5C',
+        },
+        {
+          label: 'Rent & Invest — Net Worth',
+          data: rentData,
+          borderColor: '#1A7050',
+          backgroundColor: 'rgba(26,112,80,0.07)',
+          fill: true,
+          tension: 0.35,
+          borderWidth: 2.5,
+          borderDash: [7, 4],
+          pointRadius: years <= 20 ? 4 : 2,
+          pointHoverRadius: 7,
+          pointBackgroundColor: '#1A7050',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1C1C1E',
+          titleFont: { family: 'IBM Plex Sans', size: 12, weight: '500' },
+          bodyFont:  { family: 'IBM Plex Mono', size: 12 },
+          padding: 12,
+          cornerRadius: 8,
+          callbacks: {
+            title: items => `Year ${items[0].dataIndex}`,
+            label: ctx => `  ${ctx.dataset.label === 'Buy — Net Worth' ? '🏡 Buy' : '📦 Rent'}: ${fmtLong(ctx.parsed.y)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(0,0,0,0.04)', drawTicks: false },
+          border: { display: false },
+          ticks: {
+            font: { family: 'IBM Plex Mono', size: 10 },
+            color: '#9A9A9F',
+            maxTicksLimit: 11,
+          }
+        },
+        y: {
+          grid: { color: 'rgba(0,0,0,0.04)', drawTicks: false },
+          border: { display: false },
+          ticks: {
+            font: { family: 'IBM Plex Mono', size: 10 },
+            color: '#9A9A9F',
+            callback: v => fmtShort(v)
+          }
+        }
+      }
+    }
+  });
+
+  /* ── Year-by-year table ── */
+  const step = years <= 15 ? 1 : years <= 30 ? 2 : 5;
+  const rows = snapshots.filter(s => s.year % step === 0 || s.year === years);
+
+  document.getElementById('tableBody').innerHTML = rows.map(s => {
+    const buyLeads = s.buyNW >= s.rentNW;
+    const leaderTag = buyLeads
+      ? `<span class="tag-lead tag-buy">Buy</span>`
+      : `<span class="tag-lead tag-rent">Rent</span>`;
+    return `
+      <tr>
+        <td>${s.year === 0 ? 'Start' : 'Year ' + s.year}</td>
+        <td class="td-buy">${fmtLong(s.homeVal)}</td>
+        <td>${fmtLong(s.balance)}</td>
+        <td class="td-buy">${fmtLong(s.buyNW)}</td>
+        <td class="td-rent">${fmtLong(s.rentNW)}</td>
+        <td class="td-lead">${leaderTag}</td>
+      </tr>`;
+  }).join('');
+
+  /* Scroll to results */
+  document.getElementById('results').classList.add('visible');
+  setTimeout(() => {
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
+}
+
+/* Auto-calculate on load with defaults */
+window.addEventListener('load', calculate);
+</script>
+</body>
+</html>
