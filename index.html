@@ -122,7 +122,7 @@
 
   /* GAMES */
   #games { padding: 6rem 3rem; background: var(--surface); }
-  .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
   .game-card { background: var(--bg); border: 1px solid var(--border); padding: 2rem; cursor: none; transition: all .3s; }
   .game-card:hover { border-color: var(--yellow); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(252,191,73,.1); }
   .game-card h3 { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: .03em; margin-bottom: .5rem; }
@@ -131,17 +131,14 @@
   .game-play { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; transition: gap .2s; cursor: none;}
   .game-play:hover { gap: .7rem; }
 
-  /* BLOG */
-  #blog { padding: 6rem 3rem; background: var(--bg); }
-  .blog-timeline { margin-top: 3rem; position: relative; padding-left: 2rem; }
-  .blog-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border); }
-  .blog-entry { position: relative; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border); }
-  .blog-entry:last-child { border-bottom: none; margin-bottom: 0; }
-  .blog-entry::before { content: ''; position: absolute; left: -2.35rem; top: .35rem; width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); border: 2px solid var(--bg); }
-  .blog-date { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--yellow); margin-bottom: .5rem; }
-  .blog-entry p { font-size: .84rem; line-height: 1.85; color: var(--muted); }
-  .blog-entry p a { color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(129,178,154,.3); transition: border-color .2s; }
-  .blog-entry p a:hover { border-color: var(--green); }
+  /* NOW */
+  #now { padding: 6rem 3rem; background: var(--bg); }
+  .now-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .now-card { background: var(--surface); border: 1px solid var(--border); padding: 2rem; cursor: none; transition: all .3s; display: flex; flex-direction: column; }
+  .now-card:hover { border-color: var(--yellow); transform: translateY(-3px); }
+  .now-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .now-card h4 { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .05em; margin-bottom: .6rem; }
+  .now-card p { font-size: .82rem; line-height: 1.75; color: var(--muted); margin-bottom: 1rem; flex: 1; }
 
   /* CONTACT */
   #contact { padding: 6rem 3rem; background: var(--surface); text-align: center; }
@@ -173,7 +170,8 @@
     .project-num { font-size: 3rem; }
     .project-type { margin-top: 0; }
     .project-right { padding: 1.5rem; }
-    .games-grid { grid-template-columns: 1fr 1fr; }
+    .games-grid { grid-template-columns: 1fr; }
+    .now-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 1.5rem; text-align: center; }
     .footer-links { flex-wrap: wrap; justify-content: center; }
     .nav-links { display: none; }
@@ -193,7 +191,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#games">Games</a></li>
-    <li><a href="#blog">Blog</a></li>
+    <li><a href="#now">Now</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-icons">
@@ -205,14 +203,14 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-text">
-    <div class="hero-tag">Aspiring Full-Stack Developer</div>
+    <div class="hero-tag">Full-Stack Developer · CS Graduate · Toronto</div>
     <h1>
-      <span>Welcome</span>
-      <em>to the</em>
-      <span class="hollow">Channel.</span>
+      <span>Connor</span>
+      <em>Chan.</em>
+      <span class="hollow">Developer.</span>
     </h1>
     <p class="hero-desc">
-      This is my corner of the internet — a portfolio, a playground, and a running record of everything I'm learning on the road to becoming a software developer. <strong>Animations, magic, explosions, clickable buttons</strong> — the possibilities are endless.
+      CS graduate from York University, with an exchange year at Waseda University in Tokyo. I build thoughtful, interactive web experiences — from Android apps to embedded firmware to Chrome extensions. <strong>Currently open to full-time software roles.</strong>
     </p>
     <div class="hero-btns">
       <a href="#projects" class="btn btn-yellow">My Projects ↗</a>
@@ -241,8 +239,8 @@
     <div class="about-body reveal">
       <div class="eyebrow" style="color:var(--yellow);">About Me</div>
       <h2 class="section-title">Hello,<br>I'm Connor.</h2>
-      <p>I'm an aspiring <strong>full-stack developer</strong> who just finished a BSc in Computer Science from York University in Toronto. I also recently completed an exchange year at <strong>Waseda University in Tokyo!</strong></p>
-      <p>Right now, I'm focusing on building my front-end development and UI design skills — challenging myself to make <strong>the best portfolio website anyone has ever seen</strong>, from scratch.</p>
+      <p>I'm a <strong>full-stack developer</strong> who just graduated with a BSc in Computer Science from York University in Toronto. I also completed an exchange year at <strong>Waseda University in Tokyo!</strong></p>
+      <p>Right now, I'm focused on building depth in <strong>front-end development and UI design</strong> through deliberate, shipped projects — and actively looking for my first full-time role.</p>
       <p>Outside of tech, I love to <strong>create music</strong>, go on hikes, and skateboard.</p>
       <div class="skills-grid">
         <span class="skill-tag">HTML</span><span class="skill-tag">CSS</span><span class="skill-tag">JavaScript</span>
@@ -302,7 +300,10 @@
         </div>
         <div class="project-footer">
           <div class="project-collab"></div>
-          <a href="Projects/GenGO/" target="_blank" class="project-link">Learn More →</a>
+          <div style="display:flex; gap:1.2rem;">
+            <a href="https://github.com/lolconnor1/mem-study-app" target="_blank" class="project-link">GitHub ↗</a>
+            <a href="Projects/GenGO/" class="project-link">Learn More →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -325,7 +326,10 @@
             <strong>Built with</strong>
             Leroy Musa · Mame Mor Mbacke
           </div>
-          <a href="Projects/PostGuardian/" target="_blank" class="project-link">Learn More →</a>
+          <div style="display:flex; gap:1.2rem;">
+            <a href="https://github.com/lolconnor1" target="_blank" class="project-link">GitHub ↗</a>
+            <a href="Projects/PostGuardian/" class="project-link">Learn More →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -348,7 +352,10 @@
             <strong>Group Members</strong>
             Connor Chan · Justin Chiu · Leroy Musa · Mame Mor Mbacke · Nicole Xiong
           </div>
-          <a href="Projects/Pulsefex/" target="_blank" class="project-link">Learn More →</a>
+          <div style="display:flex; gap:1.2rem;">
+            <a href="https://github.com/lolconnor1" target="_blank" class="project-link">GitHub ↗</a>
+            <a href="Projects/Pulsefex/" class="project-link">Learn More →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -381,51 +388,37 @@
       <p>Full-featured Blackjack with splitting, doubling down, and deck tracking. Can you beat the house?</p>
       <a href="Games/Blackjack/" class="game-play">Play ▶</a>
     </div>
+    <div class="game-card reveal">
+      <div class="game-badge">Arcade</div>
+      <h3>🟦 Tetris</h3>
+      <p>Classic Tetris with hold, ghost piece, hard drop, and local high score tracking. Levels speed up as you clear lines — how long can you last?</p>
+      <a href="Games/Tetris/" class="game-play">Play ▶</a>
+    </div>
   </div>
 </section>
 
-<!-- BLOG -->
-<section id="blog">
+<!-- RIGHT NOW -->
+<section id="now">
   <div class="reveal">
-    <div class="eyebrow" style="color:var(--yellow);">Dev Blog</div>
-    <h2 class="section-title">The journey,<br>logged.</h2>
+    <div class="eyebrow" style="color:var(--yellow);">Right Now</div>
+    <h2 class="section-title">What I'm<br>up to.</h2>
   </div>
-  <div class="blog-timeline">
-    <div class="blog-entry reveal">
-      <div class="blog-date">April 19, 2025</div>
-      <p>Finally back on the website grind. Decided to actually make this portfolio look good — rebuilt the design from scratch with a full dark theme, scroll animations, and a cleaner layout for projects and skills.</p>
+  <div class="now-grid">
+    <div class="now-card reveal">
+      <div class="now-icon">👀</div>
+      <h4>Open to Work</h4>
+      <p>Actively seeking full-time software development roles in Toronto and remote. If you're hiring, let's talk.</p>
+      <a href="#contact" class="project-link">Get in touch →</a>
     </div>
-    <div class="blog-entry reveal">
-      <div class="blog-date">July 10, 2024</div>
-      <p>Made the <a href="Games/Minesweeper/">Minesweeper</a> buttons into divs and it looks SO much better. Also went ahead and started messing with this homepage — added a featured projects gallery with sick sliding animations and navigational arrows!</p>
+    <div class="now-card reveal">
+      <div class="now-icon">🔨</div>
+      <h4>Currently Building</h4>
+      <p>Sharpening front-end skills through deliberate projects and exploring new builds after graduation.</p>
     </div>
-    <div class="blog-entry reveal">
-      <div class="blog-date">July 9, 2024</div>
-      <p>Created a <a href="Games/CodeBreaker/">Code Breaker</a> game, inspired by Wordle (but I couldn't be bothered to get a word list). Learned how to add click functions to divs and delete elements in JS.</p>
-    </div>
-    <div class="blog-entry reveal">
-      <div class="blog-date">July 6, 2024</div>
-      <p><a href="Games/Minesweeper/">Minesweeper</a> is looking great now. Still want to add customizable board sizes. Also started looking at getting this site indexed by Google — SEO begins!</p>
-    </div>
-    <div class="blog-entry reveal">
-      <div class="blog-date">July 2, 2024</div>
-      <p>Been quiet — stuck on school work while building <a href="Games/Minesweeper/">Minesweeper</a>. It's missing a proper win condition but I'll fix that soon. Also planning to get back to CSS and really polish these pages.</p>
-    </div>
-    <div class="blog-entry reveal">
-      <div class="blog-date">June 23, 2024</div>
-      <p>Added splitting, doubling down, a deck counter (recycled from my <a href="counter.html">counter</a>), and win/loss tracking to <a href="Games/Blackjack/">Blackjack</a>. Future plan: educational mode with probability display and optimal strategy.</p>
-    </div>
-    <div class="blog-entry reveal">
-      <div class="blog-date">June 22, 2024</div>
-      <p>Created a <a href="Games/Blackjack/">Blackjack</a> game website using JavaScript. Works, but needs styling and more features like a deck counter and doubling down.</p>
-    </div>
-    <div class="blog-entry reveal">
-      <div class="blog-date">June 19, 2024</div>
-      <p>Started learning JavaScript and made a <a href="counter.html">simple counter app</a>. Also learned how to add icon links and put my LinkedIn in the header.</p>
-    </div>
-    <div class="blog-entry reveal">
-      <div class="blog-date">June 17, 2024</div>
-      <p>Created this site using basic HTML and CSS. Pretty empty for now, but upgrades await in the near future!</p>
+    <div class="now-card reveal">
+      <div class="now-icon">📚</div>
+      <h4>Currently Learning</h4>
+      <p>Deepening knowledge in React, TypeScript, and system design fundamentals to grow as a full-stack developer.</p>
     </div>
   </div>
 </section>
