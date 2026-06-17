@@ -13,6 +13,7 @@
     --yellow: #fcbf49;
     --green: #81b29a;
     --blue-light: #7b8cde;
+    --red: #e07a5f;
     --text: #f0ede8;
     --muted: #888;
     --border: rgba(255,255,255,0.08);
@@ -51,6 +52,7 @@
   .project-card:hover { transform: translateY(-3px); }
   .project-card.green::after { background: var(--green); }
   .project-card.blue-accent::after { background: var(--blue-light); }
+  .project-card.red-accent::after { background: var(--red); }
   .project-left { padding: 2.5rem 1.5rem 2.5rem 2.5rem; display: flex; flex-direction: column; gap: .6rem; background: var(--surface); border-right: 1px solid var(--border); }
   .project-num { font-family: var(--font-display); font-size: 4.5rem; color: rgba(255,255,255,.06); line-height: .9; }
   .project-emoji { font-size: 2rem; }
@@ -62,12 +64,14 @@
   .stack-pill { padding: .2rem .6rem; font-size: .6rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(252,191,73,.1); color: var(--yellow); }
   .project-card.green .stack-pill { background: rgba(129,178,154,.1); color: var(--green); }
   .project-card.blue-accent .stack-pill { background: rgba(123,140,222,.1); color: var(--blue-light); }
+  .project-card.red-accent .stack-pill { background: rgba(224,122,95,.1); color: var(--red); }
   .project-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); }
   .project-collab { font-size: .72rem; color: var(--muted); line-height: 1.7; }
   .project-collab strong { color: var(--text); display: block; font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .1rem; }
   .project-link { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; transition: gap .2s; cursor: none; white-space: nowrap; }
   .project-card.green .project-link { color: var(--green); }
   .project-card.blue-accent .project-link { color: var(--blue-light); }
+  .project-card.red-accent .project-link { color: var(--red); }
   .project-link:hover { gap: .7rem; }
 
   footer { background: var(--surface); border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; margin-top: 4rem; }
@@ -184,6 +188,29 @@
           Connor Chan · Justin Chiu · Leroy Musa · Mame Mor Mbacke · Nicole Xiong
         </div>
         <a href="Pulsefex/" target="_blank" class="project-link">Learn More →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-card red-accent reveal">
+    <div class="project-left">
+      <div class="project-num">04</div>
+      <div class="project-emoji">⚾</div>
+      <h3>Baseball Oracle</h3>
+      <div class="project-type">ML · Full-Stack · Personal</div>
+    </div>
+    <div class="project-right">
+      <p>An ML-powered prediction system for MLB games, trained on 13,000+ games (2021–2026) using a RandomForestClassifier competing against XGBoost each training run. Achieves ~60% accuracy versus the 52.5% baseline — with walk-forward cross-validation to prevent data leakage.</p>
+      <p>Includes a live FanDuel odds scraper (Playwright), a bet tracker, and weather/ballpark/umpire features pulled from the MLB Stats API and Open-Meteo. The key architectural decision: Python trains and exports the decision trees as JSON, then Node.js walks those trees directly for inference — no Python dependency at request time.</p>
+      <div class="project-stack">
+        <span class="stack-pill">Node.js</span><span class="stack-pill">Python</span><span class="stack-pill">scikit-learn</span><span class="stack-pill">XGBoost</span><span class="stack-pill">Express</span><span class="stack-pill">Playwright</span><span class="stack-pill">MLB Stats API</span><span class="stack-pill">Docker</span><span class="stack-pill">Railway</span>
+      </div>
+      <div class="project-footer">
+        <div class="project-collab"></div>
+        <div style="display:flex; gap:1.2rem;">
+          <a href="https://baseball-oracle.up.railway.app/" target="_blank" class="project-link">Live App ↗</a>
+          <a href="BaseballOracle/" class="project-link">Learn More →</a>
+        </div>
       </div>
     </div>
   </div>

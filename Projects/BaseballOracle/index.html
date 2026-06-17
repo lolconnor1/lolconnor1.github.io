@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baseball Oracle — theConnorChannel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --yellow: #fcbf49;
+    --green: #81b29a;
+    --red: #e07a5f;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Bebas Neue', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; cursor: none; }
+
+  #cur { position: fixed; width: 10px; height: 10px; background: var(--yellow); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: difference; transition: width .15s, height .15s; }
+  #cur-ring { position: fixed; width: 34px; height: 34px; border: 1px solid var(--yellow); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .4; transition: width .2s, height .2s; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; background: rgba(13,13,13,.9); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: .05em; color: var(--yellow); text-decoration: none; cursor: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: color .2s; cursor: none; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .nav-icons { display: flex; gap: .75rem; }
+  .nav-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 6px; transition: all .2s; cursor: none; }
+  .nav-icon:hover { border-color: var(--yellow); }
+  .nav-icon img { width: 20px; height: 20px; object-fit: contain; opacity: .65; transition: opacity .2s; }
+  .nav-icon:hover img { opacity: 1; }
+
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(224,122,95,.07) 0%, transparent 65%), radial-gradient(ellipse 40% 40% at 80% 70%, rgba(252,191,73,.05) 0%, transparent 60%); }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 20%, transparent 80%); opacity: .5; }
+
+  .hero-eyebrow { font-size: .65rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; display: flex; align-items: center; gap: .6rem; position: relative; }
+  .hero-eyebrow::before { content: ''; width: 18px; height: 1px; background: var(--red); }
+  .hero-title { font-family: var(--font-display); font-size: clamp(5rem, 14vw, 12rem); line-height: .85; letter-spacing: .02em; margin-bottom: 1.5rem; position: relative; }
+  .hero-title .accent { color: var(--red); }
+  .hero-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; position: relative; }
+  .hero-desc { font-size: .9rem; line-height: 1.85; color: var(--muted); max-width: 520px; }
+  .hero-desc strong { color: var(--text); }
+  .hero-actions { display: flex; gap: 1rem; align-items: flex-start; padding-top: .5rem; }
+  .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.6rem; font-family: var(--font-body); font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border: none; cursor: none; transition: all .2s; }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn-red:hover { background: #e8896d; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(224,122,95,.3); }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); transform: translateY(-2px); }
+
+  section { padding: 6rem 3rem; }
+  section:nth-child(even) { background: var(--surface); }
+  .eyebrow { font-size: .65rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--red); margin-bottom: .75rem; display: flex; align-items: center; gap: .6rem; }
+  .eyebrow::before { content: ''; width: 18px; height: 1px; background: currentColor; }
+  h2 { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: .03em; line-height: 1; margin-bottom: 1rem; }
+  .section-desc { font-size: .88rem; line-height: 1.85; color: var(--muted); max-width: 600px; margin-bottom: 3rem; }
+
+  .pipeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 3rem; }
+  .pipeline-step { background: var(--surface2); padding: 2.5rem 2rem; position: relative; }
+  .pipeline-step::after { content: '→'; position: absolute; right: -1rem; top: 50%; transform: translateY(-50%); color: var(--red); font-size: 1.2rem; z-index: 1; }
+  .pipeline-step:last-child::after { display: none; }
+  .step-num { font-family: var(--font-display); font-size: 4rem; color: rgba(255,255,255,.05); line-height: .9; margin-bottom: .8rem; }
+  .step-icon { font-size: 1.6rem; margin-bottom: .8rem; }
+  .step-title { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: .03em; margin-bottom: .6rem; color: var(--red); }
+  .step-body { font-size: .82rem; line-height: 1.75; color: var(--muted); }
+
+  .arch-highlight { background: var(--surface2); border: 1px solid var(--red); border-left: 4px solid var(--red); padding: 2.5rem; margin-top: 3rem; }
+  .arch-highlight h3 { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: .03em; color: var(--red); margin-bottom: .8rem; }
+  .arch-highlight p { font-size: .88rem; line-height: 1.85; color: var(--muted); max-width: 700px; }
+  .arch-highlight p strong { color: var(--text); }
+  .arch-flow { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .arch-node { background: var(--surface); border: 1px solid var(--border); padding: .5rem 1.1rem; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .arch-node.accent { border-color: var(--red); color: var(--red); }
+  .arch-arrow { color: var(--red); font-size: 1rem; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .stat-card { background: var(--surface2); padding: 2rem; border-left: 3px solid var(--red); }
+  .stat-num { font-family: var(--font-display); font-size: 3rem; color: var(--red); line-height: 1; }
+  .stat-label { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .3rem; }
+  .stat-sub { font-size: .78rem; color: var(--muted); margin-top: .6rem; line-height: 1.6; }
+
+  .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .feature-card { background: var(--surface2); padding: 2rem; border: 1px solid var(--border); transition: border-color .2s; cursor: none; }
+  .feature-card:hover { border-color: var(--red); }
+  .feature-icon { font-size: 1.6rem; margin-bottom: .8rem; }
+  .feature-card h4 { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .03em; margin-bottom: .5rem; }
+  .feature-card p { font-size: .82rem; line-height: 1.75; color: var(--muted); }
+
+  .stack-section { margin-top: 3rem; }
+  .stack-group { margin-bottom: 2rem; }
+  .stack-label { font-size: .62rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-bottom: .6rem; }
+  .stack-pills { display: flex; gap: .4rem; flex-wrap: wrap; }
+  .pill { padding: .28rem .75rem; font-size: .65rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border: 1px solid rgba(224,122,95,.3); color: var(--red); }
+
+  footer { background: var(--surface); border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: .05em; color: var(--yellow); text-decoration: none; cursor: none; }
+  .footer-links { display: flex; gap: 1rem; }
+  .footer-link { padding: .6rem 1.2rem; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--muted); border: 1px solid var(--border); transition: all .2s; cursor: none; }
+  .footer-link:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 0 1.5rem 4rem; }
+    .hero-meta { grid-template-columns: 1fr; gap: 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .pipeline { grid-template-columns: 1fr; }
+    .pipeline-step::after { display: none; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<nav>
+  <a class="nav-logo" href="../../">theConnorChannel</a>
+  <ul class="nav-links">
+    <li><a href="../../">Home</a></li>
+    <li><a href="../" class="active">Projects</a></li>
+    <li><a href="../../Games/">Games</a></li>
+    <li><a href="../../#contact">Contact</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a class="nav-icon" href="https://www.linkedin.com/in/the-connor-channel/" target="_blank" title="LinkedIn"><img src="../../images/linkedin.png"></a>
+    <a class="nav-icon" href="https://github.com/lolconnor1" target="_blank" title="GitHub"><img src="../../images/github-white-icon.png"></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">ML · Full-Stack · Personal Project</div>
+  <div class="hero-title">
+    Baseball<br><span class="accent">Oracle.</span>
+  </div>
+  <div class="hero-meta">
+    <p class="hero-desc">
+      An ML-powered prediction engine for MLB games — trained on <strong>13,000+ games</strong> across five seasons, achieving <strong>~60% accuracy</strong> versus the 52.5% baseline. Paired with a live FanDuel odds scraper, a bet tracker, and a full production deployment on Railway.
+    </p>
+    <div class="hero-actions">
+      <a href="https://baseball-oracle.up.railway.app/" target="_blank" class="btn btn-red">Live App ↗</a>
+      <a href="../" class="btn btn-outline">← All Projects</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="reveal">
+    <div class="eyebrow">How It Works</div>
+    <h2>From raw data<br>to a prediction.</h2>
+    <p class="section-desc">Every morning at 9:15 AM, the system automatically collects the day's matchups, enriches them with historical and real-time data, and produces win probabilities for every game on the schedule.</p>
+  </div>
+  <div class="pipeline">
+    <div class="pipeline-step reveal">
+      <div class="step-num">01</div>
+      <div class="step-icon">📡</div>
+      <div class="step-title">Collect</div>
+      <div class="step-body">Game schedules, pitcher stats, batting splits, bullpen ERA and fatigue, umpire tendencies, and ballpark-specific weather are pulled from the MLB Stats API and Open-Meteo via a scheduled cron job.</div>
+    </div>
+    <div class="pipeline-step reveal">
+      <div class="step-num">02</div>
+      <div class="step-icon">🧠</div>
+      <div class="step-title">Train</div>
+      <div class="step-body">A Python trainer builds 53 features — rolling team stats, Pythagorean win%, pitcher FIP/K9/BB9/HR9, LHP/RHP splits, park factors, H2H records — then trains both a RandomForest and XGBoost model, keeping the winner via walk-forward CV.</div>
+    </div>
+    <div class="pipeline-step reveal">
+      <div class="step-num">03</div>
+      <div class="step-icon">⚾</div>
+      <div class="step-title">Predict</div>
+      <div class="step-body">Node.js walks the exported decision tree JSON directly — no Python required at inference time. Predictions surface in the app with calibrated win probabilities, Kelly-sized bet recommendations based on live FanDuel moneyline odds.</div>
+    </div>
+  </div>
+
+  <div class="arch-highlight reveal">
+    <h3>Key Architecture Decision</h3>
+    <p>Training and inference are completely decoupled. <strong>Python trains</strong> the model and exports the decision trees as plain JSON files. <strong>Node.js then walks those trees at request time</strong> using a custom pure-JS inference engine (<code>rfPredict.js</code>) — meaning the production server has zero Python dependencies and prediction latency stays low.</p>
+    <div class="arch-flow">
+      <div class="arch-node">Python (train)</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node accent">trees.json</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node">rfPredict.js</div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node accent">Prediction</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODEL PERFORMANCE -->
+<section>
+  <div class="reveal">
+    <div class="eyebrow">Model Performance</div>
+    <h2>The numbers.</h2>
+    <p class="section-desc">Honest accuracy estimates using temporal walk-forward cross-validation — the model only ever trains on past data and predicts forward, the same way it runs in production.</p>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card reveal">
+      <div class="stat-num">~60%</div>
+      <div class="stat-label">Prediction Accuracy</div>
+      <div class="stat-sub">vs. the 52.5% coin-flip baseline for MLB game outcomes</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-num">13K+</div>
+      <div class="stat-label">Training Games</div>
+      <div class="stat-sub">2021–2026 seasons with a strict temporal train/test split to prevent data leakage</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-num">53</div>
+      <div class="stat-label">Model Features</div>
+      <div class="stat-sub">Team rolling stats, pitcher FIP/K9/BB9, bullpen fatigue, weather, park factors, umpire tendencies, H2H records</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="reveal">
+    <div class="eyebrow">Features</div>
+    <h2>Built to use,<br>not just demo.</h2>
+    <p class="section-desc">Beyond the model, Baseball Oracle is a full product — deployed, accessible on mobile, and designed for daily use during the MLB season.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">🔮</div>
+      <h4>Daily Predictions</h4>
+      <p>Win probabilities auto-update each morning for every game on the schedule. The model competes RF vs. XGBoost on every training run and keeps the better-performing model.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">💸</div>
+      <h4>FanDuel Odds Scraper</h4>
+      <p>Playwright with stealth plugin scrapes live moneyline odds from FanDuel, which are fed into a Kelly criterion calculator to size bets proportionally to edge.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">📊</div>
+      <h4>Bet Tracker</h4>
+      <p>Log bets directly in the app with client-side localStorage — no accounts, no server round-trips. Track outcomes, ROI, and bet history across the season.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">📱</div>
+      <h4>PWA — Installable</h4>
+      <p>Fully installable as a home-screen app via a service worker and manifest. Mobile-first responsive design with bottom navigation for quick daily access.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section>
+  <div class="reveal">
+    <div class="eyebrow">Tech Stack</div>
+    <h2>What it's<br>built with.</h2>
+  </div>
+  <div class="stack-section reveal">
+    <div class="stack-group">
+      <div class="stack-label">Languages</div>
+      <div class="stack-pills">
+        <span class="pill">JavaScript (Node.js)</span>
+        <span class="pill">Python</span>
+        <span class="pill">HTML / CSS</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="stack-label">Machine Learning</div>
+      <div class="stack-pills">
+        <span class="pill">scikit-learn</span>
+        <span class="pill">XGBoost</span>
+        <span class="pill">NumPy</span>
+        <span class="pill">Platt Scaling</span>
+        <span class="pill">Walk-Forward CV</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="stack-label">Backend</div>
+      <div class="stack-pills">
+        <span class="pill">Express</span>
+        <span class="pill">Commander (CLI)</span>
+        <span class="pill">node-cron</span>
+        <span class="pill">child_process</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="stack-label">Data & APIs</div>
+      <div class="stack-pills">
+        <span class="pill">MLB Stats API</span>
+        <span class="pill">Open-Meteo</span>
+        <span class="pill">FanDuel (Playwright scrape)</span>
+        <span class="pill">Polymarket</span>
+      </div>
+    </div>
+    <div class="stack-group">
+      <div class="stack-label">Infrastructure</div>
+      <div class="stack-pills">
+        <span class="pill">Railway</span>
+        <span class="pill">Docker</span>
+        <span class="pill">GitHub (private)</span>
+        <span class="pill">PWA / Service Worker</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a class="footer-logo" href="../../">theConnorChannel</a>
+  <div class="footer-links">
+    <a class="footer-link" href="../">All Projects</a>
+    <a class="footer-link" href="https://baseball-oracle.up.railway.app/" target="_blank">Live App</a>
+    <a class="footer-link" href="https://www.linkedin.com/in/the-connor-channel/" target="_blank">LinkedIn</a>
+    <a class="footer-link" href="../../#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur'), ring = document.getElementById('cur-ring');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  (function tick() {
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+    rx += (mx-rx)*.1; ry += (my-ry)*.1;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cur.style.width='18px'; cur.style.height='18px'; ring.style.width='50px'; ring.style.height='50px'; });
+    el.addEventListener('mouseleave', () => { cur.style.width='10px'; cur.style.height='10px'; ring.style.width='34px'; ring.style.height='34px'; });
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100); });
+  }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
