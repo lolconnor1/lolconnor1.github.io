@@ -1,12 +1,121 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel = "stylesheet" href = "Project-P.css">
-    </head>
-    <body>
-        <div style = "display:flex; justify-content: center;">
-            <div id = "game-board"></div>
-        </div>
-        <script src = "Project-P.js"></script>
-    </body>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project P — theConnorChannel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1a1a1a;
+    --yellow: #fcbf49;
+    --green: #81b29a;
+    --red: #e07a5f;
+    --blue-light: #7b8cde;
+    --text: #f0ede8;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Bebas Neue', cursive;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; cursor: default; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: rgba(13,13,13,.95); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .05em; color: var(--yellow); text-decoration: none; }
+  .nav-title { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .08em; color: var(--text); }
+  .nav-back { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: .45rem 1rem; transition: all .2s; }
+  .nav-back:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  .game-wrapper { padding: 90px 1rem 2.5rem; display: flex; flex-direction: column; align-items: center; }
+
+  .game-frame { position: relative; width: min(960px, 100%); }
+  canvas { display: block; width: 100%; height: auto; background: var(--bg); border: 1px solid var(--border); image-rendering: pixelated; }
+
+  .overlay { position: absolute; inset: 0; background: rgba(13,13,13,.92); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; z-index: 10; text-align: center; padding: 1rem; }
+  .overlay h2 { font-family: 'Press Start 2P', monospace; font-size: 2rem; letter-spacing: .05em; color: var(--yellow); line-height: 1.4; }
+  .overlay .sub { font-size: .8rem; color: var(--muted); max-width: 520px; line-height: 1.9; }
+  .overlay .sub b { color: var(--text); }
+  .overlay button { font-family: var(--font-body); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: .8rem 2.4rem; background: var(--yellow); color: #000; border: none; cursor: pointer; transition: background .2s; }
+  .overlay button:hover { background: #fdd076; }
+  .press-start { font-family: 'Press Start 2P', monospace; font-size: .55rem; color: var(--muted); letter-spacing: .1em; animation: blink 1.4s step-end infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+
+  /* Touch controls */
+  .touch-controls { display: none; width: min(960px, 100%); margin-top: 1rem; justify-content: space-between; align-items: center; }
+  .dpad { display: grid; grid-template-columns: repeat(3, 62px); grid-template-rows: repeat(3, 62px); }
+  .dpad button, .a-btn { font-size: 1.1rem; font-weight: 700; background: var(--surface2); color: var(--text); border: 1px solid var(--border); touch-action: none; user-select: none; -webkit-user-select: none; }
+  .dpad button:active, .a-btn:active { border-color: var(--yellow); color: var(--yellow); }
+  #t-up    { grid-column: 2; grid-row: 1; }
+  #t-left  { grid-column: 1; grid-row: 2; }
+  #t-right { grid-column: 3; grid-row: 2; }
+  #t-down  { grid-column: 2; grid-row: 3; }
+  .a-btn { width: 86px; height: 86px; border-radius: 50%; font-family: 'Press Start 2P', monospace; font-size: 1rem; background: rgba(252,191,73,.1); border-color: rgba(252,191,73,.3); color: var(--yellow); }
+  @media (pointer: coarse) { .touch-controls { display: flex; } }
+
+  /* Info strip */
+  .rules { width: min(960px, 100%); margin-top: 1.2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .rule { background: var(--surface2); border: 1px solid var(--border); padding: 1rem 1.2rem; }
+  .rule h4 { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: .08em; color: var(--yellow); margin-bottom: .3rem; }
+  .rule p { font-size: .72rem; line-height: 1.7; color: var(--muted); }
+
+  @media (max-width: 700px) {
+    .rules { grid-template-columns: 1fr; }
+    .overlay h2 { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../../">theConnorChannel</a>
+  <div class="nav-title">🕹️ Project P</div>
+  <a class="nav-back" href="../../#games">← Home</a>
+</nav>
+
+<div class="game-wrapper">
+
+  <div class="game-frame">
+    <canvas id="gameCanvas" width="960" height="624"></canvas>
+
+    <div class="overlay" id="startOverlay">
+      <h2>PROJECT P</h2>
+      <p class="sub">A tiny RPG about <b>real projects</b>. Explore the town, talk to the trainers guarding <b>GenGO!</b>, <b>Post Guardian</b>, <b>Pulsefex</b>, and <b>Baseball Oracle</b> — then beat them in battle with your trusty <b>Rubber Duck</b>.</p>
+      <p class="sub"><b>WASD / Arrows</b> to move &nbsp;·&nbsp; <b>SPACE</b> to talk &amp; confirm</p>
+      <button onclick="startAdventure()">Press Start</button>
+      <div class="press-start">A PORTFOLIO IN GAME FORM</div>
+    </div>
+  </div>
+
+  <div class="touch-controls">
+    <div class="dpad">
+      <button id="t-up">▲</button>
+      <button id="t-left">◀</button>
+      <button id="t-right">▶</button>
+      <button id="t-down">▼</button>
+    </div>
+    <button class="a-btn" id="t-a">A</button>
+  </div>
+
+  <div class="rules">
+    <div class="rule">
+      <h4>Explore the town</h4>
+      <p>Talk to PROF. PIXEL at the plaza first. Each building belongs to one of Connor's real projects — read the signs, then talk to the trainer out front.</p>
+    </div>
+    <div class="rule">
+      <h4>Battle for knowledge</h4>
+      <p>Every trainer tells their project's true story, then challenges you. Their creatures fight with moves pulled straight from the real tech stack.</p>
+    </div>
+    <div class="rule">
+      <h4>Clear all four</h4>
+      <p>Rubber Duck knows DEBUG, REFACTOR, STACK OVERFLOW, and COFFEE BREAK. Beat all four projects and report back to the Professor to finish the tour.</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="Project-P.js"></script>
+</body>
 </html>

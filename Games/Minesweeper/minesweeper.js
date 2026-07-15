@@ -1,336 +1,226 @@
+const DIFFICULTIES = {
+    small:  { rows: 9,  cols: 9,  bombs: 10, cellSize: 32 },
+    medium: { rows: 16, cols: 16, bombs: 40, cellSize: 26 },
+    large:  { rows: 16, cols: 30, bombs: 99, cellSize: 20 },
+};
+let currentDifficulty = 'small';
+
 let board = [];
-let col = 10;
-let row = 10;
-let numCells = col * row
-let numBombs = 15;
-let numFlags = numBombs
-let numCorrectFlags = 0
-let winLose = document.getElementById("win-lose")
-let numFlagView = document.getElementById("num-flag-view")
-let gameBoard = document.getElementById("game-board")
-let timerView = document.getElementById("timer-view")
-numFlagView.textContent = "FLAGS:" + numFlags
-let gameOver = false
-let firstClick = false
-let timer = 1
-let timeID = null
+let col = DIFFICULTIES.small.cols;
+let row = DIFFICULTIES.small.rows;
+let numBombs = DIFFICULTIES.small.bombs;
+let numCells = col * row;
+let numFlags = numBombs;
+let numCorrectFlags = 0;
+const winLose = document.getElementById("win-lose");
+const numFlagView = document.getElementById("num-flag-view");
+const gameBoard = document.getElementById("game-board");
+const timerView = document.getElementById("timer-view");
+numFlagView.textContent = numFlags;
+let gameOver = false;
+let firstClick = false;
+let timer = 1;
+let timeID = null;
 
+gameBoard.style.setProperty('--cell-size', DIFFICULTIES[currentDifficulty].cellSize + 'px');
 
-class cell{
-
-    val = 0
-    hasClicked = false
-    flagged = false
-    btn = document.createElement("div")
-    
-    numFlagsAround = 0
-    
-    constructor(row, col){
-        this.row = row
-        this.col = col
-        this.btn.setAttribute("class", "cell")
-    }
-    
-
-    get val(){
-        return val
-    }
-    set val(newVal){
-        this.val = newVal
-    }
-    get btn(){
-        return btn
+class Cell {
+    constructor(r, c) {
+        this.row = r;
+        this.col = c;
+        this.val = 0;
+        this.hasClicked = false;
+        this.flagged = false;
+        this.numFlagsAround = 0;
+        this.btn = document.createElement("div");
+        this.btn.className = "cell";
     }
 
-    get hasClicked(){
-        return hasClicked
-    }
-    set hasClicked(newClicked){
-        this.hasClicked = newClicked
-    }
-    get flagged(){
-        return flagged
-    }
-    get numFlagsAround(){
-        return numFlagsAround
-    }
-    set numFlagsAround(newNumFlags){
-        this.numFlagsAround = newNumFlags
-    }
-
-    changeButtonVal(){
-        if(!gameOver){
-            if(this.val == 0){
-                this.btn.innerText = ""
-            }
-            else{
-                this.btn.innerText = this.val
-
-                if(this.val == 1){
-                    this.btn.style.color = "blue"
-                }
-                else if(this.val == 2){
-                    this.btn.style.color = "green"
-                }
-                else if(this.val == 3){
-                    this.btn.style.color = "red"
-                }
-                else if(this.val == 4){
-                    this.btn.style.color = "black"
-                }
-                else if(this.val == 5){
-                    this.btn.style.color = "orange"
-                }
-                else if(this.val == 6){
-                    this.btn.style.color = "turquoise"
-                }
-                else if(this.val == 7){
-                    this.btn.style.color = "goldenrod"
-                }
-                else if(this.val == "B"){
-                    this.btn.style.color = "purple"
-                    loseGame()
-                }
-            }
-            this.btn.style.backgroundColor = "seashell"
-            this.hasClicked = true
-            numCells--
-            if(numCells == numBombs && !gameOver){
-                winGame()
+    changeButtonVal() {
+        if (gameOver) return;
+        if (this.val === 0) {
+            this.btn.innerText = "";
+        } else {
+            this.btn.innerText = this.val;
+            const colors = { 1: "#7b8cde", 2: "#81b29a", 3: "#e07a5f", 4: "#c8b4e8", 5: "#fcbf49", 6: "#00f5d4", 7: "#f4a6b5", 8: "#888" };
+            if (this.val === "B") {
+                this.btn.innerText = "💣";
+                this.btn.style.color = "#e07a5f";
+                loseGame();
+            } else {
+                this.btn.style.color = colors[this.val] || "#f0ede8";
             }
         }
-        
+        this.btn.classList.add('revealed');
+        this.hasClicked = true;
+        numCells--;
+        if (numCells === numBombs && !gameOver) winGame();
     }
 
-    flagButton(){
-        if(!this.hasClicked && !gameOver){
-            if(!this.flagged){
-                this.btn.innerText = "\u0394"
-                this.flagged = true
-                numFlags--
-                numFlagView.textContent = "FLAGS:" + numFlags
-                if(this.val == "B"){
-                    numCorrectFlags++
-                    if(numCorrectFlags == numBombs){
-                        winGame()
-                    }
-                }
-                for (let k = this.row-1; k <= this.row+1; k++){
-                    for (let t = this.col-1; t <= this.col+1; t++){
-            
-                        if((k < 0 || k >= row || t < 0 || t >= col || (k == this.row && t == this.col))){
-                            continue
-                        }
-                        else{
-                            board[k][t].numFlagsAround += 1
-                        }
-                        
-                    }
-                }
+    flagButton() {
+        if (this.hasClicked || gameOver) return;
+        if (!this.flagged) {
+            this.btn.innerText = "🚩";
+            this.flagged = true;
+            numFlags--;
+            numFlagView.textContent = numFlags;
+            if (this.val === "B") {
+                numCorrectFlags++;
+                if (numCorrectFlags === numBombs) winGame();
             }
-            else{
-                this.btn.innerText = ""
-                this.flagged = false
-                numFlags++
-                numFlagView.textContent = "FLAGS:" + numFlags
-                if(this.val == "B"){
-                    numCorrectFlags--
-                }
-                for (let k = this.row-1; k <= this.row+1; k++){
-                    for (let t = this.col-1; t <= this.col+1; t++){
-            
-                        if((k < 0 || k >= row || t < 0 || t >= col || (k == this.row && t == this.col))){
-                            continue
-                        }
-                        else{
-                            board[k][t].numFlagsAround -= 1
-                        }
-                        
-                    }
-                }
+            this._adjustNeighborFlags(1);
+        } else {
+            this.btn.innerText = "";
+            this.flagged = false;
+            numFlags++;
+            numFlagView.textContent = numFlags;
+            if (this.val === "B") numCorrectFlags--;
+            this._adjustNeighborFlags(-1);
+        }
+    }
+
+    _adjustNeighborFlags(delta) {
+        for (let k = this.row - 1; k <= this.row + 1; k++) {
+            for (let t = this.col - 1; t <= this.col + 1; t++) {
+                if (k < 0 || k >= row || t < 0 || t >= col || (k === this.row && t === this.col)) continue;
+                board[k][t].numFlagsAround += delta;
             }
         }
     }
 }
 
-//create an array of cells
-function createBoard(){
+function createBoard() {
     for (let i = 0; i < row; i++) {
         board[i] = [];
-        var rows = document.createElement("div")
-        rows.style.display = "flex"
+        const rowDiv = document.createElement("div");
+        rowDiv.style.display = "flex";
         for (let j = 0; j < col; j++) {
-            board[i][j] = new cell(i,j);
-            board[i][j].btn.style.backgroundColor = "slategrey"
-            board[i][j].btn.addEventListener("click", () => buttonClick(i,j))
-            board[i][j].btn.addEventListener("contextmenu", (event) => flag(i,j))
-            rows.appendChild(board[i][j].btn);
-            gameBoard.appendChild(rows)
-            
+            board[i][j] = new Cell(i, j);
+            board[i][j].btn.addEventListener("click", () => buttonClick(i, j));
+            board[i][j].btn.addEventListener("contextmenu", () => flag(i, j));
+            rowDiv.appendChild(board[i][j].btn);
+        }
+        gameBoard.appendChild(rowDiv);
+    }
+
+    // Place bombs
+    for (let i = 0; i < numBombs; i++) {
+        while (true) {
+            const x = Math.floor(Math.random() * row);
+            const y = Math.floor(Math.random() * col);
+            if (board[x][y].val === 0) { board[x][y].val = "B"; break; }
         }
     }
 
-    for (let i = 0; i < numBombs;i++){
-        while(true){
-            let x = Math.floor(Math.random() * (row - 1))
-            let y = Math.floor(Math.random() * (col - 1))
-
-            if(board[x][y].val === 0){
-                board[x][y].val = "B"
-                break
-            }
-
-        }
-        
-    }
+    // Calculate adjacent bomb counts
     for (let i = 0; i < row; i++) {
-        for (let j = 0; j < col; j++){
-            if(board[i][j].val != "B"){
-                let bCount = 0
-                //search around the square
-                for (let k = i-1; k < i+2; k++){
-                    for (let t = j-1; t < j+2; t++){
-                        if(k == row || k < 0 || t == col || t < 0){
-    
-                        }
-                        else{
-                            if(board[k][t].val == "B"){
-                                bCount ++
-                            }
-                        }
-                    }
+        for (let j = 0; j < col; j++) {
+            if (board[i][j].val === "B") continue;
+            let bCount = 0;
+            for (let k = i - 1; k <= i + 1; k++) {
+                for (let t = j - 1; t <= j + 1; t++) {
+                    if (k >= 0 && k < row && t >= 0 && t < col && board[k][t].val === "B") bCount++;
                 }
-                if(bCount > 0){
-                    board[i][j].val = bCount
-                }
-                
-                
             }
+            if (bCount > 0) board[i][j].val = bCount;
         }
     }
 
-    while(true){
-        let x = Math.floor(Math.random() * (row - 1))
-        let y = Math.floor(Math.random() * (col - 1))
-    
-        if(board[x][y].val === 0){
-            board[x][y].btn.innerText = "X"
-            break
+    // Mark a random empty cell as a safe starting hint
+    while (true) {
+        const x = Math.floor(Math.random() * row);
+        const y = Math.floor(Math.random() * col);
+        if (board[x][y].val === 0) {
+            board[x][y].btn.innerText = "✦";
+            board[x][y].btn.style.color = "rgba(252,191,73,0.4)";
+            board[x][y].btn.style.fontSize = "calc(var(--cell-size, 28px) * 0.35)";
+            break;
         }
     }
 }
 
+gameBoard.addEventListener("contextmenu", e => e.preventDefault());
+createBoard();
 
-gameBoard.addEventListener("contextmenu", (event) => event.preventDefault())
-createBoard()
+function startGame() {
+    const d = DIFFICULTIES[currentDifficulty];
+    row = d.rows;
+    col = d.cols;
+    numBombs = d.bombs;
+    gameBoard.style.setProperty('--cell-size', d.cellSize + 'px');
 
+    gameBoard.innerHTML = "";
+    board = [];
+    createBoard();
 
-function startGame(){
-    
-    gameBoard.innerHTML = ""
-    board = []
-    createBoard()
-    
-    winLose.innerText = ""
-    winLose.style.backgroundColor = ""
-    gameOver = false
-    numFlags = numBombs
-    numCorrectFlags = 0
-    numCells = col * row
-    numFlagView.textContent = "FLAGS:" + numFlags
-    firstClick = false
-    timerView.textContent = "00:00"
-    clearInterval(timeID)
+    winLose.innerText = "";
+    winLose.style.color = "";
+    gameOver = false;
+    numFlags = numBombs;
+    numCorrectFlags = 0;
+    numCells = col * row;
+    numFlagView.textContent = numFlags;
+    firstClick = false;
+    timerView.textContent = "00:00";
+    clearInterval(timeID);
 }
 
+function setDifficulty(diff) {
+    currentDifficulty = diff;
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.toggle('active', b.dataset.diff === diff));
+    startGame();
+}
 
-function buttonClick(x,y){
-    
-    if(!firstClick){
-        firstClick = true
-        startTimer()
-    }
-
-    if(x < 0 || x >= row || y < 0 || y >= col){
-        return;
-    }
-    else if(board[x][y].flagged){
-        return
-    }
-    else if(board[x][y].hasClicked){
-        if(board[x][y].numFlagsAround >= board[x][y].val){
-            for (let k = x-1; k <= x+1; k++){
-                for (let t = y-1; t <= y+1; t++){
-                    if((k < 0 || k >= row || t < 0 || t >= col || (k == x && t == y))){
-                        continue
-                    }
-                    else{
-                        if(!board[k][t].hasClicked && !board[k][t].flagged){
-                            buttonClick(k,t)
-                        }
-                    }
-                    
-                        
+function buttonClick(x, y) {
+    if (!firstClick) { firstClick = true; startTimer(); }
+    if (x < 0 || x >= row || y < 0 || y >= col) return;
+    if (board[x][y].flagged || board[x][y].hasClicked) {
+        if (board[x][y].hasClicked && board[x][y].numFlagsAround >= board[x][y].val) {
+            for (let k = x - 1; k <= x + 1; k++) {
+                for (let t = y - 1; t <= y + 1; t++) {
+                    if (k < 0 || k >= row || t < 0 || t >= col || (k === x && t === y)) continue;
+                    if (!board[k][t].hasClicked && !board[k][t].flagged) buttonClick(k, t);
                 }
-                    
             }
         }
         return;
     }
-    
-    board[x][y].changeButtonVal()
-
-    if(board[x][y].val == 0){
-        for (let k = x-1; k <= x+1; k++){
-            for (let t = y-1; t <= y+1; t++){
-
-                if((k < 0 || k >= row || t < 0 || t >= col || (k == x && t == y))){
-                    continue
-                }
-                else{
-                    console.log(k + " " + t)
-                    buttonClick(k,t)
-                }
-                
+    board[x][y].changeButtonVal();
+    if (board[x][y].val === 0) {
+        for (let k = x - 1; k <= x + 1; k++) {
+            for (let t = y - 1; t <= y + 1; t++) {
+                if (k < 0 || k >= row || t < 0 || t >= col || (k === x && t === y)) continue;
+                buttonClick(k, t);
             }
         }
     }
-    
-    return;
-    
 }
 
-function flag(x,y){
-    event.preventDefault()
-    board[x][y].flagButton()
+function flag(x, y) {
+    event.preventDefault();
+    board[x][y].flagButton();
 }
 
-function loseGame(){
-    winLose.innerText = "BOOM: YOU LOSE"
-    winLose.style.backgroundColor = "orangered"
-    gameOver = true
-    clearInterval(timeID)
-}
-function winGame(){
-    winLose.innerText = "CLEAR: ALL MINES FOUND"
-    winLose.style.backgroundColor = "springgreen"
-    gameOver = true
-    clearInterval(timeID)
+function loseGame() {
+    winLose.innerText = "💣  BOOM — YOU LOSE";
+    winLose.style.color = "#e07a5f";
+    gameOver = true;
+    clearInterval(timeID);
 }
 
-function startTimer(){
-    timer = 1
-    timeID = setInterval(timeFunc, 1000)
+function winGame() {
+    winLose.innerText = "✓  CLEAR — ALL MINES FOUND";
+    winLose.style.color = "#81b29a";
+    gameOver = true;
+    clearInterval(timeID);
 }
 
-var timeFunc = function(){
-
-    let minutes = parseInt(timer / 60, 10)
-    let seconds = parseInt(timer % 60, 10)
-
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-
-    timerView.textContent = minutes + ":" + seconds;
-    timer++
+function startTimer() {
+    timer = 1;
+    timeID = setInterval(() => {
+        const minutes = String(Math.floor(timer / 60)).padStart(2, '0');
+        const seconds = String(timer % 60).padStart(2, '0');
+        timerView.textContent = minutes + ":" + seconds;
+        timer++;
+    }, 1000);
 }

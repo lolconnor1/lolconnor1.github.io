@@ -37,6 +37,9 @@
 
   #start-btn { display: block; width: 100%; padding: .6rem; font-family: var(--font-body); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--yellow); color: #000; border: none; cursor: pointer; transition: background .2s; margin-top: 4px; }
   #start-btn:hover { background: #fdd076; }
+  .size-btns { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+  .size-btn { width: 100%; padding: .3rem .5rem; font-family: var(--font-body); font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--muted); border: 1px solid var(--border); cursor: pointer; transition: all .2s; }
+  .size-btn:hover, .size-btn.active { color: var(--yellow); border-color: var(--yellow); background: rgba(252,191,73,.06); }
 
   #win-lose { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; margin-top: 1rem; text-align: center; min-height: 2.5rem; }
 </style>
@@ -47,7 +50,7 @@
 <nav>
   <a class="nav-logo" href="../../">theConnorChannel</a>
   <div class="nav-title">💣 Minesweeper</div>
-  <a class="nav-back" href="../">← All Games</a>
+  <a class="nav-back" href="../../#games">← Home</a>
 </nav>
 
 <div class="game-wrapper">
@@ -62,7 +65,15 @@
         <div class="info-label">Flags</div>
         <div class="info-value" id="num-flag-view">—</div>
       </div>
-      <button onClick="startGame()" id="start-btn">Start Game</button>
+      <div class="info-box">
+        <div class="info-label">Size</div>
+        <div class="size-btns">
+          <button class="size-btn active" data-diff="small" onclick="setDifficulty('small')">9 × 9</button>
+          <button class="size-btn" data-diff="medium" onclick="setDifficulty('medium')">16 × 16</button>
+          <button class="size-btn" data-diff="large" onclick="setDifficulty('large')">30 × 16</button>
+        </div>
+      </div>
+      <button onClick="startGame()" id="start-btn">New Game</button>
     </div>
   </div>
   <div id="win-lose"></div>

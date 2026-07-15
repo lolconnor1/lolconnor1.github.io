@@ -53,6 +53,8 @@
   .game-card.green::after { background: var(--green); }
   .game-card.blue::after { background: var(--blue-light); }
   .game-card.cyan::after { background: #00f5d4; }
+  .game-card.red::after { background: #e07a5f; }
+  .game-card.purple::after { background: #c8b4e8; }
 
   .game-num { font-family: var(--font-display); font-size: 5rem; color: rgba(255,255,255,.05); line-height: .9; position: absolute; top: 1.5rem; right: 2rem; }
   .game-badge { font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); padding: .2rem .6rem; display: inline-block; margin-bottom: 1.2rem; }
@@ -62,6 +64,8 @@
   .game-card.green .game-play { color: var(--green); }
   .game-card.blue .game-play { color: var(--blue-light); }
   .game-card.cyan .game-play { color: #00f5d4; }
+  .game-card.red .game-play { color: #e07a5f; }
+  .game-card.purple .game-play { color: #c8b4e8; }
   .game-play:hover { gap: .7rem; }
 
   footer { background: var(--surface); border-top: 1px solid var(--border); padding: 3rem; display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
@@ -142,6 +146,22 @@
       <h2>🟦 Tetris</h2>
       <p>Classic Tetris with hold, ghost piece, hard drop, and local high score tracking. Levels speed up as you clear lines. How long can you last?</p>
       <a href="Tetris/" class="game-play">Play Now ▶</a>
+    </div>
+
+    <div class="game-card red reveal">
+      <div class="game-num">05</div>
+      <div class="game-badge">Arcade Classic</div>
+      <h2>🦤 Joust</h2>
+      <p>The 1982 flying-knight arcade classic, rebuilt on canvas. Flap to stay airborne, win jousts with the higher lance, collect eggs before they hatch, and watch out for the pterodactyl.</p>
+      <a href="Joust/" class="game-play">Play Now ▶</a>
+    </div>
+
+    <div class="game-card purple reveal">
+      <div class="game-num">06</div>
+      <div class="game-badge">RPG</div>
+      <h2>🕹️ Project P</h2>
+      <p>A Pokémon-style RPG tour of my real projects. Explore the town, read the signs, talk to the four trainers guarding GenGO!, Post Guardian, Pulsefex, and Baseball Oracle — then beat them in battle with your trusty Rubber Duck.</p>
+      <a href="Project-P/" class="game-play">Play Now ▶</a>
     </div>
 
   </div>

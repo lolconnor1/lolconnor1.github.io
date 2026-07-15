@@ -27,73 +27,131 @@
   .nav-back { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border: 1px solid var(--border); padding: .45rem 1rem; transition: all .2s; }
   .nav-back:hover { color: var(--yellow); border-color: var(--yellow); }
 
-  .game-wrapper { padding-top: 80px; max-width: 600px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; padding-bottom: 3rem; }
+  .game-wrapper { padding-top: 80px; max-width: 620px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; padding-bottom: 3rem; }
 
-  h2 { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: .05em; color: var(--muted); margin-top: 2rem; margin-bottom: .4rem; }
-  #deal-hand, #play-hand, #play-hand2 { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: .05em; min-height: 1.8rem; color: var(--text); }
-  #deal-total, #play-total, #play-total2 { font-size: .8rem; color: var(--muted); margin-bottom: .5rem; }
-
-  .btn-row { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin: 1.2rem 0; }
+  /* New game button */
+  .start-row { margin-top: 1.5rem; }
   button { font-family: var(--font-body); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .65rem 1.3rem; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all .2s; }
   button:hover { border-color: var(--yellow); color: var(--yellow); }
-  #hit-btn, #stand-btn, #dd-btn, #split-btn { /* action buttons */ }
-  button[onclick="startGame()"] { background: var(--yellow); color: #000; border-color: var(--yellow); font-size: .8rem; padding: .8rem 2rem; }
-  button[onclick="startGame()"]:hover { background: #fdd076; }
+  .start-row button { background: var(--yellow); color: #000; border-color: var(--yellow); font-size: .8rem; padding: .8rem 2.4rem; }
+  .start-row button:hover { background: #fdd076; }
 
-  .score-row { font-family: var(--font-display); font-size: 2.5rem; margin: 1.2rem 0; }
-  #win-count { color: var(--green); }
+  /* Action buttons */
+  .btn-row { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin: 1.2rem 0; }
+
+  /* Result messages */
+  #win-status, #win-status2 { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: .05em; min-height: 2.2rem; margin-top: .5rem; }
+
+  /* Score */
+  .score-row { font-family: var(--font-display); font-size: 2.5rem; margin: 1rem 0; }
+  #win-count  { color: var(--green); }
   #loss-count { color: #e07a5f; }
-  #tie-count { color: var(--yellow); }
-  #win-status, #win-status2 { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; min-height: 2.5rem; color: var(--yellow); }
+  #tie-count  { color: var(--yellow); }
 
+  /* Divider */
   .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 
-  h1.counter-title { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; color: var(--muted); margin-bottom: .5rem; }
+  /* Deck counter */
+  .counter-title { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; color: var(--muted); margin-bottom: .5rem; }
   #deck-count-view { font-family: var(--font-display); font-size: 5rem; color: var(--yellow); line-height: 1; margin: .5rem 0 1rem; }
-
   .counter-row { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; }
   .add-btn { color: var(--green) !important; border-color: rgba(129,178,154,.3) !important; }
   .add-btn:hover { border-color: var(--green) !important; background: rgba(129,178,154,.05) !important; }
   .sub-btn { color: #e07a5f !important; border-color: rgba(224,122,95,.3) !important; }
   .sub-btn:hover { border-color: #e07a5f !important; background: rgba(224,122,95,.05) !important; }
-  #reset-btn { border-color: var(--border) !important; }
+
+  /* Strategy chart */
+  .strategy-section { margin-top: 2.5rem; text-align: left; }
+  .strategy-section h2 { font-family: var(--font-display); font-size: 2rem; letter-spacing: .05em; color: var(--muted); margin-bottom: .3rem; text-align: center; }
+  .strategy-note { font-size: .68rem; color: var(--muted); text-align: center; margin-bottom: 1.4rem; opacity: .7; }
+  .strategy-legend { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .leg { font-size: .6rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .22rem .65rem; border-radius: 2px; }
+  .leg-h { background: rgba(224,122,95,.12); color: #e07a5f; }
+  .leg-s { background: rgba(129,178,154,.12); color: #81b29a; }
+  .leg-d { background: rgba(252,191,73,.12); color: #fcbf49; }
+  .leg-p { background: rgba(123,140,222,.12); color: #7b8cde; }
+  .chart-block { margin-bottom: 1.6rem; }
+  .chart-block-title { font-size: .58rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: .6rem; display: flex; align-items: center; gap: .5rem; }
+  .chart-block-title::before { content: ''; flex: none; width: 16px; height: 1px; background: currentColor; }
+  .chart-scroll { overflow-x: auto; }
+  .strategy-table { border-collapse: collapse; font-size: .7rem; font-weight: 700; font-family: var(--font-body); width: 100%; }
+  .strategy-table th { background: var(--surface); color: var(--muted); font-size: .55rem; letter-spacing: .12em; text-transform: uppercase; padding: .38rem .45rem; border: 1px solid var(--border); }
+  .strategy-table td { padding: .32rem .45rem; border: 1px solid rgba(255,255,255,.05); text-align: center; min-width: 30px; }
+  .strategy-table .row-label { background: var(--surface); color: var(--text); font-size: .65rem; text-align: right; padding-right: .7rem; white-space: nowrap; border: 1px solid var(--border); }
+  .cell-h { background: rgba(224,122,95,.13); color: #e07a5f; }
+  .cell-s { background: rgba(129,178,154,.11); color: #81b29a; }
+  .cell-d { background: rgba(252,191,73,.11); color: #fcbf49; }
+  .cell-p { background: rgba(123,140,222,.11); color: #7b8cde; }
 </style>
+<link rel="stylesheet" href="blackjack.css">
 </head>
 <body>
 
 <nav>
   <a class="nav-logo" href="../../">theConnorChannel</a>
   <div class="nav-title">🃏 Blackjack</div>
-  <a class="nav-back" href="../">← All Games</a>
+  <a class="nav-back" href="../../#games">← Home</a>
 </nav>
 
 <div class="game-wrapper">
-  <div style="margin-top:1.5rem;">
-    <button onclick="startGame()">Start Game</button>
+
+  <div class="start-row">
+    <button onclick="startGame()">New Game</button>
   </div>
 
-  <h2>Dealer Hand:</h2>
-  <h2 id="deal-hand"></h2>
-  <p id="deal-total">Total: </p>
+  <!-- TABLE -->
+  <div class="table-area">
 
-  <h2>Your Hand:</h2>
-  <h2 id="play-hand"></h2>
-  <p id="play-total">Total: </p>
-  <h2 id="play-hand2"></h2>
-  <p id="play-total2">Total: </p>
+    <!-- Deck visual -->
+    <div class="deck-wrap">
+      <div class="deck-stack"><div></div><div></div><div></div></div>
+      <div class="deck-label">Deck</div>
+    </div>
+
+    <!-- Dealer hand -->
+    <div class="hand-section">
+      <div class="hand-header">
+        <span class="hand-label">Dealer</span>
+        <span id="deal-total" class="hand-total"></span>
+      </div>
+      <div class="hand-cards" id="deal-hand"></div>
+    </div>
+
+    <div class="table-divider"></div>
+
+    <!-- Player hand 1 -->
+    <div class="hand-section" id="player-section1">
+      <div class="hand-header">
+        <span class="hand-label">You</span>
+        <span id="play-total" class="hand-total"></span>
+      </div>
+      <div class="hand-cards" id="play-hand"></div>
+    </div>
+
+    <!-- Player hand 2 (split, hidden until needed) -->
+    <div class="hand-section" id="player-area2" style="display:none">
+      <div class="hand-header">
+        <span class="hand-label">Hand 2</span>
+        <span id="play-total2" class="hand-total"></span>
+      </div>
+      <div class="hand-cards" id="play-hand2"></div>
+    </div>
+
+  </div>
+
+  <div id="win-status"></div>
+  <div id="win-status2"></div>
 
   <div class="btn-row">
-    <button onclick="playerHit();setHasHit()" id="hit-btn">Hit</button>
-    <button onclick="stand()" id="stand-btn">Stand</button>
-    <button onclick="doubleDown()" id="dd-btn">Double Down</button>
-    <button onclick="split()" id="split-btn">Split</button>
+    <button onclick="hitAction()"    id="hit-btn">Hit</button>
+    <button onclick="standAction()"  id="stand-btn">Stand</button>
+    <button onclick="doubleAction()" id="dd-btn">Double</button>
+    <button onclick="split()"        id="split-btn" style="display:none">Split</button>
   </div>
 
   <div class="score-row">
     <em id="win-count">0</em> — <em id="loss-count">0</em> — <em id="tie-count">0</em>
   </div>
-  <h2 id="win-status"></h2>
-  <h2 id="win-status2"></h2>
 
   <hr class="divider">
 
@@ -104,8 +162,88 @@
     <button class="sub-btn" onclick="subOne()">-1</button>
     <button id="reset-btn" onclick="reset()">Reset</button>
   </div>
+
+  <hr class="divider">
+
+  <section class="strategy-section">
+    <h2>Basic Strategy</h2>
+    <p class="strategy-note">6 decks · Dealer stands on soft 17 · Double after split allowed</p>
+    <div class="strategy-legend">
+      <span class="leg leg-h">H — Hit</span>
+      <span class="leg leg-s">S — Stand</span>
+      <span class="leg leg-d">D — Double</span>
+      <span class="leg leg-p">P — Split</span>
+    </div>
+    <div id="strategy-charts"></div>
+  </section>
+
 </div>
 
 <script src="blackjack.js"></script>
+<script>
+(function buildStrategy() {
+  const up = ['2','3','4','5','6','7','8','9','10','A'];
+  const hard = [
+    ['8',   'H','H','H','H','H','H','H','H','H','H'],
+    ['9',   'H','D','D','D','D','H','H','H','H','H'],
+    ['10',  'D','D','D','D','D','D','D','D','H','H'],
+    ['11',  'D','D','D','D','D','D','D','D','D','H'],
+    ['12',  'H','H','S','S','S','H','H','H','H','H'],
+    ['13',  'S','S','S','S','S','H','H','H','H','H'],
+    ['14',  'S','S','S','S','S','H','H','H','H','H'],
+    ['15',  'S','S','S','S','S','H','H','H','H','H'],
+    ['16',  'S','S','S','S','S','H','H','H','H','H'],
+    ['17+', 'S','S','S','S','S','S','S','S','S','S'],
+  ];
+  const soft = [
+    ['A,2', 'H','H','H','D','D','H','H','H','H','H'],
+    ['A,3', 'H','H','H','D','D','H','H','H','H','H'],
+    ['A,4', 'H','H','D','D','D','H','H','H','H','H'],
+    ['A,5', 'H','H','D','D','D','H','H','H','H','H'],
+    ['A,6', 'H','D','D','D','D','H','H','H','H','H'],
+    ['A,7', 'S','D','D','D','D','S','S','H','H','H'],
+    ['A,8', 'S','S','S','S','S','S','S','S','S','S'],
+    ['A,9', 'S','S','S','S','S','S','S','S','S','S'],
+  ];
+  const pairs = [
+    ['A,A',   'P','P','P','P','P','P','P','P','P','P'],
+    ['2,2',   'P','P','P','P','P','P','H','H','H','H'],
+    ['3,3',   'P','P','P','P','P','P','H','H','H','H'],
+    ['4,4',   'H','H','H','P','P','H','H','H','H','H'],
+    ['5,5',   'D','D','D','D','D','D','D','D','H','H'],
+    ['6,6',   'P','P','P','P','P','H','H','H','H','H'],
+    ['7,7',   'P','P','P','P','P','P','H','H','H','H'],
+    ['8,8',   'P','P','P','P','P','P','P','P','P','P'],
+    ['9,9',   'P','P','P','P','P','S','P','P','S','S'],
+    ['10,10', 'S','S','S','S','S','S','S','S','S','S'],
+  ];
+  const cm = { H:'cell-h', S:'cell-s', D:'cell-d', P:'cell-p' };
+
+  function buildTable(rows) {
+    let h = '<div class="chart-scroll"><table class="strategy-table"><thead><tr><th>Dealer →</th>';
+    up.forEach(c => h += `<th>${c}</th>`);
+    h += '</tr></thead><tbody>';
+    rows.forEach(([label, ...cells]) => {
+      h += `<tr><td class="row-label">${label}</td>`;
+      cells.forEach(c => h += `<td class="${cm[c]}">${c}</td>`);
+      h += '</tr>';
+    });
+    return h + '</tbody></table></div>';
+  }
+
+  const sections = [
+    { title: 'Hard Totals', data: hard },
+    { title: 'Soft Totals (Ace + X)', data: soft },
+    { title: 'Pairs', data: pairs },
+  ];
+  const container = document.getElementById('strategy-charts');
+  sections.forEach(({ title, data }) => {
+    const d = document.createElement('div');
+    d.className = 'chart-block';
+    d.innerHTML = `<div class="chart-block-title">${title}</div>` + buildTable(data);
+    container.appendChild(d);
+  });
+})();
+</script>
 </body>
 </html>
