@@ -68,7 +68,7 @@ const SIGNS = [
   { x: 9,  y: 8,  lines: [["GENGO! LAB — Android · Java · UX Research.", "\"Language learning on the GO.\""]] },
   { x: 32, y: 8,  lines: [["POST GUARDIAN HQ — Chrome · Gemini API.", "\"Pause before you post.\""]] },
   { x: 9,  y: 24, lines: [["PULSEFEX WORKSHOP — C · STM32 · I2C.", "\"Real-time heart rate, real hardware.\""]] },
-  { x: 32, y: 24, lines: [["BASEBALL ORACLE STADIUM — Python · Node · ML.", "\"~60% accuracy vs the bookies.\""]] },
+  { x: 32, y: 24, lines: [["BASEBALL ORACLE STADIUM — Python · Node · ML.", "\"Retrained daily. Graded in public.\""]] },
 ];
 
 // ===== SOLIDITY =====
@@ -173,12 +173,12 @@ const NPCS = [
     id: 'oracle', name: 'ACE', tx: 32, ty: 25, dir: 'left',
     pal: { hair: '#5a2f1d', skin: '#e8b98a', shirt: C.blue, pants: '#2e2e2e' },
     dialog: [
-      ["ACE: I never call a game without checking", "Baseball Oracle — Connor's ML app that predicts", "MLB winners at roughly 60% accuracy."],
-      ["A random forest trained in Python on 13,000+", "games with 53 features — exported to JSON and", "served by Node.js on Railway. No runtime Python!"],
-      ["It even scrapes FanDuel odds with Playwright.", "The odds of you beating me? Let's find out", "the hard way!"],
+      ["ACE: I never call a game without checking", "Baseball Oracle — Connor's ML app that predicts", "the winner of every MLB game."],
+      ["It retrains 3x a day on GitHub Actions with", "59 features — no server at all, just static", "predictions on GitHub Pages!"],
+      ["It once hit 60% — then Connor found a data", "leak. Honest number: 56.6%. The odds of you", "beating me? Let's find out the hard way!"],
     ],
     dialogPost: [
-      ["ACE: ~60% against the bookies is no joke.", "Python trains the trees, Node walks them.", "It's live on Railway — go try a prediction!"],
+      ["ACE: 56.6% the honest way beats 60% the leaky", "way. Every pick is locked before first pitch —", "go check the track record yourself!"],
     ],
     battle: {
       creature: 'ORACLE-9', hp: 70, sprite: 'oracle', accent: C.blue,

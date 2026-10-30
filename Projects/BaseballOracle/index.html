@@ -48,7 +48,7 @@
   .hero-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; position: relative; }
   .hero-desc { font-size: .9rem; line-height: 1.85; color: var(--muted); max-width: 520px; }
   .hero-desc strong { color: var(--text); }
-  .hero-actions { display: flex; gap: 1rem; align-items: flex-start; padding-top: .5rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; padding-top: .5rem; }
   .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.6rem; font-family: var(--font-body); font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border: none; cursor: none; transition: all .2s; }
   .btn-red { background: var(--red); color: #fff; }
   .btn-red:hover { background: #e8896d; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(224,122,95,.3); }
@@ -146,16 +146,17 @@
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-eyebrow">ML · Full-Stack · Personal Project</div>
+  <div class="hero-eyebrow">ML · Automation · Personal Project</div>
   <div class="hero-title">
     Baseball<br><span class="accent">Oracle.</span>
   </div>
   <div class="hero-meta">
     <p class="hero-desc">
-      An ML-powered prediction engine for MLB games — trained on <strong>13,000+ games</strong> across five seasons, achieving <strong>~60% accuracy</strong> versus the 52.5% baseline. Paired with a live FanDuel odds scraper, a bet tracker, and a full production deployment on Railway.
+      An ML model that predicts the winner of every MLB game. It's trained on <strong>every regular-season game since 2021</strong> and scores <strong>56.6%</strong> over 12,138 out-of-sample games, <strong>+3.6 pts</strong> over always picking the home team. There's no server: a GitHub Actions pipeline rebuilds the data, retrains the model, and publishes static predictions to GitHub Pages three times a day.
     </p>
     <div class="hero-actions">
-      <a href="https://baseball-oracle.up.railway.app/" target="_blank" class="btn btn-red">Live App ↗</a>
+      <a href="https://lolconnor1.github.io/baseball-predictor/" target="_blank" class="btn btn-red">Live App ↗</a>
+      <a href="https://github.com/lolconnor1/baseball-predictor" target="_blank" class="btn btn-outline">Source ↗</a>
       <a href="../" class="btn btn-outline">← All Projects</a>
     </div>
   </div>
@@ -166,40 +167,40 @@
   <div class="reveal">
     <div class="eyebrow">How It Works</div>
     <h2>From raw data<br>to a prediction.</h2>
-    <p class="section-desc">Every morning at 9:15 AM, the system automatically collects the day's matchups, enriches them with historical and real-time data, and produces win probabilities for every game on the schedule.</p>
+    <p class="section-desc">Three times a day (morning, noon, and evening, to pick up newly announced starting pitchers), a scheduled GitHub Actions job grades finished games, rebuilds every feature, retrains, and publishes win probabilities for the day's games. No server, no manual steps.</p>
   </div>
   <div class="pipeline">
     <div class="pipeline-step reveal">
       <div class="step-num">01</div>
       <div class="step-icon">📡</div>
       <div class="step-title">Collect</div>
-      <div class="step-body">Game schedules, pitcher stats, batting splits, bullpen ERA and fatigue, umpire tendencies, and ballpark-specific weather are pulled from the MLB Stats API and Open-Meteo via a scheduled cron job.</div>
+      <div class="step-body">Results, probable starters, plate umpires, box scores, and game logs for every regular-season game since 2021 come from the MLB Stats API, with ballpark weather from Open-Meteo.</div>
     </div>
     <div class="pipeline-step reveal">
       <div class="step-num">02</div>
       <div class="step-icon">🧠</div>
       <div class="step-title">Train</div>
-      <div class="step-body">A Python trainer builds 53 features — rolling team stats, Pythagorean win%, pitcher FIP/K9/BB9/HR9, LHP/RHP splits, park factors, H2H records — then trains both a RandomForest and XGBoost model, keeping the winner via walk-forward CV.</div>
+      <div class="step-body">Node.js builds 59 features per game using only what was known before first pitch: Marcel-style starting pitcher projections, lineup OPS vs. the starter's handedness, bullpen ERA and workload, weighted team form, rest and travel, park, weather, and umpires. Python then evaluates a regularized logistic regression, a random forest, and XGBoost walk-forward, and the lowest log loss wins.</div>
     </div>
     <div class="pipeline-step reveal">
       <div class="step-num">03</div>
       <div class="step-icon">⚾</div>
       <div class="step-title">Predict</div>
-      <div class="step-body">Node.js walks the exported decision tree JSON directly — no Python required at inference time. Predictions surface in the app with calibrated win probabilities, Kelly-sized bet recommendations based on live FanDuel moneyline odds.</div>
+      <div class="step-body">A pure-JS inference engine scores today's games with Platt-calibrated win probabilities. It also produces exact per-game explanations, such as "Starting pitching → Dodgers +8.0 pts", that sum to the final prediction.</div>
     </div>
   </div>
 
   <div class="arch-highlight reveal">
     <h3>Key Architecture Decision</h3>
-    <p>Training and inference are completely decoupled. <strong>Python trains</strong> the model and exports the decision trees as plain JSON files. <strong>Node.js then walks those trees at request time</strong> using a custom pure-JS inference engine (<code>rfPredict.js</code>) — meaning the production server has zero Python dependencies and prediction latency stays low.</p>
+    <p>There is <strong>no backend at all</strong>. <strong>Python trains</strong> the model and exports it as JSON, and <strong>Node.js runs inference</strong> with a custom pure-JS engine (<code>rfPredict.js</code>), all inside a scheduled <strong>GitHub Actions</strong> job that commits fresh static files for <strong>GitHub Pages</strong> to serve. Nothing runs between updates, so there's nothing to host, scale, or pay for, and every prediction is versioned in git.</p>
     <div class="arch-flow">
       <div class="arch-node">Python (train)</div>
       <div class="arch-arrow">→</div>
-      <div class="arch-node accent">trees.json</div>
+      <div class="arch-node accent">model.json</div>
       <div class="arch-arrow">→</div>
       <div class="arch-node">rfPredict.js</div>
       <div class="arch-arrow">→</div>
-      <div class="arch-node accent">Prediction</div>
+      <div class="arch-node accent">GitHub Pages</div>
     </div>
   </div>
 </section>
@@ -209,24 +210,29 @@
   <div class="reveal">
     <div class="eyebrow">Model Performance</div>
     <h2>The numbers.</h2>
-    <p class="section-desc">Honest accuracy estimates using temporal walk-forward cross-validation — the model only ever trains on past data and predicts forward, the same way it runs in production.</p>
+    <p class="section-desc">Walk-forward validation: each season is predicted by a model trained only on the seasons before it, the same way it runs in production.</p>
   </div>
   <div class="stats-grid">
     <div class="stat-card reveal">
-      <div class="stat-num">~60%</div>
-      <div class="stat-label">Prediction Accuracy</div>
-      <div class="stat-sub">vs. the 52.5% coin-flip baseline for MLB game outcomes</div>
+      <div class="stat-num">56.6%</div>
+      <div class="stat-label">Out-of-Sample Accuracy</div>
+      <div class="stat-sub">Over 12,138 games (2022–2026), +3.6 pts over always picking the home team</div>
     </div>
     <div class="stat-card reveal">
-      <div class="stat-num">13K+</div>
-      <div class="stat-label">Training Games</div>
-      <div class="stat-sub">2021–2026 seasons with a strict temporal train/test split to prevent data leakage</div>
+      <div class="stat-num">69%</div>
+      <div class="stat-label">High-Confidence Picks</div>
+      <div class="stat-sub">Hit rate on games where the model is 65%+ confident</div>
     </div>
     <div class="stat-card reveal">
-      <div class="stat-num">53</div>
+      <div class="stat-num">59</div>
       <div class="stat-label">Model Features</div>
-      <div class="stat-sub">Team rolling stats, pitcher FIP/K9/BB9, bullpen fatigue, weather, park factors, umpire tendencies, H2H records</div>
+      <div class="stat-sub">Pitcher projections, lineup vs. handedness, bullpens, team form, rest and travel, park, weather, umpires</div>
     </div>
+  </div>
+
+  <div class="arch-highlight reveal">
+    <h3>Catching My Own Data Leak</h3>
+    <p>An earlier version scored <strong>60.5%</strong> on its test season, which is too good for baseball. The cause was that the model used <strong>season-total stats</strong>, so each game could "see" performance from games that hadn't happened yet. Rebuilding every stat point-in-time dropped accuracy to an honest <strong>55.3%</strong>. From there, each change was judged on the same 12,138 out-of-sample games: switching to a regularized logistic regression and adding Marcel-style pitcher projections raised it to <strong>56.6%</strong>. XGBoost, a forest blend, and data augmentation were tried and dropped because their gains were within noise.</p>
   </div>
 </section>
 
@@ -234,29 +240,29 @@
 <section>
   <div class="reveal">
     <div class="eyebrow">Features</div>
-    <h2>Built to use,<br>not just demo.</h2>
-    <p class="section-desc">Beyond the model, Baseball Oracle is a full product — deployed, accessible on mobile, and designed for daily use during the MLB season.</p>
+    <h2>Built to be<br>accountable.</h2>
+    <p class="section-desc">Beyond the model, Baseball Oracle publishes its picks in the open and grades every one, so anyone can check how it's really doing.</p>
   </div>
   <div class="features-grid">
     <div class="feature-card reveal">
       <div class="feature-icon">🔮</div>
       <h4>Daily Predictions</h4>
-      <p>Win probabilities auto-update each morning for every game on the schedule. The model competes RF vs. XGBoost on every training run and keeps the better-performing model.</p>
+      <p>Calibrated win probabilities for every game on the schedule, refreshed three times a day as starting pitchers are announced.</p>
     </div>
     <div class="feature-card reveal">
-      <div class="feature-icon">💸</div>
-      <h4>FanDuel Odds Scraper</h4>
-      <p>Playwright with stealth plugin scrapes live moneyline odds from FanDuel, which are fed into a Kelly criterion calculator to size bets proportionally to edge.</p>
+      <div class="feature-icon">🧩</div>
+      <h4>Explained Picks</h4>
+      <p>Each prediction breaks down into plain-language factors, like starting pitching, bullpen, and form, showing exactly how many points each one moved the odds.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🔒</div>
+      <h4>Public Track Record</h4>
+      <p>Every pick is recorded before first pitch and never edited. A running chart and a filterable table grade each one against the final score and the always-home baseline.</p>
     </div>
     <div class="feature-card reveal">
       <div class="feature-icon">📊</div>
-      <h4>Bet Tracker</h4>
-      <p>Log bets directly in the app with client-side localStorage — no accounts, no server round-trips. Track outcomes, ROI, and bet history across the season.</p>
-    </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon">📱</div>
-      <h4>PWA — Installable</h4>
-      <p>Fully installable as a home-screen app via a service worker and manifest. Mobile-first responsive design with bottom navigation for quick daily access.</p>
+      <h4>Model Transparency</h4>
+      <p>Charts for season-by-season accuracy, calibration, confidence, and feature importance show how the model makes its calls.</p>
     </div>
   </div>
 </section>
@@ -280,6 +286,7 @@
       <div class="stack-label">Machine Learning</div>
       <div class="stack-pills">
         <span class="pill">scikit-learn</span>
+        <span class="pill">Logistic Regression (L2)</span>
         <span class="pill">XGBoost</span>
         <span class="pill">NumPy</span>
         <span class="pill">Platt Scaling</span>
@@ -287,30 +294,18 @@
       </div>
     </div>
     <div class="stack-group">
-      <div class="stack-label">Backend</div>
-      <div class="stack-pills">
-        <span class="pill">Express</span>
-        <span class="pill">Commander (CLI)</span>
-        <span class="pill">node-cron</span>
-        <span class="pill">child_process</span>
-      </div>
-    </div>
-    <div class="stack-group">
       <div class="stack-label">Data & APIs</div>
       <div class="stack-pills">
         <span class="pill">MLB Stats API</span>
         <span class="pill">Open-Meteo</span>
-        <span class="pill">FanDuel (Playwright scrape)</span>
-        <span class="pill">Polymarket</span>
       </div>
     </div>
     <div class="stack-group">
       <div class="stack-label">Infrastructure</div>
       <div class="stack-pills">
-        <span class="pill">Railway</span>
-        <span class="pill">Docker</span>
-        <span class="pill">GitHub (private)</span>
-        <span class="pill">PWA / Service Worker</span>
+        <span class="pill">GitHub Actions (scheduled)</span>
+        <span class="pill">GitHub Pages</span>
+        <span class="pill">Static HTML + JSON</span>
       </div>
     </div>
   </div>
@@ -320,7 +315,8 @@
   <a class="footer-logo" href="../../">theConnorChannel</a>
   <div class="footer-links">
     <a class="footer-link" href="../">All Projects</a>
-    <a class="footer-link" href="https://baseball-oracle.up.railway.app/" target="_blank">Live App</a>
+    <a class="footer-link" href="https://lolconnor1.github.io/baseball-predictor/" target="_blank">Live App</a>
+    <a class="footer-link" href="https://github.com/lolconnor1/baseball-predictor" target="_blank">Source</a>
     <a class="footer-link" href="https://www.linkedin.com/in/the-connor-channel/" target="_blank">LinkedIn</a>
     <a class="footer-link" href="../../#contact">Contact</a>
   </div>

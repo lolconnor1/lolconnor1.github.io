@@ -369,18 +369,18 @@
         <div class="project-num">04</div>
         <div class="project-emoji">⚾</div>
         <h3>Baseball Oracle</h3>
-        <div class="project-type">ML · Full-Stack · Personal</div>
+        <div class="project-type">ML · Automation · Personal</div>
       </div>
       <div class="project-right">
-        <p>An ML-powered prediction system for MLB games, trained on 13,000+ games (2021–2026) using a RandomForestClassifier competing against XGBoost each training run. Achieves ~60% accuracy versus the 52.5% baseline — with walk-forward cross-validation to prevent data leakage.</p>
-        <p>Includes a live FanDuel odds scraper (Playwright), a bet tracker, and weather/ballpark/umpire features pulled from the MLB Stats API and Open-Meteo. The key architectural decision: Python trains and exports the decision trees as JSON, then Node.js walks those trees directly for inference — no Python dependency at request time.</p>
+        <p>An ML model that predicts the winner of every MLB game, trained on every regular-season game since 2021 and walk-forward validated at 56.6% over 12,138 out-of-sample games, +3.6 pts over always picking the home team. An early 60.5% result turned out to be a data leak; after rebuilding every stat point-in-time, measured improvements (Marcel-style pitcher projections, and a regularized logistic regression that beat both random forest and XGBoost) got it to an honest 56.6%.</p>
+        <p>Fully serverless: a GitHub Actions pipeline runs three times a day, rebuilds 59 features from the MLB Stats API and Open-Meteo, retrains in Python, scores games with a pure-JS inference engine, and publishes static JSON to GitHub Pages. Every pick is locked before first pitch, explained factor by factor, and graded publicly.</p>
         <div class="project-stack">
-          <span class="stack-pill">Node.js</span><span class="stack-pill">Python</span><span class="stack-pill">scikit-learn</span><span class="stack-pill">XGBoost</span><span class="stack-pill">Express</span><span class="stack-pill">Playwright</span><span class="stack-pill">MLB Stats API</span><span class="stack-pill">Docker</span><span class="stack-pill">Railway</span>
+          <span class="stack-pill">Node.js</span><span class="stack-pill">Python</span><span class="stack-pill">scikit-learn</span><span class="stack-pill">XGBoost</span><span class="stack-pill">GitHub Actions</span><span class="stack-pill">GitHub Pages</span><span class="stack-pill">MLB Stats API</span>
         </div>
         <div class="project-footer">
           <div class="project-collab"></div>
           <div style="display:flex; gap:1.2rem;">
-            <a href="https://baseball-oracle.up.railway.app/" target="_blank" class="project-link">Live App ↗</a>
+            <a href="https://lolconnor1.github.io/baseball-predictor/" target="_blank" class="project-link">Live App ↗</a>
             <a href="Projects/BaseballOracle/" class="project-link">Learn More →</a>
           </div>
         </div>
